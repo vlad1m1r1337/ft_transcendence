@@ -5,10 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
   </head>
+  <title>Trans</title>
   <body>
-    <button style="position: absolute; top: 50%; left: 50% ;" id="add">BUTTON ADD</button>
-    <button style="position: absolute; top: 70%; left: 50% ;" id="delete">BUTTON DELETE</button>
+    <div id="root">
+      <nav id="main-nav" class="sidebar">
+          <a href="/first" onclick="route(event)">First</a>
+          <a href="/second" onclick="route(event)">Second</a>
+          <a href="#">Third</a>
+      </nav>
+      <div id="main-page"></div>
+  </div>
   </body>
+  <script type="module" src="./pages/first.js"></script>
+  <script type="module" src="./pages/second.js"></script>
+  <script type="module" src="./router.js"></script>
   <script type="module" src="./engine.js"></script>
   <script type="module" src="./index.js"></script>
 </html>
