@@ -1,5 +1,7 @@
 import { SecondPageElement } from "./pages/second.js";
 import { FirstPageElement } from "./pages/first.js";
+import { GamePageElement } from "./pages/game.js";
+import { MainPageElement } from "./pages/main.js";
 
 const route = (event) => {
 	console.log(event.target.href);
@@ -15,10 +17,12 @@ const handleLocation = () => {
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
     }
-
     switch (path) {
         case "/":
-            mainPage.textContent = 'Main';
+            mainPage.appendChild(MainPageElement);
+            break;
+        case "/game":
+            mainPage.appendChild(GamePageElement);
             break;
         case "/first":
             mainPage.appendChild(FirstPageElement);

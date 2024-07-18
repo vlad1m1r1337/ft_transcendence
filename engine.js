@@ -32,6 +32,13 @@ export default function templateEngine(block) {
 		});
 	}
 
+	if (block.events) {
+		const events = Object.keys(block.events);
+		events.forEach(event => {
+			result.addEventListener(event, block.events[event]);
+		});
+	}
+
 	result.appendChild(templateEngine(block.content));
 
 	return result;
