@@ -3,9 +3,6 @@ import { FirstPageElement } from "./pages/first.js";
 
 const main_page = document.getElementById('main-page');
 
-// main_page.appendChild(FirstPageElement);
-// main_page.appendChild(SecondPageElement);
-
 
 
 
