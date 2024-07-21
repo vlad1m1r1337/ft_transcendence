@@ -3,6 +3,7 @@ import { FirstPageElement } from "./pages/first.js";
 import { GamePageElement } from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
 import { gamePlay } from "./pages/game_play.js";
+import setup from "./pages/game_play.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -27,6 +28,7 @@ const handleLocation = () => {
             mainPage.appendChild(GamePageElement);
             const game =  document.getElementById('game');
             game.appendChild(gamePlay);
+            setup();
             break;
         case "/first":
             mainPage.appendChild(FirstPageElement);
