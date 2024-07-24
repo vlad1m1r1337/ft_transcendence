@@ -2,8 +2,8 @@ import { SecondPageElement } from "./pages/second.js";
 import { FirstPageElement } from "./pages/first.js";
 import { GamePageElement } from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
-import { gamePlay } from "./pages/game_play.js";
-import setup from "./pages/game_play.js";
+import { gamePlay } from "./game_play.js";
+import setup from "./game_play.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -23,12 +23,13 @@ const handleLocation = () => {
     switch (path) {
         case "/":
             mainPage.appendChild(MainPageElement);
+            GLOBAL.isAnimate = false;
             break;
         case "/game":
             mainPage.appendChild(GamePageElement);
             const game =  document.getElementById('game');
             game.appendChild(gamePlay);
-            setup();
+            GLOBAL.isAnimate = true;
             break;
         case "/first":
             mainPage.appendChild(FirstPageElement);

@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 // --------------------------------------------- //
 // --------- 3D ПИНГ-ПОНГ с Three.JS ----------- //
 // --------------------------------------------- //
@@ -7,7 +6,6 @@ import * as THREE from 'three';
 // ------------------------------------- //
 // ------- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ------- //
 // ------------------------------------- //
-
 // scene object variables
 export var renderer = new THREE.WebGLRenderer();
 
@@ -22,22 +20,30 @@ var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
 
 // ball variables
 var ball, paddle1, paddle2;
-var ballDirX = 1, ballDirY = 1, ballSpeed = 2;
+var ballDirX = 1, ballDirY = 1;
+
+// var ballSpeed = 2;
+let ballSpeed = 2;
 
 // переменные с очками каждого игрока
 var score1 = 0, score2 = 0;
 // игра завершится, когда кто-то наберет 7 очков
-var maxScore = 7;
+var maxScore = 1;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
 var difficulty = 0.2;
 
+// setTimeout(() => {
+// 	console.log('false')
+// 	isAnimating = false;
+// }, 5000)
 // ------------------------------------- //
 // --------- ИГРОВЫЕ ФУНКЦИИ ----------- //
 // ------------------------------------- //
 
 function setup()
 {
+	ballSpeed = 2;
 	// Обновляем блок, содержащий сообщение о необходимых для победы очках
 	// document.getElementById("winnerBoard").innerHTML = "Набравший " + maxScore + " очков победит!";
 	
@@ -335,12 +341,12 @@ function createScene()
 }
 
 function draw()
-{	
+{
 	// отрисовываем THREE.JS sсцену
 	renderer.render(scene, camera);
 	// зацикливаем функцию draw()
 	requestAnimationFrame(draw);
-	
+	if (!GLOBAL.isAnimate) return;
 	ballPhysics();
 	paddlePhysics();
 	cameraPhysics();
@@ -350,13 +356,14 @@ function draw()
 
 function ballPhysics()
 {
+
 	// если шар двигается слева (со стороны игрока)
 	if (ball.position.x <= -fieldWidth/2)
 	{	
 		// компьютер получает очко
 		score2++;
+		addScore(2);
 		// обновляем таблицу с результатами
-		// document.getElementById("scores").innerHTML = score1 + "-" + score2;
 		// устанавливаем новый шар в центр стола
 		resetBall(2);
 		// проверяем, закончился ли матч (набрано требуемое количество очков)
@@ -368,8 +375,8 @@ function ballPhysics()
 	{	
 		// игрок получает очко
 		score1++;
+		addScore(1);
 		// обновляем таблицу с результатами
-		// document.getElementById("scores").innerHTML = score1 + "-" + score2;
 		// устанавливаем новый шар в центр стола
 		resetBall(1);
 		// проверяем, закончился ли матч (набрано требуемое количество очков)
@@ -611,34 +618,32 @@ function matchScoreCheck()
 	// если выиграл игрок
 	if (score1 >= maxScore)
 	{
-		// останавливаем шар
 		ballSpeed = 0;
-		// выводим текст
-		// document.getElementById("scores").innerHTML = "Игрок выиграл!";		
-		// document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
-		// make paddle bounce up and down
-		bounceTime++;
-		paddle1.position.z = Math.sin(bounceTime * 0.1) * 10;
-		// enlarge and squish paddle to emulate joy
-		paddle1.scale.z = 2 + Math.abs(Math.sin(bounceTime * 0.1)) * 10;
-		paddle1.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
+		openModal();
 	}
 	// если выиграл компьютер
 	else if (score2 >= maxScore)
 	{
-		// останавливаем шар
 		ballSpeed = 0;
-		// выводим текст
-		// document.getElementById("scores").innerHTML = "Выиграл компьютер!";
-		// document.getElementById("winnerBoard").innerHTML = "Обновите страницу чтобы сыграть снова";
-		// make paddle bounce up and down
-		bounceTime++;
-		paddle2.position.z = Math.sin(bounceTime * 0.1) * 10;
-		// enlarge and squish paddle to emulate joy
-		paddle2.scale.z = 2 + Math.abs(Math.sin(bounceTime * 0.1)) * 10;
-		paddle2.scale.y = 2 + Math.abs(Math.sin(bounceTime * 0.05)) * 10;
+		openModal();
+        myModal.show();
 	}
 }
+
+setup();
+
+function addScore(id) {
+	const score = document.getElementById('score-' + id);
+	score.textContent = Number(score.textContent) + 1;
+}
+
+function openModal() {
+	var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+		keyboard: false
+	});
+	myModal.show();
+}
+
 
 export const gamePlay = renderer.domElement;
 export default setup;
