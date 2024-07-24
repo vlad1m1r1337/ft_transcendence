@@ -3,7 +3,6 @@ import { FirstPageElement } from "./pages/first.js";
 import { GamePageElement } from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
 import { gamePlay } from "./game_play.js";
-import setup from "./game_play.js";
 
 const route = (event) => {
     event.preventDefault();

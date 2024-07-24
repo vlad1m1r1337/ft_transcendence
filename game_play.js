@@ -337,7 +337,7 @@ function createScene()
     scene.add(spotLight);
 	
 	// Включаем рендеринг теней
-	renderer.shadowMapEnabled = true;		
+	renderer.shadowMap.enabled = true;		
 }
 
 function draw()
@@ -626,7 +626,6 @@ function matchScoreCheck()
 	{
 		ballSpeed = 0;
 		openModal();
-        myModal.show();
 	}
 }
 
