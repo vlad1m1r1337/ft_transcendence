@@ -1,4 +1,5 @@
 const GLOBAL = {
+	mode: '',
 	isAnimate: false,
 }
 

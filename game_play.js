@@ -351,7 +351,7 @@ function draw()
 	paddlePhysics();
 	cameraPhysics();
 	playerPaddleMovement();
-	opponentPaddleMovement();
+	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
 }
 
 function ballPhysics()
@@ -441,9 +441,78 @@ function opponentPaddleMovement()
 	paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;	
 }
 
+var KeyOP = {
+	_pressed: {},
+
+	LEFT: 37,
+	RIGHT: 39,
+	SPACE: 32,
+
+	isDown: function(keyCode) {
+		return this._pressed[keyCode];
+	},
+
+	onKeydown: function(event) {
+		this._pressed[event.keyCode] = true;
+	},
+
+	onKeyup: function(event) {
+		delete this._pressed[event.keyCode];
+	}
+};
+
+function player2PaddleMovement() {
+		// движение влево
+		if (KeyOP.isDown(KeyOP.LEFT))		
+			{
+				// двигаем дощечку пока она не коснется стенки
+				if (paddle2.position.y < fieldHeight * 0.45)
+				{
+					paddle2DirY = paddleSpeed * 0.5;
+				}
+				// в противном случае мы прекращаем движение и растягиваем
+				// дощечку чтобы показать, что дальше двигаться нельзя
+				else
+				{
+					paddle2DirY = 0;
+					paddle2.scale.z += (10 - paddle2.scale.z) * 0.2;
+				}
+			}	
+			// движение вправо
+			else if (KeyOP.isDown(KeyOP.RIGHT))
+			{
+				// двигаем дощечку пока она не коснется стенки
+				if (paddle2.position.y > -fieldHeight * 0.45)
+				{
+					paddle2DirY = -paddleSpeed * 0.5;
+				}
+				// в противном случае мы прекращаем движение и растягиваем
+				// дощечку чтобы показать, что дальше двигаться нельзя
+				else
+				{
+					paddle2DirY = 0;
+					paddle2.scale.z += (10 - paddle2.scale.z) * 0.2;
+				}
+			}
+			// мы не можем дальше двигаться
+			else
+			{
+				// прекращаем движение
+				paddle2DirY = 0;
+			}
+			
+			paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;	
+			paddle2.scale.z += (1 - paddle2.scale.z) * 0.2;	
+			paddle2.position.y += paddle2DirY;
+}
+
+
 
 window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
 window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
+
+window.addEventListener('keyup', function(event) { KeyOP.onKeyup(event); }, false);
+window.addEventListener('keydown', function(event) { KeyOP.onKeydown(event); }, false);
 
 var Key = {
   _pressed: {},
@@ -466,7 +535,6 @@ var Key = {
     delete this._pressed[event.keyCode];
   }
 };
-
 
 
 // Управление дощечками при помощи клавиатуры
@@ -618,18 +686,27 @@ function matchScoreCheck()
 	// если выиграл игрок
 	if (score1 >= maxScore)
 	{
-		ballSpeed = 0;
+		GLOBAL.isAnimate = false;
+		resetScore();
 		openModal();
 	}
 	// если выиграл компьютер
 	else if (score2 >= maxScore)
 	{
-		ballSpeed = 0;
+		GLOBAL.isAnimate = false;
+		resetScore();
 		openModal();
 	}
 }
 
 setup();
+
+function resetScore() {
+	const score1 = document.getElementById('score-1');
+	const score2 = document.getElementById('score-2');
+	score1.textContent = 0;
+	score2.textContent = 0;
+}
 
 function addScore(id) {
 	const score = document.getElementById('score-' + id);

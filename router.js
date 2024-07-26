@@ -2,8 +2,10 @@ import { GamePageElement } from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
 import { PingPongMain } from "./pages/ping-pong.js";
 import { PingPongMulti } from "./pages/ping-pong-multi.js";
-import cutPath from "./utils.js";
+import { ClickerMain } from "./pages/clicker.js"
+import { ClickerSingle } from "./pages/clicker-game.js"
 import { gamePlay } from "./game_play.js";
+import cutPath from "./utils.js";
 
 const route = (event) => {
     console.log(event.target.href)
@@ -32,20 +34,29 @@ const handleLocation = () => {
         case "/ping-pong":
             mainPage.appendChild(PingPongMain);
             break;
-        case "/ping-pong/single":
+        case "/ping-pong-single":
             mainPage.appendChild(GamePageElement);
             game =  document.getElementById('game');
             game.appendChild(gamePlay);
             GLOBAL.isAnimate = true;
+            GLOBAL.mode = 'single'
             break;
-        case "/ping-pong/multi":
+        case "/ping-pong-multi":
             mainPage.appendChild(PingPongMulti);
             break;
-        case "/ping-pong/multi/one-board":
+        case "/ping-pong-multi-one-board":
             mainPage.appendChild(GamePageElement);
             game =  document.getElementById('game');
             game.appendChild(gamePlay);
             GLOBAL.isAnimate = true;
+            GLOBAL.mode = 'multi'
+            break;
+
+        case "/clicker":
+            mainPage.appendChild(ClickerMain);
+            break;
+        case "/clicker-single":
+            mainPage.appendChild(ClickerSingle);
             break;
         default:
             mainPage.textContent = '404 Page Not Found';

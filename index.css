@@ -92,3 +92,16 @@ html, body {
 	transition-delay: 0.5s;
 	color: white;
 }
+
+.click_icon {
+	width: 300px;
+	height: 300px;
+	border-radius: 999999px;
+	background-color: #333;
+	cursor: pointer;
+	transition: 0.1s;
+}
+
+.click_icon:active {
+	background-color: rgb(243, 212, 255);
+}
