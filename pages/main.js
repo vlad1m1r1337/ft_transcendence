@@ -1,43 +1,43 @@
 import templateEngine from "../engine.js";
 
 const main_page = {
-	tag: 'div',
-	cls: ['d-flex', 'justify-content-center'],
-	attrs: { style: 'margin-top: 200px;' },
-	content: {
-		tag: 'div',
-		cls: ['btn-group-vertical'],
-		attrs: {
-			style: 'min-width: 250px; height: 100px; gap:10px',
-			role: 'group',
-			'aria-label': 'Vertical button group'
-		},
-		content: [
-			{
-				tag: 'a',
-				cls: ['btn', 'btn-primary'],
-				attrs: {
-					// type: 'button',
-					style: 'font-size: xx-large;',
-					href: '/game',
-					id: 'game',
-					onclick: 'route(event)'
-				},
-				content: 'GAME',
-				events: {
-					click: function(event) {
-						route(event);
-					}
-				}
-			},
-			{
-				tag: 'button',
-				cls: ['btn', 'btn-primary'],
-				attrs: { type: 'button', style: 'font-size: xx-large;' },
-				content: 'SETTINGS'
-			}
-		]
-	}
+    tag: 'div',
+    cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-wrap'],
+    attrs: {
+        style: 'height: calc(100svh - 150px); gap: 30px;'
+    },
+    content: [
+        {
+            tag: 'a',
+            cls: ['card_link', 'd-flex', 'justify-content-center', 'align-items-center', 'text-[2196f3]'],
+            attrs: {
+                href: '/ping-pong',
+                onclick: 'route(event)'
+            },
+            content: [
+                { tag: 'span', cls: ['button__line', 'button__line--top'] },
+                { tag: 'span', cls: ['button__line', 'button__line--right'] },
+                { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
+                { tag: 'span', cls: ['button__line', 'button__line--left'] },
+                'Ping Pong'
+            ]
+        },
+        {
+            tag: 'a',
+            cls: ['card_link', 'd-flex', 'justify-content-center', 'align-items-center', 'text-[2196f3]'],
+            attrs: {
+                href: '/clicker',
+                onclick: 'route(event)'
+            },
+            content: [
+                { tag: 'span', cls: ['button__line', 'button__line--top'] },
+                { tag: 'span', cls: ['button__line', 'button__line--right'] },
+                { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
+                { tag: 'span', cls: ['button__line', 'button__line--left'] },
+                'Clicker'
+            ]
+        }
+    ]
 };
 
 export const MainPageElement = templateEngine(main_page);

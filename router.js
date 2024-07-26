@@ -1,10 +1,12 @@
-import { SecondPageElement } from "./pages/second.js";
-import { FirstPageElement } from "./pages/first.js";
 import { GamePageElement } from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
+import { PingPongMain } from "./pages/ping-pong.js";
+import { PingPongMulti } from "./pages/ping-pong-multi.js";
+import cutPath from "./utils.js";
 import { gamePlay } from "./game_play.js";
 
 const route = (event) => {
+    console.log(event.target.href)
     event.preventDefault();
 	event = event || window.event;
     if (window.location.href !== event.target.href) {
@@ -15,26 +17,35 @@ const route = (event) => {
 
 const handleLocation = () => {
     const path = window.location.pathname;
+    console.log('path:', path);
     const mainPage = document.getElementById('main-page');
+    GLOBAL.isAnimate = false;
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
     }
-    switch (path) {
+    let game;
+    switch (cutPath(path)) {
         case "/":
             mainPage.appendChild(MainPageElement);
-            GLOBAL.isAnimate = false;
             break;
-        case "/game":
+        
+        case "/ping-pong":
+            mainPage.appendChild(PingPongMain);
+            break;
+        case "/ping-pong/single":
             mainPage.appendChild(GamePageElement);
-            const game =  document.getElementById('game');
+            game =  document.getElementById('game');
             game.appendChild(gamePlay);
             GLOBAL.isAnimate = true;
             break;
-        case "/first":
-            mainPage.appendChild(FirstPageElement);
+        case "/ping-pong/multi":
+            mainPage.appendChild(PingPongMulti);
             break;
-        case "/second":
-            mainPage.appendChild(SecondPageElement);
+        case "/ping-pong/multi/one-board":
+            mainPage.appendChild(GamePageElement);
+            game =  document.getElementById('game');
+            game.appendChild(gamePlay);
+            GLOBAL.isAnimate = true;
             break;
         default:
             mainPage.textContent = '404 Page Not Found';
