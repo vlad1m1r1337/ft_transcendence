@@ -19,60 +19,141 @@ const page = {
 				attrs: {
 					id: 'clicker-time'
 				},
-				content: '0'
+				content: '3'
 				}
 			]
 		},
-	  {
-		tag: 'h1',
-		attrs: {
-			style: 'margin-bottom: 20px;'
-		},
-		content: [
-		  'Clicks - ',
-		  {
-			tag: 'span',
+		{
+			tag: 'h1',
 			attrs: {
-			  id: 'clicker-clicks'
+				style: 'margin-bottom: 20px;'
 			},
-			content: '0'
-		  }
-		]
-	  },
-	  {
-		tag: 'div',
-		attrs: {
-		  style: 'user-select: none;'
+			content: [
+			'Clicks - ',
+			{
+				tag: 'span',
+				attrs: {
+				id: 'clicker-clicks'
+				},
+				content: '0'
+			}
+			]
 		},
-		content: {
-		  tag: 'div',
-		  cls: ['click_icon'],
-		  attrs: {
-			onclick: 'increaseClicks()'
-		  }
+		{
+			tag: 'div',
+			attrs: {
+			style: 'user-select: none;'
+			},
+			content: {
+			tag: 'div',
+			cls: ['click_icon'],
+			attrs: {
+				onclick: 'decreaseClicks()'
+			}
+			},
 		},
-	  }
+		{
+			tag: 'div',
+			cls: ['modal', 'fade'],
+			attrs: {
+				id: 'staticClickerBackdrop',
+				'data-bs-backdrop': 'static',
+				'data-bs-keyboard': 'false',
+				tabindex: '-1',
+				'aria-labelledby': 'staticBackdropLabel',
+				'aria-hidden': 'true'
+			},
+			content: {
+				tag: 'div',
+				cls: ['modal-dialog', 'modal-dialog-centered'],
+				content: {
+					tag: 'div',
+					cls: 'modal-content',
+					content: [
+						{
+							tag: 'div',
+							cls: 'modal-header',
+							content: {
+								tag: 'h1',
+								cls: ['modal-title', 'fs-5'],
+								attrs: { id: 'staticBackdropClickerLabel' },
+								content: 'Modal title'
+							}
+						},
+						{
+							tag: 'div',
+							cls: 'modal-body',
+							attrs: {id: 'staticBackdropClickerBodyLabel'},
+							content: '...'
+						},
+						{
+							tag: 'div',
+							cls: 'modal-footer',
+							content: [
+								{
+									tag: 'a',
+									cls: ['btn', 'btn-secondary'],
+									attrs: {
+										type: 'button',
+										'data-bs-dismiss': 'modal',
+										href: '/',
+										onclick: 'route(event)'
+									},
+									content: 'Back'
+								},
+								{
+									tag: 'button',
+									cls: ['btn', 'btn-primary'],
+									attrs: { type: 'button' },
+									content: 'Understood'
+								}
+							]
+						}
+					]
+				}
+			}
+			}
 	]
 };
 
+export default function resetClicker() {
+	const clicks = document.getElementById('clicker-clicks');
+	const time =  document.getElementById('clicker-time');
+
+	clicks.textContent = 0;
+	time.textContent = 3;
+}
+
+function openModal() {
+	const getClicks = document.getElementById('clicker-clicks');
+	console.log(getClicks.textContent);
+	const clickerBody = document.getElementById('staticBackdropClickerBodyLabel');
+	clickerBody.textContent =  getClicks.textContent;
+	var myModal = new bootstrap.Modal(document.getElementById('staticClickerBackdrop'), {
+		keyboard: false
+	});
+	myModal.show();
+}
+
 function countTime(time) {
 	const time_el = document.getElementById('clicker-time');
-	let counter_time = 0;
+	let counter_time = time;
 	const interval = setInterval(() => {
-		time_el.textContent = Number(time_el.textContent) + 1;
-		counter_time++;
-			if (counter_time === time) {clearInterval(interval);}
+		time_el.textContent = Number(time_el.textContent) - 1;
+		counter_time--;
+			if (counter_time === 0) {
+				clearInterval(interval);
+				openModal();
+			}
 	}, 1000)
 }
 
-function increaseClicks() {
-	// debugger;
+function decreaseClicks() {
 	const clicks = document.getElementById('clicker-clicks');
-	console.log('lol', clicks.textContent)
 	clicks.textContent = Number(clicks.textContent) + 1;
-	if (clicks.textContent === '1') {countTime(10)};
+	if (clicks.textContent === '1') {countTime(3)};
 }
 
-window.increaseClicks = increaseClicks;
+window.decreaseClicks = decreaseClicks;
 
 export const ClickerSingle = templateEngine(page);

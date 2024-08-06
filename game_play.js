@@ -28,15 +28,11 @@ let ballSpeed = 2;
 // переменные с очками каждого игрока
 var score1 = 0, score2 = 0;
 // игра завершится, когда кто-то наберет 7 очков
-var maxScore = 1;
+var maxScore = 2;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
 var difficulty = 0.2;
 
-// setTimeout(() => {
-// 	console.log('false')
-// 	isAnimating = false;
-// }, 5000)
 // ------------------------------------- //
 // --------- ИГРОВЫЕ ФУНКЦИИ ----------- //
 // ------------------------------------- //
@@ -53,7 +49,6 @@ function setup()
 	
 	// set up all the 3D objects in the scene	
 	createScene();
-	
 	// and let's get cracking!
 	draw();
 }
@@ -68,8 +63,6 @@ function createScene()
 	  ASPECT = WIDTH / HEIGHT,
 	  NEAR = 0.1,
 	  FAR = 10000;
-
-	// var c = document.getElementById("gameCanvas");
 
 	// создаем WebGL рендер, камеру и сцену
 	
@@ -94,7 +87,6 @@ function createScene()
 	renderer.setSize(WIDTH, HEIGHT);
 
 	// attach the render-supplied DOM element
-	// c.appendChild(renderer.domElement);
 	// console.log('inside', renderer.domElement);
 	// set up the playing surface plane 
 	var planeWidth = fieldWidth,
@@ -347,6 +339,12 @@ function draw()
 	// зацикливаем функцию draw()
 	requestAnimationFrame(draw);
 	if (!GLOBAL.isAnimate) return;
+	if (GLOBAL.newGame === true) {
+		resetBall();
+		paddle1.position.y = 0;
+		paddle2.position.y = 0;
+		GLOBAL.newGame = false;
+	}
 	ballPhysics();
 	paddlePhysics();
 	cameraPhysics();
@@ -719,7 +717,6 @@ function openModal() {
 	});
 	myModal.show();
 }
-
 
 export const gamePlay = renderer.domElement;
 export default setup;

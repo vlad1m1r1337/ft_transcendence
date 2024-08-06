@@ -3,12 +3,14 @@ import { MainPageElement } from "./pages/main.js";
 import { PingPongMain } from "./pages/ping-pong.js";
 import { PingPongMulti } from "./pages/ping-pong-multi.js";
 import { ClickerMain } from "./pages/clicker.js"
-import { ClickerSingle } from "./pages/clicker-game.js"
+import { ClickerSingle } from "./pages/clicker-game.js";
+import { tournamentElement } from "./pages/tournament.js";
+import { choosePlayers } from "./pages/tournament.js";
 import { gamePlay } from "./game_play.js";
-import cutPath from "./utils.js";
+import resetClicker from "./pages/clicker-game.js"
+import {showNames} from "./utils.js"
 
 const route = (event) => {
-    console.log(event.target.href)
     event.preventDefault();
 	event = event || window.event;
     if (window.location.href !== event.target.href) {
@@ -19,18 +21,18 @@ const route = (event) => {
 
 const handleLocation = () => {
     const path = window.location.pathname;
-    console.log('path:', path);
     const mainPage = document.getElementById('main-page');
     GLOBAL.isAnimate = false;
+    GLOBAL.newGame = true;
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
     }
     let game;
-    switch (cutPath(path)) {
+    switch (path) {
         case "/":
             mainPage.appendChild(MainPageElement);
             break;
-        
+
         case "/ping-pong":
             mainPage.appendChild(PingPongMain);
             break;
@@ -39,7 +41,8 @@ const handleLocation = () => {
             game =  document.getElementById('game');
             game.appendChild(gamePlay);
             GLOBAL.isAnimate = true;
-            GLOBAL.mode = 'single'
+            GLOBAL.mode = 'single';
+            showNames();
             break;
         case "/ping-pong-multi":
             mainPage.appendChild(PingPongMulti);
@@ -49,14 +52,19 @@ const handleLocation = () => {
             game =  document.getElementById('game');
             game.appendChild(gamePlay);
             GLOBAL.isAnimate = true;
-            GLOBAL.mode = 'multi'
+            GLOBAL.mode = 'multi';
+            showNames();
             break;
-
         case "/clicker":
             mainPage.appendChild(ClickerMain);
             break;
         case "/clicker-single":
             mainPage.appendChild(ClickerSingle);
+            resetClicker()
+            break;
+        case "/ping-pong/multi/tournament":
+            mainPage.appendChild(tournamentElement);
+            choosePlayers();    
             break;
         default:
             mainPage.textContent = '404 Page Not Found';

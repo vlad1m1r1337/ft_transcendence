@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "serve-handler": "^6.1.5",
     "three": "^0.166.1"
   }
 }
