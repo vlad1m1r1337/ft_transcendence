@@ -1,37 +1,30 @@
 import * as THREE from 'three';
-// --------------------------------------------- //
-// --------- 3D ПИНГ-ПОНГ с Three.JS ----------- //
-// --------------------------------------------- //
 
-// ------------------------------------- //
-// ------- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ------- //
-// ------------------------------------- //
-// scene object variables
-export var renderer = new THREE.WebGLRenderer();
+export let renderer = new THREE.WebGLRenderer();
 
-var scene, camera, pointLight, spotLight;
+let scene, camera, pointLight, spotLight;
 
 // определяем размер сцены
-var fieldWidth = 400, fieldHeight = 200;
+let fieldWidth = 400, fieldHeight = 200;
 
-// paddle variables
-var paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
+// paddle letiables
+let paddleWidth, paddleHeight, paddleDepth, paddleQuality;
+let paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
 
-// ball variables
-var ball, paddle1, paddle2;
-var ballDirX = 1, ballDirY = 1;
+// ball letiables
+let ball, paddle1, paddle2;
+let ballDirX = 1, ballDirY = 1;
 
-// var ballSpeed = 2;
+// let ballSpeed = 2;
 let ballSpeed = 2;
 
 // переменные с очками каждого игрока
-var score1 = 0, score2 = 0;
+let score1 = 0, score2 = 0;
 // игра завершится, когда кто-то наберет 7 очков
-var maxScore = 2;
+let maxScore = 2;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
-var difficulty = 0.2;
+let difficulty = 0.2;
 
 // ------------------------------------- //
 // --------- ИГРОВЫЕ ФУНКЦИИ ----------- //
@@ -55,11 +48,11 @@ function setup()
 function createScene()
 {
 	// set the scene size
-	var WIDTH = 640,
+	let WIDTH = 640,
 	  HEIGHT = 360;
 
 	// set some camera attributes
-	var VIEW_ANGLE = 50,
+	let VIEW_ANGLE = 50,
 	  ASPECT = WIDTH / HEIGHT,
 	  NEAR = 0.1,
 	  FAR = 10000;
@@ -89,42 +82,42 @@ function createScene()
 	// attach the render-supplied DOM element
 	// console.log('inside', renderer.domElement);
 	// set up the playing surface plane 
-	var planeWidth = fieldWidth,
+	let planeWidth = fieldWidth,
 		planeHeight = fieldHeight,
 		planeQuality = 10;
 		
 	// создаем материал дощечки № 1
-	var paddle1Material =
+	let paddle1Material =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x1B32C0
 		});
 	// создаем материал дощечки № 2
-	var paddle2Material =
+	let paddle2Material =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0xFF4045
 		});
 	// создаем материал плоскости	
-	var planeMaterial =
+	let planeMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x4BD121
 		});
 	// создаем материал стола
-	var tableMaterial =
+	let tableMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x111111
 		});
 	// создаем материала столбов
-	var pillarMaterial =
+	let pillarMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x534d0d
 		});
 	// create the ground's material
-	var groundMaterial =
+	let groundMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x888888
@@ -132,7 +125,7 @@ function createScene()
 		
 		
 	// create the playing surface plane
-	var plane = new THREE.Mesh(
+	let plane = new THREE.Mesh(
 
 	  new THREE.PlaneGeometry(
 		planeWidth * 0.95,	//95% ширины стола, т.к. нужно показать где шар будет выходить за пределы поля
@@ -145,7 +138,7 @@ function createScene()
 	scene.add(plane);
 	plane.receiveShadow = true;	
 	
-	var table = new THREE.Mesh(
+	let table = new THREE.Mesh(
 
 	  new THREE.BoxGeometry(
 		planeWidth * 1.05,	// this creates the feel of a billiards table, with a lining
@@ -164,12 +157,12 @@ function createScene()
 	// сферы: radius, segments, rings
 	// низкие значения 'segment' и 'ring'
 	// улучшают производительность
-	var radius = 5,
+	let radius = 5,
 		segments = 6,
 		rings = 6;
 		
 	// создаем материал сферы
-	var sphereMaterial =
+	let sphereMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0xD43001
@@ -195,7 +188,7 @@ function createScene()
 	ball.receiveShadow = true;
     ball.castShadow = true;
 	
-	// // set up the paddle vars
+	// // set up the paddle lets
 	paddleWidth = 10;
 	paddleHeight = 30;
 	paddleDepth = 10;
@@ -245,9 +238,9 @@ function createScene()
 		
 	// we iterate 10x (5x each side) to create pillars to show off shadows
 	// this is for the pillars on the left
-	for (var i = 0; i < 5; i++)
+	for (let i = 0; i < 5; i++)
 	{
-		var backdrop = new THREE.Mesh(
+		let backdrop = new THREE.Mesh(
 		
 		  new THREE.BoxGeometry( 
 		  30, 
@@ -268,9 +261,9 @@ function createScene()
 	}
 	// we iterate 10x (5x each side) to create pillars to show off shadows
 	// this is for the pillars on the right
-	for (var i = 0; i < 5; i++)
+	for (let i = 0; i < 5; i++)
 	{
-		var backdrop = new THREE.Mesh(
+		let backdrop = new THREE.Mesh(
 
 		  new THREE.BoxGeometry( 
 		  30, 
@@ -292,7 +285,7 @@ function createScene()
 	
 	// finally we finish by adding a ground plane
 	// to show off pretty shadows
-	var ground = new THREE.Mesh(
+	let ground = new THREE.Mesh(
 
 	  new THREE.BoxGeometry( 
 	  1000, 
@@ -344,12 +337,19 @@ function draw()
 		paddle1.position.y = 0;
 		paddle2.position.y = 0;
 		GLOBAL.newGame = false;
+		score1 = 0;
+		score2 = 0;
+	}
+	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
+	if (GLOBAL.mode === 'tournament') {
+		const names = document.getElementById('players-name');
+
+		names.textContent = `${GLOBAL.pong_players[0]} vs ${GLOBAL.pong_players[1]}`;
 	}
 	ballPhysics();
 	paddlePhysics();
 	cameraPhysics();
 	playerPaddleMovement();
-	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
 }
 
 function ballPhysics()
@@ -439,7 +439,7 @@ function opponentPaddleMovement()
 	paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;	
 }
 
-var KeyOP = {
+let KeyOP = {
 	_pressed: {},
 
 	LEFT: 37,
@@ -512,7 +512,7 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 window.addEventListener('keyup', function(event) { KeyOP.onKeyup(event); }, false);
 window.addEventListener('keydown', function(event) { KeyOP.onKeydown(event); }, false);
 
-var Key = {
+let Key = {
   _pressed: {},
 
   A: 65,
@@ -677,7 +677,7 @@ function resetBall(loser)
 	ballDirY = 1;
 }
 
-var bounceTime = 0;
+let bounceTime = 0;
 // проверяем, закончился ли матч (набрано требуемое количество очков)
 function matchScoreCheck()
 {
@@ -712,7 +712,7 @@ function addScore(id) {
 }
 
 function openModal() {
-	var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+	let myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
 		keyboard: false
 	});
 	myModal.show();

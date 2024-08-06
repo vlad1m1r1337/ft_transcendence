@@ -10,14 +10,7 @@ function showNames() {
 
 
 function parsePlayers(players) {
-	const arr = players.split(' ');
-	console.log(arr);
-	// const res = {};
-	// arr.reduce((acc, cur) => {
-	// 	res.push(cur);
-	// }, res)
-
-	// return res;
+	return players.split(' ');
 }
 
 export { cutPath, showNames, parsePlayers };
