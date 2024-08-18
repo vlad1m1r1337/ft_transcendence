@@ -2,8 +2,8 @@ import templateEngine from "../engine.js";
 import menu_template from "../constants.js";
 
 const elements = [
-    { name: 'singleplayer', href: '/clicker-single' },
-    { name: 'multiplayer', href: '/clicker-multi' },
+    { name: 'singleplayer', href: '/clicker/single' },
+    { name: 'tournament', href: '/clicker/tournament' },
     { name: 'settings', href: '/clicker-settings' },
 ];
 

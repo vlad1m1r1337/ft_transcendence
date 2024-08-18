@@ -4,7 +4,6 @@ import menu_template from "../constants.js";
 const elements = [
     { name: 'singleplayer', href: '/ping-pong-single' },
     { name: 'multiplayer', href: '/ping-pong-multi' },
-    { name: 'settings', href: 'ping-pong-settings' },
 ];
 
 const links = elements.map((el) => {

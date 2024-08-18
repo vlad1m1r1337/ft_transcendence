@@ -21,21 +21,20 @@ let ballSpeed = 2;
 // переменные с очками каждого игрока
 let score1 = 0, score2 = 0;
 // игра завершится, когда кто-то наберет 7 очков
-let maxScore = 2;
+let maxScore = 1;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
 let difficulty = 0.2;
 
-// ------------------------------------- //
-// --------- ИГРОВЫЕ ФУНКЦИИ ----------- //
-// ------------------------------------- //
+// ------------------------------------ //
+// --------- ИГРОВЫЕ ФУНКЦИИ --------- //
+// ----------------------------------- //
 
 function setup()
 {
 	ballSpeed = 2;
 	// Обновляем блок, содержащий сообщение о необходимых для победы очках
-	// document.getElementById("winnerBoard").innerHTML = "Набравший " + maxScore + " очков победит!";
-	
+
 	// обнуляем значения переменных с очками каждого игрока
 	score1 = 0;
 	score2 = 0;
@@ -343,7 +342,6 @@ function draw()
 	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
 	if (GLOBAL.mode === 'tournament') {
 		const names = document.getElementById('players-name');
-
 		names.textContent = `${GLOBAL.pong_players[0]} vs ${GLOBAL.pong_players[1]}`;
 	}
 	ballPhysics();
@@ -682,10 +680,15 @@ let bounceTime = 0;
 function matchScoreCheck()
 {
 	// если выиграл игрок
-	if (score1 >= maxScore)
-	{
+	if (score1 >= maxScore) {
 		GLOBAL.isAnimate = false;
 		resetScore();
+
+		if (GLOBAL.mode === 'tournament') {
+			const winner = GLOBAL.pong_players.shift();
+			GLOBAL.pong_players.push(winner);
+			GLOBAL.pong_players = GLOBAL.pong_players.slice(1);
+		}
 		openModal();
 	}
 	// если выиграл компьютер
@@ -693,6 +696,12 @@ function matchScoreCheck()
 	{
 		GLOBAL.isAnimate = false;
 		resetScore();
+
+		if (GLOBAL.mode === 'tournament') {
+			GLOBAL.pong_players = GLOBAL.pong_players.slice(1);
+			const winner = GLOBAL.pong_players.shift();
+			GLOBAL.pong_players.push(winner);
+		}
 		openModal();
 	}
 }
@@ -716,6 +725,37 @@ function openModal() {
 		keyboard: false
 	});
 	myModal.show();
+	showWinner();
+
+}
+
+function showWinner() {
+	const header = document.getElementById('staticBackdropLabel');			console.log(header);
+	switch (GLOBAL.mode) {
+		case 'single':
+			if (score1 > score2) {
+				console.log('You won!');
+				header.textContent = 'You won!';
+			}
+			else {
+				console.log('Computer won!');
+				header.textContent = 'Computer won!';
+			}
+			break;
+		case 'tournament':
+			console.log(GLOBAL.pong_players[GLOBAL.pong_players.length - 1]);
+			header.textContent = `${GLOBAL.pong_players[GLOBAL.pong_players.length - 1]} won`;
+			break;
+		case 'multi':
+			console.log('Multiplayer');
+			if (score1 > score2) {
+				header.textContent = 'Player 1 won';
+			}
+			else {
+				header.textContent = 'Player 2 won';
+			}
+			break;
+	}
 }
 
 export const gamePlay = renderer.domElement;

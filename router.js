@@ -9,6 +9,7 @@ import { namePlayers } from "./pages/tournament.js";
 import { gamePlay } from "./game_play.js";
 import resetClicker from "./pages/clicker-game.js"
 import {showNames} from "./utils.js"
+import {nameClickerPlayers} from "./pages/tournament.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -58,14 +59,20 @@ const handleLocation = () => {
         case "/clicker":
             mainPage.appendChild(ClickerMain);
             break;
-        case "/clicker-single":
+        case "/clicker/single":
             mainPage.appendChild(ClickerSingle);
-            resetClicker()
+            GLOBAL.mode = 'single';
+            resetClicker();
             break;
         case "/ping-pong/multi/tournament":
             mainPage.appendChild(tournamentElement);
             GLOBAL.mode = 'tournament';
             namePlayers();
+            break;
+        case "/clicker/tournament":
+            mainPage.appendChild(tournamentElement);
+            GLOBAL.mode = 'tournament';
+            nameClickerPlayers();
             break;
         default:
             mainPage.textContent = '404 Page Not Found';

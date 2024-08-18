@@ -2,12 +2,13 @@ import templateEngine from '../engine.js'
 import { parsePlayers } from '../utils.js';
 import {GamePageElement} from "./game.js";
 import {gamePlay} from "../game_play.js";
+import resetClicker, {ClickerSingle} from "./clicker-game.js";
 
 const template = {
     tag: 'div',
     cls: ['d-flex', 'flex-column', 'justify-content-center'],
     attrs: {
-        style: 'margin-top: 150px; width: 400px;'
+        style: 'margin-top: 150px; width: 400px; margin-left: auto; margin-right: auto;'
     },
     content: [
         {
@@ -28,7 +29,7 @@ const template = {
                     attrs: {
                         for: 'floatingTextarea2'
                     },
-                    content: 'Enter the players names throug space'
+                    content: 'Enter the players names through comma'
                 }
             ]
         },
@@ -45,26 +46,47 @@ export function namePlayers() {
 	const button = document.getElementById('submit-tournament');
 	button.addEventListener('click', () => {
 		const players = document.getElementById('floatingTextarea2');
-        console.log('players')
 		const playersArr = parsePlayers(players.value);
         if (playersArr.length < 2) {
             alert('Invalid'); return;
         }
         GLOBAL.pong_players = parsePlayers(players.value);
         players.value = '';
+        appendGame();
+	})
+}
+
+export function appendGame() {
+    const mainPage = document.getElementById('main-page');
+    while (mainPage.firstChild) {
+        mainPage.removeChild(mainPage.firstChild);
+    }
+    mainPage.appendChild(GamePageElement);
+    const game =  document.getElementById('game');
+    game.appendChild(gamePlay);
+    GLOBAL.isAnimate = true;
+}
+
+export function nameClickerPlayers() {
+    const button = document.getElementById('submit-tournament');
+    button.addEventListener('click', () => {
+        const players = document.getElementById('floatingTextarea2');
+        const playersArr = parsePlayers(players.value);
+        console.log(playersArr)
+        if (playersArr.length < 2) {
+            console.log(playersArr.length)
+            alert('Invalidno'); return;
+        }
+        GLOBAL.clicker_players = parsePlayers(players.value);
+        players.value = '';
 
         const mainPage = document.getElementById('main-page');
         while (mainPage.firstChild) {
             mainPage.removeChild(mainPage.firstChild);
         }
-        mainPage.appendChild(GamePageElement);
-        const game =  document.getElementById('game');
-        game.appendChild(gamePlay);
-        GLOBAL.isAnimate = true;
-        // const names = document.getElementById('players-name');
-        // names.textContent = `${GLOBAL.pong_players[0]} vs ${GLOBAL.pong_players[1]}`;
-	})
+        mainPage.appendChild(ClickerSingle);
+        resetClicker();
+    })
 }
 
 export const tournamentElement = templateEngine(template);
-

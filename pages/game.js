@@ -1,4 +1,10 @@
 import templateEngine from '../engine.js';
+const updateNextGameClass = () => {
+    const nextGameButton = document.querySelector('.btn-tournament');
+    if (nextGameButton) {
+        nextGameButton.classList.toggle('disabled', !(GLOBAL.mode === 'tournament' && GLOBAL?.pong_players?.length > 1));
+    }
+};
 
 const game_page = {
     tag: 'div',
@@ -63,8 +69,8 @@ const game_page = {
                         content: {
                             tag: 'h1',
                             cls: ['modal-title', 'fs-5'],
-                            attrs: { id: 'staticBackdropLabel' },
-                            content: 'Modal title'
+                            attrs: { id: 'staticBackdropLabel', style: 'margin: auto;' },
+                            content: 'Modal title',
                         }
                     },
                     {
@@ -89,9 +95,13 @@ const game_page = {
                             },
                             {
                                 tag: 'button',
-                                cls: ['btn', 'btn-primary'],
-                                attrs: { type: 'button' },
-                                content: 'Understood'
+                                cls: ['btn', 'btn-primary', 'btn-tournament'],
+                                attrs: {
+                                    id: 'continue-tournament-pong',
+                                    type: 'button',
+                                    'data-bs-dismiss': 'modal',
+                                },
+                                content: 'Continue Tournament'
                             }
                         ]
                     }
@@ -99,9 +109,22 @@ const game_page = {
             }
         }
         }
-
     ]
 };
 
 export const GamePageElement = templateEngine(game_page);
 
+// Add an event listener to update the nextGame class when GLOBAL changes
+window.addEventListener('load', () => {
+    updateNextGameClass();
+    // Assuming GLOBAL is updated through some mechanism, you can add a custom event listener
+    document.addEventListener('GLOBAL_UPDATED', updateNextGameClass);
+});
+
+
+window.addEventListener('click', (e) => {
+    const nextGameButton = document.getElementById('continue-tournament-pong');
+    if (e.target === nextGameButton) {
+        GLOBAL.isAnimate = true;
+    }
+});

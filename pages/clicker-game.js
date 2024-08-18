@@ -1,5 +1,17 @@
 import templateEngine from "../engine.js";
 
+const updateNextGameClass = () => {
+	const nextGameButton = document.getElementById('continue-tournament-clicker');
+	if (nextGameButton) {
+		nextGameButton.classList.toggle('disabled', GLOBAL.clicker_players.length > 1);//&& GLOBAL?.pong_players?.length > 1)
+	}
+};
+window.addEventListener('load', () => {
+	updateNextGameClass();
+	// Assuming GLOBAL is updated through some mechanism, you can add a custom event listener
+	document.addEventListener('GLOBAL_UPDATED', updateNextGameClass);
+});
+
 const page = {
 	tag: 'div',
 	attrs: {
@@ -104,8 +116,12 @@ const page = {
 								{
 									tag: 'button',
 									cls: ['btn', 'btn-primary'],
-									attrs: { type: 'button' },
-									content: 'Understood'
+									attrs: {
+										id: 'continue-tournament-clicker',
+										type: 'button',
+										'data-bs-dismiss': 'modal',
+									},
+									content: 'Continue Tournament'
 								}
 							]
 						}
@@ -153,6 +169,15 @@ function decreaseClicks() {
 	clicks.textContent = Number(clicks.textContent) + 1;
 	if (clicks.textContent === '1') {countTime(3)};
 }
+
+window.addEventListener('click', (e) => {
+	const nextGameButton = document.getElementById('continue-tournament-clicker');
+	if (e.target === nextGameButton) {
+		const mainPage = document.getElementById('main-page');
+		mainPage.appendChild(ClickerSingle);
+		resetClicker();
+	}
+});
 
 window.decreaseClicks = decreaseClicks;
 
