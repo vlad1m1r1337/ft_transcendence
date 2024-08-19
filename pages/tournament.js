@@ -42,20 +42,6 @@ const template = {
     ]
 };
 
-export function namePlayers() {
-	const button = document.getElementById('submit-tournament');
-	button.addEventListener('click', () => {
-		const players = document.getElementById('floatingTextarea2');
-		const playersArr = parsePlayers(players.value);
-        if (playersArr.length < 2) {
-            alert('Invalid'); return;
-        }
-        GLOBAL.pong_players = parsePlayers(players.value);
-        players.value = '';
-        appendGame();
-	})
-}
-
 export function appendGame() {
     const mainPage = document.getElementById('main-page');
     while (mainPage.firstChild) {
@@ -67,26 +53,67 @@ export function appendGame() {
     GLOBAL.isAnimate = true;
 }
 
+function handleClickPong() {
+    const button = document.getElementById('submit-tournament');
+
+    const players = document.getElementById('floatingTextarea2');
+    const playersArr = parsePlayers(players.value);
+    if (playersArr.length < 2) {
+        alert('Invalid');
+        return;
+    }
+    GLOBAL.pong_players = parsePlayers(players.value);
+    players.value = '';
+    appendGame();
+    button.removeEventListener('click', handleClickPong);
+}
+
+export function namePlayers() {
+    const button = document.getElementById('submit-tournament');
+    button.addEventListener('click', handleClickPong);
+}
+
 export function nameClickerPlayers() {
     const button = document.getElementById('submit-tournament');
-    button.addEventListener('click', () => {
-        const players = document.getElementById('floatingTextarea2');
-        const playersArr = parsePlayers(players.value);
-        console.log(playersArr)
-        if (playersArr.length < 2) {
-            console.log(playersArr.length)
-            alert('Invalidno'); return;
-        }
-        GLOBAL.clicker_players = parsePlayers(players.value);
-        players.value = '';
+    button.addEventListener('click', handleClickClicker);
 
-        const mainPage = document.getElementById('main-page');
-        while (mainPage.firstChild) {
-            mainPage.removeChild(mainPage.firstChild);
-        }
-        mainPage.appendChild(ClickerSingle);
-        resetClicker();
-    })
+    // button.addEventListener('click', () => {
+    //     const players = document.getElementById('floatingTextarea2');
+    //     const playersArr = parsePlayers(players.value);
+    //     console.log(playersArr)
+    //     if (playersArr.length < 2) {
+    //         console.log(playersArr.length)
+    //         alert('Invalidno'); return;
+    //     }
+    //     GLOBAL.clicker_players = parsePlayers(players.value);
+    //     players.value = '';
+    //
+    //     const mainPage = document.getElementById('main-page');
+    //     while (mainPage.firstChild) {
+    //         mainPage.removeChild(mainPage.firstChild);
+    //     }
+    //     mainPage.appendChild(ClickerSingle);
+    //     resetClicker();
+    // })
+}
+
+const handleClickClicker = () => {
+    const button = document.getElementById('submit-tournament');
+    const players = document.getElementById('floatingTextarea2');
+    const playersArr = parsePlayers(players.value);
+    if (playersArr.length < 2) {
+        alert('Invalid');
+        return;
+    }
+    GLOBAL.clicker_players = parsePlayers(players.value);
+    players.value = '';
+    const mainPage = document.getElementById('main-page');
+    while (mainPage.firstChild) {
+        mainPage.removeChild(mainPage.firstChild);
+    }
+    mainPage.appendChild(ClickerSingle);
+    resetClicker();
+    button.removeEventListener('click', handleClickClicker);
 }
 
 export const tournamentElement = templateEngine(template);

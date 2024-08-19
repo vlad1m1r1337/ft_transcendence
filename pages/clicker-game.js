@@ -135,7 +135,6 @@ const page = {
 export default function resetClicker() {
 	const clicks = document.getElementById('clicker-clicks');
 	const time =  document.getElementById('clicker-time');
-
 	clicks.textContent = 0;
 	time.textContent = 3;
 }
