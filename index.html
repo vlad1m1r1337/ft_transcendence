@@ -19,41 +19,63 @@
     <div id="root">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/" onclick="route(event)">ft_transendence</a>
+          <a class="navbar-brand" href="/" onclick="route(event)" data-translate="transendence">ft_transendence</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-              </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translate="music">
                   Settings
                 </a>
                 <ul class="dropdown-menu">
                   <li style='padding-left: 1rem;'>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                      <label class="form-check-label" for="flexSwitchCheckDefault">Music</label>
+                      <label class="form-check-label" for="flexSwitchCheckDefault" data-translate="music">Music</label>
                     </div>
                   </li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li style='padding-left: 1rem;'>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        ENG
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        RUS
+                      </label>
+                    </div>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li style='padding-left: 1rem;'>
+                    <div id="carouselExample" class="carousel slide">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                        <label style="color: aqua;" class="form-check-label" for="inlineRadio1">color</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <label style="color: royalblue;" class="form-check-label" for="inlineRadio1">color</label>
+
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                        <label style="color: rosybrown" class="form-check-label" for="inlineRadio1">color</label>
+
+                      </div>
+                    </div>
+                  </li>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-<!--      <hr/>-->
       <div  id="main-page">
       </div>
   </div>
@@ -61,6 +83,7 @@
   </audio>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script type="module" src="language.js"></script>
   <script type="module" src="/global.js"></script>
   <script type="module" src="/router.js"></script>
   <script type="module" src="/engine.js"></script>

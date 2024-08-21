@@ -76,25 +76,6 @@ export function namePlayers() {
 export function nameClickerPlayers() {
     const button = document.getElementById('submit-tournament');
     button.addEventListener('click', handleClickClicker);
-
-    // button.addEventListener('click', () => {
-    //     const players = document.getElementById('floatingTextarea2');
-    //     const playersArr = parsePlayers(players.value);
-    //     console.log(playersArr)
-    //     if (playersArr.length < 2) {
-    //         console.log(playersArr.length)
-    //         alert('Invalidno'); return;
-    //     }
-    //     GLOBAL.clicker_players = parsePlayers(players.value);
-    //     players.value = '';
-    //
-    //     const mainPage = document.getElementById('main-page');
-    //     while (mainPage.firstChild) {
-    //         mainPage.removeChild(mainPage.firstChild);
-    //     }
-    //     mainPage.appendChild(ClickerSingle);
-    //     resetClicker();
-    // })
 }
 
 const handleClickClicker = () => {

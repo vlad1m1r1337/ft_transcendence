@@ -13,4 +13,14 @@ function parsePlayers(players) {
 	return players.split(',').map((player) => player.trim()).filter((player) => player !== '');
 }
 
-export { cutPath, showNames, parsePlayers };
+function findKeyByValue(obj, value) {
+	for (const key in obj) {
+		if (obj[key] === value) {
+			return key;
+		}
+	}
+	return null;
+}
+
+export { cutPath, showNames, parsePlayers, findKeyByValue };
+

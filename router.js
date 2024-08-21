@@ -22,6 +22,7 @@ const route = (event) => {
 
 const handleLocation = () => {
     const path = window.location.pathname;
+    console.log('path', path);
     const mainPage = document.getElementById('main-page');
     GLOBAL.isAnimate = false;
     GLOBAL.newGame = true;
@@ -31,11 +32,11 @@ const handleLocation = () => {
     let game;
     switch (path) {
         case "/":
-            mainPage.appendChild(MainPageElement);
+            // mainPage.appendChild(MainPageElement);
+            MainPageElement();
             break;
-
         case "/ping-pong":
-            mainPage.appendChild(PingPongMain);
+            PingPongMain();
             break;
         case "/ping-pong-single":
             mainPage.appendChild(GamePageElement);
@@ -46,7 +47,8 @@ const handleLocation = () => {
             showNames();
             break;
         case "/ping-pong-multi":
-            mainPage.appendChild(PingPongMulti);
+            // mainPage.appendChild(PingPongMulti);
+            PingPongMulti();
             break;
         case "/ping-pong-multi-one-board":
             mainPage.appendChild(GamePageElement);

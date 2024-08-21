@@ -19,13 +19,11 @@ const menu_template = {
 					href: '/game',
 					onclick: 'route(event)'
 				},
-				content: 'GAME',
 			},
 			{
 				tag: 'a',
 				cls: ['btn', 'btn-primary'],
 				attrs: { type: 'button', style: 'font-size: xx-large;' },
-				content: 'SETTINGS'
 			}
 		]
 	}
