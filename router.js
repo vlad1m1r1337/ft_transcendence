@@ -1,4 +1,4 @@
-import { GamePageElement } from "./pages/game.js";
+import {appendGameMulti, appendGameSingle, GamePageElement} from "./pages/game.js";
 import { MainPageElement } from "./pages/main.js";
 import { PingPongMain } from "./pages/ping-pong.js";
 import { PingPongMulti } from "./pages/ping-pong-multi.js";
@@ -10,6 +10,7 @@ import { gamePlay } from "./game_play.js";
 import resetClicker from "./pages/clicker-game.js"
 import {showNames} from "./utils.js"
 import {nameClickerPlayers} from "./pages/tournament.js";
+import {NotFound} from "./pages/404.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -32,52 +33,42 @@ const handleLocation = () => {
     let game;
     switch (path) {
         case "/":
-            // mainPage.appendChild(MainPageElement);
             MainPageElement();
             break;
         case "/ping-pong":
             PingPongMain();
             break;
         case "/ping-pong-single":
-            mainPage.appendChild(GamePageElement);
-            game =  document.getElementById('game');
-            game.appendChild(gamePlay);
-            GLOBAL.isAnimate = true;
-            GLOBAL.mode = 'single';
-            showNames();
+            GamePageElement();
+            appendGameSingle();
             break;
         case "/ping-pong-multi":
-            // mainPage.appendChild(PingPongMulti);
             PingPongMulti();
             break;
         case "/ping-pong-multi-one-board":
-            mainPage.appendChild(GamePageElement);
-            game =  document.getElementById('game');
-            game.appendChild(gamePlay);
-            GLOBAL.isAnimate = true;
-            GLOBAL.mode = 'multi';
-            showNames();
-            break;
-        case "/clicker":
-            mainPage.appendChild(ClickerMain);
-            break;
-        case "/clicker/single":
-            mainPage.appendChild(ClickerSingle);
-            GLOBAL.mode = 'single';
-            resetClicker();
+            GamePageElement();
+            appendGameMulti();
             break;
         case "/ping-pong/multi/tournament":
-            mainPage.appendChild(tournamentElement);
+            tournamentElement();
             GLOBAL.mode = 'tournament';
             namePlayers();
             break;
         case "/clicker/tournament":
-            mainPage.appendChild(tournamentElement);
+            tournamentElement();
             GLOBAL.mode = 'tournament';
             nameClickerPlayers();
             break;
+        case "/clicker":
+            ClickerMain();
+            break;
+        case "/clicker/single":
+            ClickerSingle();
+            GLOBAL.mode = 'single';
+            resetClicker();
+            break;
         default:
-            mainPage.textContent = '404 Page Not Found';
+            NotFound();
             break;
     }
 };

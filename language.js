@@ -12,6 +12,13 @@ const translations = {
         on_one_keyboard: "On one keyboard",
         settings: 'Settings',
         music: 'Music',
+        score: 'Score',
+        back: 'Back',
+        continue_tournament: 'Continue Tournament',
+        enter_players: 'Enter the players names through comma',
+        submit: 'Submit',
+        to_home: 'To Home',
+        not_found: '404 - Not Found'
     },
     ru: {
         transendence: "трансуха",
@@ -26,6 +33,13 @@ const translations = {
         on_one_keyboard: "На одной клавиатуре",
         settings: 'Настройки',
         music: 'Музло',
+        score: 'Счет',
+        back: 'Назад',
+        continue_tournament: 'Продолжить турнир',
+        enter_players: 'Введите имена игроков через запятую.',
+        submit: 'Отправить',
+        to_home: 'Домой',
+        not_found: '404 - Не найдено'
     },
 };
 
@@ -64,7 +78,7 @@ document.getElementById('flexRadioDefault2').addEventListener('change', function
     if (this.checked) {
         setLanguage('ru');
     }
-    changeLanguage('ru')
+    changeLanguage('ru');
 });
 
 document.addEventListener('DOMContentLoaded', function() {

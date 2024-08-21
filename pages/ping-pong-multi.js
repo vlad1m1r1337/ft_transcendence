@@ -4,11 +4,12 @@ import {findKeyByValue} from "../utils.js";
 
 function createDomEl() {
     const language = localStorage.getItem('language');
+    const transObj = translations[language];
 
     const elements = [
-        { name: translations[language].tournament, href: '/ping-pong/multi/tournament' },
-        { name: translations[language].online, href: '/ping-pong/multi/online' },
-        { name: translations[language].on_one_keyboard, href: '/ping-pong-multi-one-board' },
+        { name: transObj.tournament, href: '/ping-pong/multi/tournament' },
+        { name: transObj.online, href: '/ping-pong/multi/online' },
+        { name: transObj.on_one_keyboard, href: '/ping-pong-multi-one-board' },
     ];
 
     const links = elements.map((el) => {

@@ -1,4 +1,6 @@
 import templateEngine from '../engine.js';
+import {gamePlay} from "../game_play.js";
+import {findKeyByValue, showNames} from "../utils.js";
 const updateNextGameClass = () => {
     const nextGameButton = document.querySelector('.btn-tournament');
     if (nextGameButton) {
@@ -6,113 +8,6 @@ const updateNextGameClass = () => {
     }
 };
 
-const game_page = {
-    tag: 'div',
-    cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-column'],
-    attrs: { style: 'margin-top: 50px;' },
-    content: [
-        {
-            tag: 'h1',
-            content: 'Content',
-            attrs: {
-                id: 'players-name',
-            }
-        },
-        {
-            tag: 'h2',
-            content: [
-                'Score ',
-                {
-                    tag: 'span',
-                    cls: ['text-primary'],
-                    content: '0',
-					attrs: {
-						id: 'score-1'
-					}
-                },
-                ' : ',
-                {
-                    tag: 'span',
-                    cls: ['text-danger'],
-                    content: '0',
-					attrs: {
-						id: 'score-2'
-					}
-                }
-            ]
-        },
-        {
-            tag: 'div',
-            attrs: {id: 'game', style: 'padding: 10px; background-color: red; border-radius: 10px' }
-        },
-        {
-        tag: 'div',
-        cls: ['modal', 'fade'],
-        attrs: {
-            id: 'staticBackdrop',
-            'data-bs-backdrop': 'static',
-            'data-bs-keyboard': 'false',
-            tabindex: '-1',
-            'aria-labelledby': 'staticBackdropLabel',
-            'aria-hidden': 'true'
-        },
-        content: {
-            tag: 'div',
-            cls: ['modal-dialog', 'modal-dialog-centered'],
-            content: {
-                tag: 'div',
-                cls: 'modal-content',
-                content: [
-                    {
-                        tag: 'div',
-                        cls: 'modal-header',
-                        content: {
-                            tag: 'h1',
-                            cls: ['modal-title', 'fs-5'],
-                            attrs: { id: 'staticBackdropLabel', style: 'margin: auto;' },
-                            content: 'Modal title',
-                        }
-                    },
-                    {
-                        tag: 'div',
-                        cls: 'modal-body',
-                        content: '...'
-                    },
-                    {
-                        tag: 'div',
-                        cls: 'modal-footer',
-                        content: [
-                            {
-                                tag: 'a',
-                                cls: ['btn', 'btn-secondary'],
-                                attrs: {
-                                    type: 'button',
-                                    'data-bs-dismiss': 'modal',
-                                    href: '/',
-                                    onclick: 'route(event)'
-                                },
-                                content: 'Back'
-                            },
-                            {
-                                tag: 'button',
-                                cls: ['btn', 'btn-primary', 'btn-tournament'],
-                                attrs: {
-                                    id: 'continue-tournament-pong',
-                                    type: 'button',
-                                    'data-bs-dismiss': 'modal',
-                                },
-                                content: 'Continue Tournament'
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-        }
-    ]
-};
-
-export const GamePageElement = templateEngine(game_page);
 
 // Add an event listener to update the nextGame class when GLOBAL changes
 window.addEventListener('load', () => {
@@ -128,3 +23,139 @@ window.addEventListener('click', (e) => {
         GLOBAL.isAnimate = true;
     }
 });
+
+
+export const GamePageElement = () => {
+    let page = {
+        tag: 'div',
+        cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-column'],
+        attrs: { style: 'margin-top: 50px;' },
+        content: [
+            {
+                tag: 'h1',
+                content: 'Content',
+                attrs: {
+                    id: 'players-name',
+                }
+            },
+            {
+                tag: 'h2',
+                content: [
+                    {
+                        tag: 'h1',
+                        content: 'Score',
+                        attrs: { 'data-translate': 'score'}
+                    },
+                    {
+                        tag: 'span',
+                        cls: ['text-primary'],
+                        content: '0',
+                        attrs: {
+                            id: 'score-1'
+                        }
+                    },
+                    ' : ',
+                    {
+                        tag: 'span',
+                        cls: ['text-danger'],
+                        content: '0',
+                        attrs: {
+                            id: 'score-2'
+                        }
+                    }
+                ]
+            },
+            {
+                tag: 'div',
+                attrs: {id: 'game', style: 'padding: 10px; background-color: red; border-radius: 10px' }
+            },
+            {
+                tag: 'div',
+                cls: ['modal', 'fade'],
+                attrs: {
+                    id: 'staticBackdrop',
+                    'data-bs-backdrop': 'static',
+                    'data-bs-keyboard': 'false',
+                    tabindex: '-1',
+                    'aria-labelledby': 'staticBackdropLabel',
+                    'aria-hidden': 'true'
+                },
+                content: {
+                    tag: 'div',
+                    cls: ['modal-dialog', 'modal-dialog-centered'],
+                    content: {
+                        tag: 'div',
+                        cls: 'modal-content',
+                        content: [
+                            {
+                                tag: 'div',
+                                cls: 'modal-header',
+                                content: {
+                                    tag: 'h1',
+                                    cls: ['modal-title', 'fs-5'],
+                                    attrs: { id: 'staticBackdropLabel', style: 'margin: auto;' },
+                                    content: 'Modal title',
+                                }
+                            },
+                            {
+                                tag: 'div',
+                                cls: 'modal-body',
+                                content: '...'
+                            },
+                            {
+                                tag: 'div',
+                                cls: 'modal-footer',
+                                content: [
+                                    {
+                                        tag: 'a',
+                                        cls: ['btn', 'btn-secondary'],
+                                        attrs: {
+                                            type: 'button',
+                                            'data-bs-dismiss': 'modal',
+                                            href: '/',
+                                            onclick: 'route(event)',
+                                            'data-translate': 'back',
+                                        },
+                                        content: 'Back'
+                                    },
+                                    {
+                                        tag: 'button',
+                                        cls: ['btn', 'btn-primary', 'btn-tournament'],
+                                        attrs: {
+                                            id: 'continue-tournament-pong',
+                                            type: 'button',
+                                            'data-bs-dismiss': 'modal',
+                                            'data-translate': 'continue_tournament',
+                                        },
+                                        content: 'Continue Tournament'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    };
+
+    page = templateEngine(page);
+    const mainPageElement = document.getElementById('main-page');
+    mainPageElement.appendChild(page);
+}
+
+
+export const appendGameSingle = () => {
+    const game =  document.getElementById('game');
+    game.appendChild(gamePlay);
+    GLOBAL.isAnimate = true;
+    GLOBAL.mode = 'single';
+    showNames();
+}
+
+export const appendGameMulti = () => {
+    const game =  document.getElementById('game');
+    game.appendChild(gamePlay);
+    GLOBAL.isAnimate = true;
+    GLOBAL.mode = 'multi';
+    showNames();
+}

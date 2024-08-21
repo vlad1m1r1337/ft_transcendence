@@ -12,126 +12,6 @@ window.addEventListener('load', () => {
 	document.addEventListener('GLOBAL_UPDATED', updateNextGameClass);
 });
 
-const page = {
-	tag: 'div',
-	attrs: {
-	  style: 'margin-top: 200px;',
-	  class: 'd-flex flex-column justify-content-center align-items-center'
-	},
-	content: [
-		{
-			tag: 'h1',
-			attrs: {
-				style: 'margin-bottom: 20px; margin-top: 20px;'
-			},
-			content: [
-				'Time - ',
-				{
-				tag: 'span',
-				attrs: {
-					id: 'clicker-time'
-				},
-				content: '3'
-				}
-			]
-		},
-		{
-			tag: 'h1',
-			attrs: {
-				style: 'margin-bottom: 20px;'
-			},
-			content: [
-			'Clicks - ',
-			{
-				tag: 'span',
-				attrs: {
-				id: 'clicker-clicks'
-				},
-				content: '0'
-			}
-			]
-		},
-		{
-			tag: 'div',
-			attrs: {
-			style: 'user-select: none;'
-			},
-			content: {
-			tag: 'div',
-			cls: ['click_icon'],
-			attrs: {
-				onclick: 'decreaseClicks()'
-			}
-			},
-		},
-		{
-			tag: 'div',
-			cls: ['modal', 'fade'],
-			attrs: {
-				id: 'staticClickerBackdrop',
-				'data-bs-backdrop': 'static',
-				'data-bs-keyboard': 'false',
-				tabindex: '-1',
-				'aria-labelledby': 'staticBackdropLabel',
-				'aria-hidden': 'true'
-			},
-			content: {
-				tag: 'div',
-				cls: ['modal-dialog', 'modal-dialog-centered'],
-				content: {
-					tag: 'div',
-					cls: 'modal-content',
-					content: [
-						{
-							tag: 'div',
-							cls: 'modal-header',
-							content: {
-								tag: 'h1',
-								cls: ['modal-title', 'fs-5'],
-								attrs: { id: 'staticBackdropClickerLabel' },
-								content: 'Modal title'
-							}
-						},
-						{
-							tag: 'div',
-							cls: 'modal-body',
-							attrs: {id: 'staticBackdropClickerBodyLabel'},
-							content: '...'
-						},
-						{
-							tag: 'div',
-							cls: 'modal-footer',
-							content: [
-								{
-									tag: 'a',
-									cls: ['btn', 'btn-secondary'],
-									attrs: {
-										type: 'button',
-										'data-bs-dismiss': 'modal',
-										href: '/',
-										onclick: 'route(event)'
-									},
-									content: 'Back'
-								},
-								{
-									tag: 'button',
-									cls: ['btn', 'btn-primary'],
-									attrs: {
-										id: 'continue-tournament-clicker',
-										type: 'button',
-										'data-bs-dismiss': 'modal',
-									},
-									content: 'Continue Tournament'
-								}
-							]
-						}
-					]
-				}
-			}
-			}
-	]
-};
-
 export default function resetClicker() {
 	const clicks = document.getElementById('clicker-clicks');
 	const time =  document.getElementById('clicker-time');
@@ -180,4 +60,127 @@ window.addEventListener('click', (e) => {
 
 window.decreaseClicks = decreaseClicks;
 
-export const ClickerSingle = templateEngine(page);
+export const ClickerSingle = () => {
+	const page = {
+		tag: 'div',
+		attrs: {
+			style: 'margin-top: 200px;',
+			class: 'd-flex flex-column justify-content-center align-items-center'
+		},
+		content: [
+			{
+				tag: 'h1',
+				attrs: {
+					style: 'margin-bottom: 20px; margin-top: 20px;'
+				},
+				content: [
+					'Time - ',
+					{
+						tag: 'span',
+						attrs: {
+							id: 'clicker-time'
+						},
+						content: '3'
+					}
+				]
+			},
+			{
+				tag: 'h1',
+				attrs: {
+					style: 'margin-bottom: 20px;'
+				},
+				content: [
+					'Clicks - ',
+					{
+						tag: 'span',
+						attrs: {
+							id: 'clicker-clicks'
+						},
+						content: '0'
+					}
+				]
+			},
+			{
+				tag: 'div',
+				attrs: {
+					style: 'user-select: none;'
+				},
+				content: {
+					tag: 'div',
+					cls: ['click_icon'],
+					attrs: {
+						onclick: 'decreaseClicks()'
+					}
+				},
+			},
+			{
+				tag: 'div',
+				cls: ['modal', 'fade'],
+				attrs: {
+					id: 'staticClickerBackdrop',
+					'data-bs-backdrop': 'static',
+					'data-bs-keyboard': 'false',
+					tabindex: '-1',
+					'aria-labelledby': 'staticBackdropLabel',
+					'aria-hidden': 'true'
+				},
+				content: {
+					tag: 'div',
+					cls: ['modal-dialog', 'modal-dialog-centered'],
+					content: {
+						tag: 'div',
+						cls: 'modal-content',
+						content: [
+							{
+								tag: 'div',
+								cls: 'modal-header',
+								content: {
+									tag: 'h1',
+									cls: ['modal-title', 'fs-5'],
+									attrs: { id: 'staticBackdropClickerLabel' },
+									content: 'Modal title'
+								}
+							},
+							{
+								tag: 'div',
+								cls: 'modal-body',
+								attrs: {id: 'staticBackdropClickerBodyLabel'},
+								content: '...'
+							},
+							{
+								tag: 'div',
+								cls: 'modal-footer',
+								content: [
+									{
+										tag: 'a',
+										cls: ['btn', 'btn-secondary'],
+										attrs: {
+											type: 'button',
+											'data-bs-dismiss': 'modal',
+											href: '/',
+											onclick: 'route(event)'
+										},
+										content: 'Back'
+									},
+									{
+										tag: 'button',
+										cls: ['btn', 'btn-primary'],
+										attrs: {
+											id: 'continue-tournament-clicker',
+											type: 'button',
+											'data-bs-dismiss': 'modal',
+										},
+										content: 'Continue Tournament'
+									}
+								]
+							}
+						]
+					}
+				}
+			}
+		]
+	};
+	const finPage =  templateEngine(page);
+	const mainPage = document.getElementById('main-page');
+	mainPage.appendChild(finPage);
+}
