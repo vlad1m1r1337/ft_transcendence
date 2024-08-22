@@ -57,6 +57,7 @@ const handleLocation = () => {
         case "/clicker/tournament":
             tournamentElement();
             GLOBAL.mode = 'tournament';
+            GLOBAL.clicker_players = {};
             nameClickerPlayers();
             break;
         case "/clicker":

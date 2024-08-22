@@ -1,5 +1,6 @@
 import templateEngine from "../engine.js";
 import {refreshMain} from "../utils.js";
+import {saveClick, winnerAndTurnButton} from "../helpers.js";
 
 const updateNextGameClass = () => {
 	const nextGameButton = document.getElementById('continue-tournament-clicker');
@@ -26,11 +27,11 @@ export default function resetClicker() {
 }
 
 function openModal() {
+	winnerAndTurnButton();
 	const getClicks = document.getElementById('clicker-clicks');
-	console.log(getClicks.textContent);
 	const clickerBody = document.getElementById('staticBackdropClickerBodyLabel');
 	clickerBody.textContent =  getClicks.textContent;
-	var myModal = new bootstrap.Modal(document.getElementById('staticClickerBackdrop'), {
+	let myModal = new bootstrap.Modal(document.getElementById('staticClickerBackdrop'), {
 		keyboard: false
 	});
 	myModal.show();
@@ -44,6 +45,7 @@ function countTime(time) {
 		counter_time--;
 			if (counter_time === 0) {
 				clearInterval(interval);
+				saveClick();
 				openModal();
 			}
 	}, 1000)
@@ -146,14 +148,14 @@ export const ClickerSingle = () => {
 								content: {
 									tag: 'h1',
 									cls: ['modal-title', 'fs-5'],
-									attrs: { id: 'staticBackdropClickerLabel' },
+									attrs: { id: 'staticBackdropClickerLabel', style: 'margin-left: auto; margin-right: auto;' },
 									content: ':)'
 								}
 							},
 							{
 								tag: 'div',
 								cls: 'modal-body',
-								attrs: {id: 'staticBackdropClickerBodyLabel'},
+								attrs: {id: 'staticBackdropClickerBodyLabel', style: 'margin-left: auto; margin-right: auto;'},
 								content: '...'
 							},
 							{

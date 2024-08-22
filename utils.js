@@ -13,7 +13,12 @@ function showNames() {
 
 
 function parsePlayers(players) {
-	return players.split(',').map((player) => player.trim()).filter((player) => player !== '');
+	const names =  players.split(',').map((player) => player.trim()).filter((player) => player !== '');
+	const obj = names.map((player) => {
+		return { name: player, score: -1 };
+	})
+	console.log(obj);
+	return obj;
 }
 
 function findKeyByValue(obj, value) {
