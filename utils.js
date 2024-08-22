@@ -4,8 +4,11 @@ function cutPath(path) {
 
 function showNames() {
 	const names = document.getElementById('players-name');
-
-	GLOBAL.mode === 'single' ? names.textContent = 'Player vs Computer' : names.textContent = 'Player 1 vs Player 2';
+	if (!names) { return; }
+	const language = localStorage.getItem('language');
+	GLOBAL.mode === 'single' ?
+		names.textContent = (language === 'en' ? 'Player vs Computer' : 'Игрок против Компа') :
+		names.textContent = (language === 'en' ? 'Player 1 vs Player 2' : 'Игрок 1 против Игрока 2');
 }
 
 

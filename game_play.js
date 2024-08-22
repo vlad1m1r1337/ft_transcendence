@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {player1Won, player2Won, singlePlayerLost, singlePlayerWon} from "./helpers.js";
 
 export let renderer = new THREE.WebGLRenderer();
 
@@ -342,7 +343,7 @@ function draw()
 	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
 	if (GLOBAL.mode === 'tournament') {
 		const names = document.getElementById('players-name');
-		names.textContent = `${GLOBAL.pong_players[0]} vs ${GLOBAL.pong_players[1]}`;
+		names.textContent = `${GLOBAL.pong_players[0]} x ${GLOBAL.pong_players[1]}`;
 	}
 	ballPhysics();
 	paddlePhysics();
@@ -730,29 +731,26 @@ function openModal() {
 }
 
 function showWinner() {
-	const header = document.getElementById('staticBackdropLabel');			console.log(header);
+	const header = document.getElementById('staticBackdropLabel');
+	const language = localStorage.getItem('language');
 	switch (GLOBAL.mode) {
 		case 'single':
 			if (score1 > score2) {
-				console.log('You won!');
-				header.textContent = 'You won!';
+				singlePlayerWon(language, header);
 			}
 			else {
-				console.log('Computer won!');
-				header.textContent = 'Computer won!';
+				singlePlayerLost(language, header);
 			}
 			break;
 		case 'tournament':
-			console.log(GLOBAL.pong_players[GLOBAL.pong_players.length - 1]);
-			header.textContent = `${GLOBAL.pong_players[GLOBAL.pong_players.length - 1]} won`;
+			header.textContent = `${GLOBAL.pong_players[GLOBAL.pong_players.length - 1]} ${language === 'en' ? 'won' : 'выиграл'}`;
 			break;
 		case 'multi':
-			console.log('Multiplayer');
 			if (score1 > score2) {
-				header.textContent = 'Player 1 won';
+				player1Won(language, header);
 			}
 			else {
-				header.textContent = 'Player 2 won';
+				player2Won(language, header);
 			}
 			break;
 	}

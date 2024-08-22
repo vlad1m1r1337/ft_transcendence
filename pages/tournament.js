@@ -9,7 +9,7 @@ export function appendGame() {
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
     }
-    mainPage.appendChild(GamePageElement);
+    GamePageElement();
     const game =  document.getElementById('game');
     game.appendChild(gamePlay);
     GLOBAL.isAnimate = true;

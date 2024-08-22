@@ -1,3 +1,5 @@
+import {showNames} from "./utils.js";
+
 const translations = {
     en: {
         transendence: "ft_transendence",
@@ -75,7 +77,9 @@ document.getElementById('flexRadioDefault1').addEventListener('change', function
     if (this.checked) {
         setLanguage('en');
     }
-    changeLanguage('en')
+    changeLanguage('en');
+
+    showNames();
 });
 
 document.getElementById('flexRadioDefault2').addEventListener('change', function() {
@@ -83,6 +87,8 @@ document.getElementById('flexRadioDefault2').addEventListener('change', function
         setLanguage('ru');
     }
     changeLanguage('ru');
+
+    showNames();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
