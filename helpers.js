@@ -54,6 +54,7 @@ export const findMostClicks = () => {
             winner = player;
         }
     });
+    document.getElementById('staticBackdropClickerBodyLabel').textContent = winner.score;
     header.textContent = `${winner.name} 🎉🎉🎉`;
 }
 

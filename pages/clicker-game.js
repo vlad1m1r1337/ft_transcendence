@@ -27,10 +27,10 @@ export default function resetClicker() {
 }
 
 function openModal() {
-	winnerAndTurnButton();
 	const getClicks = document.getElementById('clicker-clicks');
 	const clickerBody = document.getElementById('staticBackdropClickerBodyLabel');
 	clickerBody.textContent =  getClicks.textContent;
+	winnerAndTurnButton();
 	let myModal = new bootstrap.Modal(document.getElementById('staticClickerBackdrop'), {
 		keyboard: false
 	});

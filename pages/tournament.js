@@ -44,10 +44,10 @@ const handleClickClicker = () => {
     const button = document.getElementById('submit-tournament');
     const players = document.getElementById('floatingTextarea2');
     const playersArr = parsePlayers(players.value);
-    // if (playersArr.length < 2) {
-    //     alert('Invalid');
-    //     return;
-    // }
+    if (playersArr.length < 2) {
+        alert('Invalid');
+        return;
+    }
     GLOBAL.clicker_players = parsePlayers(players.value);
     players.value = '';
     refreshMain();
