@@ -9,10 +9,8 @@ const updateNextGameClass = () => {
 };
 
 
-// Add an event listener to update the nextGame class when GLOBAL changes
 window.addEventListener('load', () => {
     updateNextGameClass();
-    // Assuming GLOBAL is updated through some mechanism, you can add a custom event listener
     document.addEventListener('GLOBAL_UPDATED', updateNextGameClass);
 });
 
@@ -24,8 +22,10 @@ window.addEventListener('click', (e) => {
     }
 });
 
-
 export const GamePageElement = () => {
+    const language = localStorage.getItem('language');
+    const transObj = translations[language];
+
     let page = {
         tag: 'div',
         cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-column'],
@@ -43,7 +43,7 @@ export const GamePageElement = () => {
                 content: [
                     {
                         tag: 'h1',
-                        content: 'Score',
+                        content: transObj.score,
                         attrs: { 'data-translate': 'score'}
                     },
                     {
@@ -94,7 +94,7 @@ export const GamePageElement = () => {
                                     tag: 'h1',
                                     cls: ['modal-title', 'fs-5'],
                                     attrs: { id: 'staticBackdropLabel', style: 'margin: auto;' },
-                                    content: 'Modal title',
+                                    content: ':)',
                                 }
                             },
                             {
@@ -116,7 +116,7 @@ export const GamePageElement = () => {
                                             onclick: 'route(event)',
                                             'data-translate': 'back',
                                         },
-                                        content: 'Back'
+                                        content: transObj.back
                                     },
                                     {
                                         tag: 'button',
@@ -127,7 +127,7 @@ export const GamePageElement = () => {
                                             'data-bs-dismiss': 'modal',
                                             'data-translate': 'continue_tournament',
                                         },
-                                        content: 'Continue Tournament'
+                                        content: transObj.continue_tournament
                                     }
                                 ]
                             }

@@ -1,5 +1,5 @@
 import templateEngine from '../engine.js'
-import { parsePlayers } from '../utils.js';
+import {parsePlayers, refreshMain} from '../utils.js';
 import {GamePageElement} from "./game.js";
 import {gamePlay} from "../game_play.js";
 import resetClicker, {ClickerSingle} from "./clicker-game.js";
@@ -50,11 +50,8 @@ const handleClickClicker = () => {
     }
     GLOBAL.clicker_players = parsePlayers(players.value);
     players.value = '';
-    const mainPage = document.getElementById('main-page');
-    while (mainPage.firstChild) {
-        mainPage.removeChild(mainPage.firstChild);
-    }
-    mainPage.appendChild(ClickerSingle);
+    refreshMain();
+    ClickerSingle();
     resetClicker();
     button.removeEventListener('click', handleClickClicker);
 }

@@ -4,8 +4,8 @@ export const MainPageElement = () => {
     const language = localStorage.getItem('language');
     const transObj = translations[language];
 
-    console.log('language', language);
-    console.log('transObj', transObj);
+    // console.log('language', language);
+    // console.log('transObj', transObj);
     let page = {
         tag: 'div',
         cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-wrap'],

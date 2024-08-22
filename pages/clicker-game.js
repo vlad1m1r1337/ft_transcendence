@@ -1,9 +1,15 @@
 import templateEngine from "../engine.js";
+import {refreshMain} from "../utils.js";
 
 const updateNextGameClass = () => {
 	const nextGameButton = document.getElementById('continue-tournament-clicker');
 	if (nextGameButton) {
-		nextGameButton.classList.toggle('disabled', GLOBAL.clicker_players.length > 1);//&& GLOBAL?.pong_players?.length > 1)
+		if (GLOBAL.mode === 'tournament') {
+			nextGameButton.classList.remove('disabled');
+		}
+		else {
+			nextGameButton.classList.add('disabled');
+		}
 	}
 };
 window.addEventListener('load', () => {
@@ -46,14 +52,14 @@ function countTime(time) {
 function decreaseClicks() {
 	const clicks = document.getElementById('clicker-clicks');
 	clicks.textContent = Number(clicks.textContent) + 1;
-	if (clicks.textContent === '1') {countTime(3)};
+	if (clicks.textContent === '1') {countTime(3)}
 }
 
 window.addEventListener('click', (e) => {
 	const nextGameButton = document.getElementById('continue-tournament-clicker');
 	if (e.target === nextGameButton) {
-		const mainPage = document.getElementById('main-page');
-		mainPage.appendChild(ClickerSingle);
+		refreshMain();
+		ClickerSingle();
 		resetClicker();
 	}
 });
@@ -61,6 +67,9 @@ window.addEventListener('click', (e) => {
 window.decreaseClicks = decreaseClicks;
 
 export const ClickerSingle = () => {
+	const language = localStorage.getItem('language');
+	const transObj = translations[language];
+
 	const page = {
 		tag: 'div',
 		attrs: {
@@ -74,7 +83,7 @@ export const ClickerSingle = () => {
 					style: 'margin-bottom: 20px; margin-top: 20px;'
 				},
 				content: [
-					'Time - ',
+					{ tag: 'span', attrs: {'data-translate': 'time'}, content: transObj.time },
 					{
 						tag: 'span',
 						attrs: {
@@ -90,7 +99,7 @@ export const ClickerSingle = () => {
 					style: 'margin-bottom: 20px;'
 				},
 				content: [
-					'Clicks - ',
+					{ tag: 'span', attrs: {'data-translate': 'amount_cliks'}, content: transObj.amount_cliks },
 					{
 						tag: 'span',
 						attrs: {
@@ -138,7 +147,7 @@ export const ClickerSingle = () => {
 									tag: 'h1',
 									cls: ['modal-title', 'fs-5'],
 									attrs: { id: 'staticBackdropClickerLabel' },
-									content: 'Modal title'
+									content: ':)'
 								}
 							},
 							{
@@ -158,9 +167,10 @@ export const ClickerSingle = () => {
 											type: 'button',
 											'data-bs-dismiss': 'modal',
 											href: '/',
-											onclick: 'route(event)'
+											onclick: 'route(event)',
+											'data-translate': 'back',
 										},
-										content: 'Back'
+										content: transObj.back
 									},
 									{
 										tag: 'button',
@@ -169,8 +179,9 @@ export const ClickerSingle = () => {
 											id: 'continue-tournament-clicker',
 											type: 'button',
 											'data-bs-dismiss': 'modal',
+											'data-translate': 'continue_tournament',
 										},
-										content: 'Continue Tournament'
+										content: transObj.continue_tournament
 									}
 								]
 							}

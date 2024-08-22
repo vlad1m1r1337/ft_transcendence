@@ -18,7 +18,9 @@ const translations = {
         enter_players: 'Enter the players names through comma',
         submit: 'Submit',
         to_home: 'To Home',
-        not_found: '404 - Not Found'
+        not_found: '404 - Not Found',
+        time: 'Time - ',
+        amount_cliks: "Cliks - ",
     },
     ru: {
         transendence: "трансуха",
@@ -39,7 +41,9 @@ const translations = {
         enter_players: 'Введите имена игроков через запятую.',
         submit: 'Отправить',
         to_home: 'Домой',
-        not_found: '404 - Не найдено'
+        not_found: '404 - Не найдено',
+        time: 'Время - ',
+        amount_cliks: "Кликов - ",
     },
 };
 

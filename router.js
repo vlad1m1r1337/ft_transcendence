@@ -24,9 +24,9 @@ const route = (event) => {
 const handleLocation = () => {
     const path = window.location.pathname;
     console.log('path', path);
-    const mainPage = document.getElementById('main-page');
     GLOBAL.isAnimate = false;
     GLOBAL.newGame = true;
+    const mainPage = document.getElementById('main-page');
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
     }

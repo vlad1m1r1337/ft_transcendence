@@ -22,5 +22,12 @@ function findKeyByValue(obj, value) {
 	return null;
 }
 
-export { cutPath, showNames, parsePlayers, findKeyByValue };
+const refreshMain = () => {
+	const mainPage = document.getElementById('main-page');
+	while (mainPage.firstChild) {
+		mainPage.removeChild(mainPage.firstChild);
+	}
+};
+
+export { cutPath, showNames, parsePlayers, findKeyByValue, refreshMain };
 
