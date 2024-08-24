@@ -754,3 +754,10 @@ function showWinner() {
 
 export const gamePlay = renderer.domElement;
 export default setup;
+
+window.addEventListener('resize', () => {
+	if (window.innerWidth < 768) {
+		renderer.setSize(window.innerWidth * 0.9, 360);
+		camera.updateProjectionMatrix();
+	}
+});
