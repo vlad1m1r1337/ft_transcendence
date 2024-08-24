@@ -22,14 +22,10 @@ let ballSpeed = 2;
 // переменные с очками каждого игрока
 let score1 = 0, score2 = 0;
 // игра завершится, когда кто-то наберет 7 очков
-let maxScore = 1;
+// let maxScore = 1;
 
 // set opponent reflexes (0 - easiest, 1 - hardest)
 let difficulty = 0.2;
-
-// ------------------------------------ //
-// --------- ИГРОВЫЕ ФУНКЦИИ --------- //
-// ----------------------------------- //
 
 function setup()
 {
@@ -681,7 +677,7 @@ let bounceTime = 0;
 function matchScoreCheck()
 {
 	// если выиграл игрок
-	if (score1 >= maxScore) {
+	if (score1 >= GLOBAL.maxScore) {
 		GLOBAL.isAnimate = false;
 		resetScore();
 
@@ -693,7 +689,7 @@ function matchScoreCheck()
 		openModal();
 	}
 	// если выиграл компьютер
-	else if (score2 >= maxScore)
+	else if (score2 >= GLOBAL.maxScore)
 	{
 		GLOBAL.isAnimate = false;
 		resetScore();

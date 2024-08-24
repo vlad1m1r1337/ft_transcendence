@@ -1,4 +1,6 @@
 const GLOBAL = new Proxy({
+	maxScore: 1,
+	maxTime: 3, // Initial property for the maximum time
 	newGame: true, // Initial property indicating a new game
 	mode: '', // Initial property for the game mode
 	isAnimate: false, // Initial property indicating animation state

@@ -23,7 +23,7 @@ export default function resetClicker() {
 	const clicks = document.getElementById('clicker-clicks');
 	const time =  document.getElementById('clicker-time');
 	clicks.textContent = 0;
-	time.textContent = 3;
+	time.textContent = GLOBAL.maxTime;
 }
 
 function openModal() {
@@ -54,7 +54,7 @@ function countTime(time) {
 function decreaseClicks() {
 	const clicks = document.getElementById('clicker-clicks');
 	clicks.textContent = Number(clicks.textContent) + 1;
-	if (clicks.textContent === '1') {countTime(3)}
+	if (clicks.textContent === '1') {countTime(GLOBAL.maxTime)}
 }
 
 window.addEventListener('click', (e) => {
@@ -91,7 +91,7 @@ export const ClickerSingle = () => {
 						attrs: {
 							id: 'clicker-time'
 						},
-						content: '3'
+						content: GLOBAL.maxTime
 					}
 				]
 			},

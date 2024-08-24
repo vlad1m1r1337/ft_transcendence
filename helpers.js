@@ -59,6 +59,7 @@ export const findMostClicks = () => {
 }
 
 export const winnerAndTurnButton = () => {
+    if (GLOBAL.mode === 'single') { return; }
     const allClicks = GLOBAL.clicker_players.find((player) => player.score === -1);
     console.log(allClicks);
     if (!allClicks) {
