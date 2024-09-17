@@ -23,6 +23,8 @@ const translations = {
         not_found: '404 - Not Found',
         time: 'Time - ',
         amount_cliks: "Cliks - ",
+        max_score: 'Max score',
+        max_time: 'Max time',
     },
     ru: {
         transendence: "трансуха",
@@ -46,6 +48,8 @@ const translations = {
         not_found: '404 - Не найдено',
         time: 'Время - ',
         amount_cliks: "Кликов - ",
+        max_score: 'Максимальный счет',
+        max_time: 'Максимальное время',
     },
 };
 
@@ -56,12 +60,11 @@ function setLanguage(lang) {
 
 function updateText() {
     const lang = localStorage.getItem('language') || 'en';
-    console.log(lang);
 }
 
 window.setLanguage = setLanguage;
 window.translations = translations;
-
+console.log(translations);
 document.addEventListener('DOMContentLoaded', updateText);
 
 

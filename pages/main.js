@@ -4,8 +4,6 @@ export const MainPageElement = () => {
     const language = localStorage.getItem('language');
     const transObj = translations[language];
 
-    // console.log('language', language);
-    // console.log('transObj', transObj);
     let page = {
         tag: 'div',
         cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-wrap'],
@@ -25,7 +23,7 @@ export const MainPageElement = () => {
                     { tag: 'span', cls: ['button__line', 'button__line--right'] },
                     { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
                     { tag: 'span', cls: ['button__line', 'button__line--left'] },
-                    { tag: "a", content: transObj.pingpong, attrs: { 'data-translate': "pingpong", href: '/ping-pong', onclick: 'route(event)', style: 'text-decoration: none' } }
+                    { tag: "a", content: transObj?.pingpong, attrs: { 'data-translate': "pingpong", href: '/ping-pong', onclick: 'route(event)', style: 'text-decoration: none' } }
                 ]
             },
             {

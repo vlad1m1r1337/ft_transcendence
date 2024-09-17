@@ -23,7 +23,6 @@ const route = (event) => {
 
 const handleLocation = () => {
     const path = window.location.pathname;
-    console.log('path', path);
     GLOBAL.isAnimate = false;
     GLOBAL.newGame = true;
     const mainPage = document.getElementById('main-page');
