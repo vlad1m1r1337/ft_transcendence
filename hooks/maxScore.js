@@ -1,6 +1,6 @@
-const green = document.querySelector("#score-1");
-const pillar = document.querySelector("#score-3");
-const cherry = document.querySelector("#score-5");
+const green = document.querySelector("#score1");
+const pillar = document.querySelector("#score3");
+const cherry = document.querySelector("#score5");
 
 green.addEventListener("click", () => {
     GLOBAL.maxScore = 1
