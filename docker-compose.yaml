@@ -19,3 +19,22 @@ services:
       - "3000:3000"
     volumes:
       - ./front:/app
+
+        #elasticsearch:
+        #image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+        #environment:
+        #- "discovery.type=single-node"
+        #ports:
+        #- "9200:9200"
+        #logstash:
+        #image: docker.elastic.co/logstash/logstash:7.17.10
+        #volumes:
+        #- ./elk/logstash/conflogstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        #ports:
+        #- "5044:5044"
+        #kibana:
+        #image: docker.elastic.co/kibana/kibana:7.17.10
+        #ports:
+        #- "5601:5601"
+        #environment:
+        #- "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
