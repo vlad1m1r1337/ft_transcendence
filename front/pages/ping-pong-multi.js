@@ -3,7 +3,7 @@ import menu_template from "../constants.js";
 import {findKeyByValue} from "../utils.js";
 
 function createDomEl() {
-    const language = localStorage.getItem('language');
+    const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
 
     const elements = [

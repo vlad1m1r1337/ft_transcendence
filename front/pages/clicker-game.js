@@ -69,7 +69,7 @@ window.addEventListener('click', (e) => {
 window.decreaseClicks = decreaseClicks;
 
 export const ClickerSingle = () => {
-	const language = localStorage.getItem('language');
+	const language = localStorage.getItem('language') || 'en';
 	const transObj = translations[language];
 
 	const page = {

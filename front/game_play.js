@@ -728,7 +728,7 @@ function openModal() {
 
 function showWinner() {
 	const header = document.getElementById('staticBackdropLabel');
-	const language = localStorage.getItem('language');
+	const language = localStorage.getItem('language') || 'en';
 	switch (GLOBAL.mode) {
 		case 'single':
 			if (score1 > score2) {

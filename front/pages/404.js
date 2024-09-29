@@ -1,7 +1,7 @@
 import templateEngine from "../engine.js";
 
 export const NotFound = () => {
-    const language = localStorage.getItem('language');
+    const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
 
     const page = {

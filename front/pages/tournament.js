@@ -57,7 +57,7 @@ const handleClickClicker = () => {
 }
 
 export const tournamentElement = () => {
-    const language = localStorage.getItem('language');
+    const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
 
     const template = {

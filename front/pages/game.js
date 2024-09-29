@@ -23,7 +23,7 @@ window.addEventListener('click', (e) => {
 });
 
 export const GamePageElement = () => {
-    const language = localStorage.getItem('language');
+    const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
 
     let page = {

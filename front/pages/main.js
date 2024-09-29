@@ -1,8 +1,8 @@
 import templateEngine from "../engine.js";
 
-export const MainPageElement = () => {
-    const language = localStorage.getItem('language');
-    const transObj = translations[language];
+export const MainPageElement = async () => {
+    const language = localStorage.getItem('language') || 'en';
+    const transObj = await translations[language];
 
     let page = {
         tag: 'div',
@@ -19,11 +19,20 @@ export const MainPageElement = () => {
                     onclick: 'route(event)'
                 },
                 content: [
-                    { tag: 'span', cls: ['button__line', 'button__line--top'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--right'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--left'] },
-                    { tag: "a", content: transObj?.pingpong, attrs: { 'data-translate': "pingpong", href: '/ping-pong', onclick: 'route(event)', style: 'text-decoration: none' } }
+                    {tag: 'span', cls: ['button__line', 'button__line--top']},
+                    {tag: 'span', cls: ['button__line', 'button__line--right']},
+                    {tag: 'span', cls: ['button__line', 'button__line--bottom']},
+                    {tag: 'span', cls: ['button__line', 'button__line--left']},
+                    {
+                        tag: "a",
+                        content: transObj?.pingpong,
+                        attrs: {
+                            'data-translate': "pingpong",
+                            href: '/ping-pong',
+                            onclick: 'route(event)',
+                            style: 'text-decoration: none'
+                        }
+                    }
                 ]
             },
             {
@@ -34,11 +43,20 @@ export const MainPageElement = () => {
                     onclick: 'route(event)'
                 },
                 content: [
-                    { tag: 'span', cls: ['button__line', 'button__line--top'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--right'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
-                    { tag: 'span', cls: ['button__line', 'button__line--left'] },
-                    { tag: "a", content: transObj?.clicker, attrs: { 'data-translate': "clicker", href: '/clicker', onclick: 'route(event)', style: 'text-decoration: none' } }
+                    {tag: 'span', cls: ['button__line', 'button__line--top']},
+                    {tag: 'span', cls: ['button__line', 'button__line--right']},
+                    {tag: 'span', cls: ['button__line', 'button__line--bottom']},
+                    {tag: 'span', cls: ['button__line', 'button__line--left']},
+                    {
+                        tag: "a",
+                        content: transObj?.clicker,
+                        attrs: {
+                            'data-translate': "clicker",
+                            href: '/clicker',
+                            onclick: 'route(event)',
+                            style: 'text-decoration: none'
+                        }
+                    }
 
                 ]
             }

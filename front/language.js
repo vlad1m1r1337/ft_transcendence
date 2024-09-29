@@ -64,7 +64,6 @@ function updateText() {
 
 window.setLanguage = setLanguage;
 window.translations = translations;
-console.log(translations);
 document.addEventListener('DOMContentLoaded', updateText);
 
 
