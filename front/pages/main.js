@@ -38,7 +38,7 @@ export const MainPageElement = () => {
                     { tag: 'span', cls: ['button__line', 'button__line--right'] },
                     { tag: 'span', cls: ['button__line', 'button__line--bottom'] },
                     { tag: 'span', cls: ['button__line', 'button__line--left'] },
-                    { tag: "a", content: transObj.clicker, attrs: { 'data-translate': "clicker", href: '/clicker', onclick: 'route(event)', style: 'text-decoration: none' } }
+                    { tag: "a", content: transObj?.clicker, attrs: { 'data-translate': "clicker", href: '/clicker', onclick: 'route(event)', style: 'text-decoration: none' } }
 
                 ]
             }
