@@ -9,7 +9,7 @@ RED="\033[0;31m"
 
 # 'TCP:front:3000': This specifies the target address and port to connect to
 
-until socat - TCP:front:3000; do
+until socat - TCP:front:5000; do
     echo -e "${RED}Front isn't up...waiting..."
     sleep 4
 done

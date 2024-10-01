@@ -7,4 +7,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["npx", "serve"]
+CMD ["npx", "serve", "-p", "5000"]

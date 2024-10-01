@@ -1,4 +1,5 @@
 services:
+  # webserver
   nginx:
     container_name: nginx
     build:
@@ -13,16 +14,20 @@ services:
       - front
     restart: on-failure:3
 
+  # frontend
   front:
     container_name: front
     build:
       context: ./front
     ports:
-      - "3000:3000"
+      - "5000:5000"
     volumes:
       - ./front:/app
 
+
+  # ELK stack
   elasticsearch:
+    container_name: elastic
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     environment:
       - "discovery.type=single-node"
@@ -34,9 +39,26 @@ services:
         #- ./elk/logstash/conflogstash.conf:/usr/share/logstash/pipeline/logstash.conf
         #ports:
         #- "5044:5044"
-        #kibana:
-        #image: docker.elastic.co/kibana/kibana:7.17.10
-        #ports:
-        #- "5601:5601"
-        #environment:
-        #- "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.17.10
+    ports:
+      - "5601:5601"
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+
+
+  # Monitoring
+  prometheus:
+    container_name: prom
+    image: prom/prometheus:v2.42.0
+    ports:
+      - "9090:9090"
+        #volumes:
+        #- ./monitoring/configs/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.3.6
+    ports:
+      - "3000:3000"
