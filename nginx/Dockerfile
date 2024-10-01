@@ -1,7 +1,11 @@
-FROM alpine:3.18
+FROM	alpine:3.18
 
-RUN apk update && apk upgrade && apk add --no-cache nginx
+RUN	apk update && \
+	apk upgrade && \
+	apk add --no-cache nginx tini socat curl
 
-EXPOSE 443
+COPY 	check.sh .
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE	443
+
+ENTRYPOINT ["/sbin/tini", "--", "./check.sh"]
