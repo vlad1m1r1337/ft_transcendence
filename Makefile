@@ -14,6 +14,7 @@ BLUE = \033[0;34m
 
 build:
 	@echo "${PURPLE}*Building ${PROJECT} environment...*${RESET}"
+	@bash tools/make_dirs.sh
 	@${COMPOSE} up -d --build
 
 up:
