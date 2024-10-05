@@ -10,9 +10,22 @@ services:
     volumes:
       - ./nginx/tools:/etc/nginx/ssl/
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - nginx-volume:/var/log/nginx/
     depends_on:
       - front
+    networks:
+      - back-tier
+      - front-tier
     restart: on-failure:3
+
+  nginx-exporter:
+    container_name: nginx-exporter
+    image: nginx/nginx-prometheus-exporter
+    command: --nginx.scrape-uri=http://nginx/status
+    ports:
+      - "9113:9113"
+    networks:
+      - back-tier
 
   # frontend
   front:
@@ -23,6 +36,9 @@ services:
       - "5000:5000"
     volumes:
       - ./front:/app
+    networks:
+      - back-tier
+      - front-tier
 
 
   # ELK stack
@@ -33,12 +49,19 @@ services:
       - "discovery.type=single-node"
     ports:
       - "9200:9200"
-        #logstash:
-        #image: docker.elastic.co/logstash/logstash:7.17.10
-        #volumes:
-        #- ./elk/logstash/conflogstash.conf:/usr/share/logstash/pipeline/logstash.conf
-        #ports:
-        #- "5044:5044"
+    networks:
+      - back-tier
+      - logging-tier
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.17.10
+    volumes:
+      - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "5044:5044"
+    networks:
+      - back-tier
+      - logging-tier
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.10
@@ -46,6 +69,9 @@ services:
       - "5601:5601"
     environment:
       - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    networks:
+      - front-tier
+      - logging-tier
 
 
   # Monitoring
@@ -54,10 +80,39 @@ services:
     image: prom/prometheus:v2.42.0
     ports:
       - "9090:9090"
-        #volumes:
-        #- ./monitoring/configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    volumes:
+      - ./monitoring/prometheus/configs/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - back-tier
+      - monitoring-tier
   grafana:
     container_name: grafana
     image: grafana/grafana:9.3.6
     ports:
       - "3000:3000"
+    networks:
+      - front-tier
+      - monitoring-tier
+
+volumes:
+  db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/ft_transcendence/data/postgresql
+
+  nginx-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/ft_transcendence/data/nginx
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+  logging-tier:
+    driver: bridge
+  monitoring-tier:
+    driver: bridge
