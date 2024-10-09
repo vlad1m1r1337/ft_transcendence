@@ -17,7 +17,7 @@
 + vgribkov - Frontend
 + tgalyaut - DevOps
 
-# trans-client
+# Frontend
 
 ### index.html
 
