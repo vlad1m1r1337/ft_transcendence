@@ -6,7 +6,7 @@ export let renderer = new THREE.WebGLRenderer();
 let scene, camera, pointLight, spotLight;
 
 // определяем размер сцены
-let fieldWidth = 400, fieldHeight = 200;
+let fieldWidth = 460, fieldHeight = 360;
 
 // paddle letiables
 let paddleWidth, paddleHeight, paddleDepth, paddleQuality;
@@ -44,8 +44,8 @@ function setup()
 function createScene()
 {
 	// set the scene size
-	let WIDTH = 640,
-	  HEIGHT = 360;
+	let WIDTH = 480,
+	  HEIGHT = 650;
 
 	// set some camera attributes
 	let VIEW_ANGLE = 50,
@@ -75,8 +75,6 @@ function createScene()
 	// запуск рендера
 	renderer.setSize(WIDTH, HEIGHT);
 
-	// attach the render-supplied DOM element
-	// console.log('inside', renderer.domElement);
 	// set up the playing surface plane 
 	let planeWidth = fieldWidth,
 		planeHeight = fieldHeight,
@@ -106,20 +104,13 @@ function createScene()
 		{
 		  color: 0x111111
 		});
-	// создаем материала столбов
-	let pillarMaterial =
-	  new THREE.MeshLambertMaterial(
-		{
-		  color: 0x534d0d
-		});
 	// create the ground's material
 	let groundMaterial =
 	  new THREE.MeshLambertMaterial(
 		{
 		  color: 0x888888
 		});
-		
-		
+
 	// create the playing surface plane
 	let plane = new THREE.Mesh(
 
@@ -231,72 +222,25 @@ function createScene()
 	// lift paddles over playing surface
 	paddle1.position.z = paddleDepth;
 	paddle2.position.z = paddleDepth;
-		
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the left
-	for (let i = 0; i < 5; i++)
-	{
-		let backdrop = new THREE.Mesh(
-		
-		  new THREE.BoxGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
 
-		  pillarMaterial);
-		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = 230;
-		backdrop.position.z = -30;		
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		  
-		scene.add(backdrop);	
-	}
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the right
-	for (let i = 0; i < 5; i++)
-	{
-		let backdrop = new THREE.Mesh(
-
-		  new THREE.BoxGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
-
-		  pillarMaterial);
-		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = -230;
-		backdrop.position.z = -30;
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		
-		scene.add(backdrop);	
-	}
-	
 	// finally we finish by adding a ground plane
 	// to show off pretty shadows
 	let ground = new THREE.Mesh(
 
-	  new THREE.BoxGeometry( 
-	  1000, 
-	  1000, 
-	  3, 
-	  1, 
+	  new THREE.BoxGeometry(
+	  1000,
+	  1000,
+	  3,
+	  1,
 	  1,
 	  1 ),
 
 	  groundMaterial);
     // set ground to arbitrary z position to best show off shadowing
 	ground.position.z = -132;
-	ground.receiveShadow = true;	
-	scene.add(ground);		
-		
+	ground.receiveShadow = true;
+	scene.add(ground);
+
 	// создаем точечный свет
 	pointLight =
 	  new THREE.PointLight(0xF8D898);
@@ -309,16 +253,16 @@ function createScene()
 	pointLight.distance = 10000;
 	// добавляем на сцену
 	scene.add(pointLight);
-		
+
 	// добавляем прожектор для создания теней
     spotLight = new THREE.SpotLight(0xF8D898);
     spotLight.position.set(0, 0, 460);
     spotLight.intensity = 1.5;
     spotLight.castShadow = true;
     scene.add(spotLight);
-	
+
 	// Включаем рендеринг теней
-	renderer.shadowMap.enabled = true;		
+	renderer.shadowMap.enabled = true;
 }
 
 function draw()
@@ -427,10 +371,6 @@ function opponentPaddleMovement()
 			paddle2.position.y -= paddleSpeed;
 		}
 	}
-	// Мы возвращаем значение функции Lerp обратно в 1
-	// это нужно, потому что мы растягиваем дощечку в нескольких случаях:
-	// когда дощечка прикасается к стенкам стола или ударяется о шарик.
-	// Так мы гарантируем, что она всегда вернется к своему исходному размеру
 	paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;	
 }
 
@@ -536,17 +476,13 @@ function playerPaddleMovement()
 	// движение влево
 	if (Key.isDown(Key.A))		
 	{
-		// двигаем дощечку пока она не коснется стенки
 		if (paddle1.position.y < fieldHeight * 0.45)
 		{
 			paddle1DirY = paddleSpeed * 0.5;
 		}
-		// в противном случае мы прекращаем движение и растягиваем
-		// дощечку чтобы показать, что дальше двигаться нельзя
 		else
 		{
 			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
 		}
 	}	
 	// движение вправо
@@ -557,15 +493,11 @@ function playerPaddleMovement()
 		{
 			paddle1DirY = -paddleSpeed * 0.5;
 		}
-		// в противном случае мы прекращаем движение и растягиваем
-		// дощечку чтобы показать, что дальше двигаться нельзя
 		else
 		{
 			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
 		}
 	}
-	// мы не можем дальше двигаться
 	else
 	{
 		// прекращаем движение
@@ -585,13 +517,13 @@ function cameraPhysics()
 	spotLight.position.y = ball.position.y * 2;
 	
 	// move to behind the player's paddle
-	camera.position.x = paddle1.position.x - 100;
-	camera.position.y += (paddle1.position.y - camera.position.y) * 0.05;
-	camera.position.z = paddle1.position.z + 100 + 0.04 * (-ball.position.x + paddle1.position.x);
+	camera.position.x = paddle1.position.x + 200;
+	camera.position.y = 0;
+	camera.position.z = 600;
 	
 	// rotate to face towards the opponent
-	camera.rotation.x = -0.01 * (ball.position.y) * Math.PI/180;
-	camera.rotation.y = -60 * Math.PI/180;
+	camera.rotation.x = 0;
+	camera.rotation.y = -0;
 	camera.rotation.z = -90 * Math.PI/180;
 }
 
@@ -614,8 +546,6 @@ function paddlePhysics()
 			// если шар движется к игроку (отрицательное направление)
 			if (ballDirX < 0)
 			{
-				// растягиваем дощечку, чтобы показать столкновение
-				paddle1.scale.y = 15;
 				// меняем направление движения чтобы создать эффект отскакивания шара
 				ballDirX = -ballDirX;
 				// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
@@ -640,8 +570,6 @@ function paddlePhysics()
 			// и если шар направляется к сопернику (положительное направление)
 			if (ballDirX > 0)
 			{
-				// растягиваем дощечку, чтобы показать столкновение
-				paddle2.scale.y = 15;	
 				// меняем направление движения чтобы создать эффект отскакивания шара
 				ballDirX = -ballDirX;
 				// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
@@ -667,8 +595,6 @@ function resetBall(loser)
 	{
 		ballDirX = 1;
 	}
-	
-	// шар двигается в положительном направлении по оси Y (налево от камеры)
 	ballDirY = 1;
 }
 

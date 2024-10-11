@@ -67,7 +67,7 @@ export const GamePageElement = () => {
             },
             {
                 tag: 'div',
-                attrs: {id: 'game', style: 'padding: 10px; background-color: red; border-radius: 10px' }
+                attrs: {id: 'game', style: 'padding: 10px; background-color: red; border-radius: 10px; transform: rotate(90deg);' }
             },
             {
                 tag: 'div',
