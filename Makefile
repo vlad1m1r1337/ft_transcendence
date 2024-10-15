@@ -27,6 +27,7 @@ down:
 
 re: down
 	@echo "${BLUE}* Rebuilding ${PROJECT}...* ${RESET}"
+	@bash tools/make_dirs.sh
 	@${COMPOSE} up -d --build
 
 clean: down
@@ -40,12 +41,15 @@ fclean:
 	fi
 	@docker system prune --all --force --volumes
 	@docker network prune --force
-	@docker volume prune --force
 	@if [ "$$(docker ps -qa)" != "" ]; then \
 		docker rm $$(docker ps -qa); \
 	fi
 	@if [ "$$(docker images -qa)" != "" ]; then \
 		docker rmi $$(docker images -qa); \
 	fi
+	@if [ "$$(docker volume ls -q)" != "" ]; then \
+		docker volume rm $$(docker volume ls -q) \
+	fi
+	@rm -rf ./data
 
 .PHONY: build up down re clean fclean
