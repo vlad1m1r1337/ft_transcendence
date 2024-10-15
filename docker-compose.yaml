@@ -18,16 +18,7 @@ services:
       - front-tier
     restart: on-failure:3
 
-  nginx-exporter:
-    container_name: nginx-exporter
-    image: nginx/nginx-prometheus-exporter
-    command: --nginx.scrape-uri=http://nginx/status
-    ports:
-      - "9113:9113"
-    networks:
-      - back-tier
-
-  # frontend
+    # frontend
   front:
     container_name: front
     build:
@@ -82,6 +73,10 @@ services:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus/configs/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /home/${USER}/ft_transcendence/data/prometheus:/prometheus
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - back-tier
       - monitoring-tier
@@ -90,9 +85,31 @@ services:
     image: grafana/grafana:9.3.6
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-volume:/var/lib/grafana
     networks:
       - front-tier
       - monitoring-tier
+
+  nginx-exporter:
+    container_name: nginx-exporter
+    image: nginx/nginx-prometheus-exporter
+    command: --nginx.scrape-uri=http://localhost:8080/nginx_status
+    ports:
+      - "9113:9113"
+    networks:
+      - back-tier
+      - monitoring-tier
+
+  node-exporter:
+    container_name: node-exporter
+    image: quay.io/prometheus/node-exporter:latest
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave' 
 
 volumes:
   db-volume:
@@ -106,6 +123,18 @@ volumes:
       o: bind
       type: none
       device: /home/${USER}/ft_transcendence/data/nginx
+
+  prometheus-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/ft_transcendence/data/prometheus
+
+  grafana-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/ft_transcendence/data/grafana
 
 networks:
   front-tier:
