@@ -1,14 +1,10 @@
 import templateEngine from "../engine.js";
 import menu_template from "../constants.js";
-import {findKeyByValue} from "../utils.js";
+import { findKeyByValue } from "../utils.js";
 
 export const PingPongMain = () => {
     const language = localStorage.getItem('language') || 'en';
-    console.log('Available translations:', translations);
-    console.log('Current language:', language);
     const transObj = translations[language];
-    console.log('Translations for current language:', transObj);
-    console.log('transObj', transObj);
     const elements = [
         { name: transObj.singleplayer, href: '/ping-pong-single' },
         { name: transObj.multiplayer, href: '/ping-pong-multi' },
