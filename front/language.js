@@ -25,6 +25,10 @@ const translations = {
         amount_cliks: "Cliks - ",
         max_score: 'Max score',
         max_time: 'Max time',
+        computer_won: 'Computer won!',
+        player_won: 'Player won!',
+        player_one_won: 'Player 1 won!',
+        player_two_won: 'Player 2 won!',
     },
     ru: {
         transendence: "трансуха",
@@ -50,6 +54,10 @@ const translations = {
         amount_cliks: "Кликов - ",
         max_score: 'Максимальный счет',
         max_time: 'Максимальное время',
+        computer_won: 'Компьютер выиграл!',
+        player_won: 'Игрок выиграл!',
+        player_one_won: 'Игрок 1 выиграл!',
+        player_two_won: 'Игрок 2 выиграл!',
     },
 };
 
