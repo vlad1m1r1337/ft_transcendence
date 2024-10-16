@@ -48,8 +48,10 @@ fclean:
 		docker rmi $$(docker images -qa); \
 	fi
 	@if [ "$$(docker volume ls -q)" != "" ]; then \
-		docker volume rm $$(docker volume ls -q) \
+		docker volume rm $$(docker volume ls -q); \
 	fi
-	@rm -rf ./data
+	@sudo rm -rf ./data/nginx
+	@sudo rm -rf ./data/prometheus
+	@sudo rm -rf ./data/postgresql
 
 .PHONY: build up down re clean fclean

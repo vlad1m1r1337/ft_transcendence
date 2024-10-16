@@ -1,25 +1,25 @@
 #!/bin/sh
 
 
-if [ ! -d "/home/${USER}/ft_transcendence/data" ]; then
-	mkdir -p /home/${USER}/ft_transcendence/data
+if [ ! -d "${PWD}/data" ]; then
+	mkdir -p ${PWD}/data
 fi
 
-if [ -d "/home/${USER}/ft_transcendence/data" ]; then
-	if [ ! -d "/home/${USER}/ft_transcendence/data/nginx" ]; then
-		mkdir -p ~/ft_transcendence/data/nginx
-		chmod 777 ~/ft_transcendence/data/nginx
+if [ -d "${PWD}/data" ]; then
+	if [ ! -d "${PWD}/data/nginx" ]; then
+		mkdir -p ${PWD}/data/nginx
+		chmod 777 ${PWD}/data/nginx
 	fi
-	if [ ! -d "/home/${USER}/ft_trnscendence/data/postgresql" ]; then
-		mkdir -p ~/ft_transcendence/data/postgresql
-		chmod 777 ~/ft_transcendence/data/postgresql
+	if [ ! -d "${PWD}/data/postgresql" ]; then
+		mkdir ${PWD}/data/postgresql
+		chmod 777 ${PWD}/data/postgresql
 	fi
-	if [ ! -d "/home/${USER}/ft_transcendence/data/prometheus" ]; then
-		mkdir -p ~/ft_transcendence/data/prometheus
-		chmod 777 ~/ft_transcendence/data/prometheus
+	if [ ! -d "${PWD}/data/prometheus" ]; then
+		mkdir -p ${PWD}/data/prometheus
+		chmod 777 ${PWD}/data/prometheus
 	fi
-	if [ ! -d "/home/${USER}/ft_transcendence/data/grafana" ]; then
-		mkdir -p ~/ft_transcendence/data/grafana
-		chmod 777 ~/ft_transcendence/data/grafana
+	if [ ! -d "${PWD}/data/grafana" ]; then
+		mkdir -p ${PWD}/data/grafana
+		chmod 777 ${PWD}/data/grafana
 	fi
 fi
