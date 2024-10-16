@@ -8,11 +8,14 @@
 + ```port:9090``` - Prometheus
 + ```port:5601``` - ElasticSearch
 + ```port:9200``` - Kibana
++ ```port:5044``` - Logstash
++ ```port:9113``` - Nginx-exporter
++ ```port:9100``` - Node-exporter
 
 ## Вся инфа прописана в docker-compose.yaml файле. Позже добавлю доку и docker-compose будет ещё меняться.
 ## Текущий общий объём используемого дискового пространства после поднятия контейнеров > 2GB.
 
-## TEAM ```***```
+## TEAM ```🔜SOON🔜```
 + adavitav - Backend
 + vgribkov - Frontend
 + tgalyaut - DevOps
