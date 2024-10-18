@@ -114,11 +114,11 @@ services:
       - '/:/host:ro,rslave' 
   alertmanager:
     container_name: alerting
-    image: prom/alertmanager
+    image: prom/alertmanager:v0.27.0
     ports:
       - "9093:9093"
     volumes:
-      - ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./monitoring/alertmanager/config/:/etc/alertmanager/
 
 volumes:
   db-volume:
