@@ -12,24 +12,19 @@ let paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 15;
 let ball, paddle1, paddle2;
 let ballDirX = 1, ballDirY = 1;
 
-let ballSpeed = 2;
-
+let ballSpeed = 4;
 
 let score1 = 0, score2 = 0;
 let difficulty = 0.2;
 
 function setup()
 {
-	ballSpeed = 4;
-
-	score1 = 0;
-	score2 = 0;
-	
-	// set up all the 3D objects in the scene	
+	// set up all the 3D objects in the scene
 	createScene();
 	// and let's get cracking!
 	draw();
 }
+
 function createScene()
 {
 	// set the scene size
@@ -106,7 +101,7 @@ function createScene()
 	  planeMaterial);
 	  
 	scene.add(plane);
-	plane.receiveShadow = true;	
+	plane.receiveShadow = true;
 	
 	let table = new THREE.Mesh(
 
@@ -150,7 +145,7 @@ function createScene()
 
 	// // добавляем сферу на сцену
 	scene.add(ball);
-	
+
 	ball.position.x = 0;
 	ball.position.y = 0;
 	// set ball above the table surface
@@ -258,7 +253,6 @@ function draw()
 
 function ballPhysics()
 {
-
 	// если шар двигается слева (со стороны игрока)
 	if (ball.position.x <= -fieldWidth/2)
 	{	
@@ -426,7 +420,6 @@ let Key = {
   }
 };
 
-
 // Управление дощечками при помощи клавиатуры
 function playerPaddleMovement()
 {
@@ -574,7 +567,7 @@ function resetBall(loser)
 // проверяем, закончился ли матч (набрано требуемое количество очков)
 function matchScoreCheck()
 {
-	GLOBAL.maxScore = 1000;
+	// GLOBAL.maxScore = 1000;
 	// если выиграл игрок
 	if (score1 >= GLOBAL.maxScore) {
 		GLOBAL.isAnimate = false;
@@ -601,8 +594,6 @@ function matchScoreCheck()
 		openModal();
 	}
 }
-
-setup();
 
 function resetScore() {
 	const score1 = document.getElementById('score-1');
@@ -651,6 +642,8 @@ function showWinner() {
 }
 
 export const gamePlay = renderer.domElement;
+
+setup();
 
 window.addEventListener('resize', () => {
 	if (window.innerWidth < 768) {
