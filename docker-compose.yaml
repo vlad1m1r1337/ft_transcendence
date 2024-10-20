@@ -71,15 +71,15 @@ services:
   # Monitoring
   prometheus:
     container_name: prom
-    image: prom/prometheus:v2.42.0
+    build:
+      context: ./monitoring/prometheus
+      dockerfile: Dockerfile
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus/configs/prometheus.yml:/etc/prometheus/prometheus.yml
       - ${PWD}/data/prometheus:/prometheus
     command:
       - '--web.enable-lifecycle'
-      - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - back-tier
       - monitoring-tier
@@ -118,7 +118,9 @@ services:
     ports:
       - "9093:9093"
     volumes:
-      - ./monitoring/alertmanager/config/:/etc/alertmanager/
+      - ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoring-tier
 
 volumes:
   db-volume:

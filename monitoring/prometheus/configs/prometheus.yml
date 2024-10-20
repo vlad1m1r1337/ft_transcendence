@@ -20,4 +20,10 @@ scrape_configs:
         # - targets: ['localhost:5000']
         
 rule_files:
-  - 'alert_rules.yml'
+  - 'prometheus_rules.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - 'alerting:9093'
