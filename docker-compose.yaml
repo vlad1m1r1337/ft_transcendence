@@ -60,6 +60,9 @@ services:
       - "5601:5601"
     environment:
       - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+      - "SERVER_BASE_PATH=/kibana"
+    volumes:
+      - ./tools/kibana.yml:/usr/share/kibana/config/kibana.yml
     networks:
       - front-tier
       - logging-tier
@@ -68,15 +71,15 @@ services:
   # Monitoring
   prometheus:
     container_name: prom
-    image: prom/prometheus:v2.42.0
+    build:
+      context: ./monitoring/prometheus
+      dockerfile: Dockerfile
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus/configs/prometheus.yml:/etc/prometheus/prometheus.yml
       - ${PWD}/data/prometheus:/prometheus
     command:
       - '--web.enable-lifecycle'
-      - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - back-tier
       - monitoring-tier
@@ -87,6 +90,7 @@ services:
       - "3000:3000"
     volumes:
       - grafana-volume:/var/lib/grafana
+      - ./tools/grafana.ini:/etc/grafana/grafana.ini
     networks:
       - front-tier
       - monitoring-tier
@@ -99,7 +103,6 @@ services:
     networks:
       - back-tier
       - monitoring-tier
-
   node-exporter:
     container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
@@ -109,6 +112,15 @@ services:
     pid: host
     volumes:
       - '/:/host:ro,rslave' 
+  alertmanager:
+    container_name: alerting
+    image: prom/alertmanager:v0.27.0
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoring-tier
 
 volumes:
   db-volume:

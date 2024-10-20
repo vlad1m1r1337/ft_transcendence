@@ -3,4 +3,4 @@
 *lock-.json
 .idea
 .vscode
-data
+monitoring/alertmanager/config/alertmanager.yml
