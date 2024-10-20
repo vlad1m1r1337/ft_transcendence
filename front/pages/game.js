@@ -42,11 +42,6 @@ export const GamePageElement = () => {
                 tag: 'h2',
                 content: [
                     {
-                        tag: 'h1',
-                        content: transObj.score,
-                        attrs: { 'data-translate': 'score'}
-                    },
-                    {
                         tag: 'span',
                         cls: ['text-primary'],
                         content: '0',
@@ -67,7 +62,7 @@ export const GamePageElement = () => {
             },
             {
                 tag: 'div',
-                attrs: {id: 'game', style: 'padding: 10px; background-color: red; border-radius: 10px' }
+                attrs: {id: 'game', style: 'margin: 30px; border: 10px solid red; border-radius: 10px;' }
             },
             {
                 tag: 'div',

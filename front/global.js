@@ -12,4 +12,4 @@ const GLOBAL = new Proxy({
 	}
 });
 
-window.GLOBAL = GLOBAL; // Assign the proxied GLOBAL object to window.GLOBAL
+window.GLOBAL = GLOBAL;

@@ -1,38 +1,27 @@
 import * as THREE from 'three';
-import {player1Won, player2Won, singlePlayerLost, singlePlayerWon} from "./helpers.js";
 
 export let renderer = new THREE.WebGLRenderer();
 
 let scene, camera, pointLight, spotLight;
 
-// определяем размер сцены
-let fieldWidth = 400, fieldHeight = 200;
+let fieldWidth = 650, fieldHeight = 480;
 
-// paddle letiables
 let paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-let paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
+let paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 15;
 
-// ball letiables
 let ball, paddle1, paddle2;
 let ballDirX = 1, ballDirY = 1;
 
-// let ballSpeed = 2;
 let ballSpeed = 2;
 
-// переменные с очками каждого игрока
-let score1 = 0, score2 = 0;
-// игра завершится, когда кто-то наберет 7 очков
-// let maxScore = 1;
 
-// set opponent reflexes (0 - easiest, 1 - hardest)
+let score1 = 0, score2 = 0;
 let difficulty = 0.2;
 
 function setup()
 {
-	ballSpeed = 2;
-	// Обновляем блок, содержащий сообщение о необходимых для победы очках
+	ballSpeed = 4;
 
-	// обнуляем значения переменных с очками каждого игрока
 	score1 = 0;
 	score2 = 0;
 	
@@ -44,14 +33,14 @@ function setup()
 function createScene()
 {
 	// set the scene size
-	let WIDTH = 640,
-	  HEIGHT = 360;
+	let WIDTH = 650,
+	  HEIGHT = 480;
 
 	// set some camera attributes
-	let VIEW_ANGLE = 50,
+	let VIEW_ANGLE = 45,
 	  ASPECT = WIDTH / HEIGHT,
 	  NEAR = 0.1,
-	  FAR = 10000;
+	  FAR = 1000;
 
 	// создаем WebGL рендер, камеру и сцену
 	
@@ -66,7 +55,7 @@ function createScene()
 
 	// добавляем камеру на сцену
 	scene.add(camera);
-	
+
 	// устанавливаем начальную позицию камеры
 	// если этого не сделать, то может
 	// испортится рендеринг теней
@@ -75,8 +64,6 @@ function createScene()
 	// запуск рендера
 	renderer.setSize(WIDTH, HEIGHT);
 
-	// attach the render-supplied DOM element
-	// console.log('inside', renderer.domElement);
 	// set up the playing surface plane 
 	let planeWidth = fieldWidth,
 		planeHeight = fieldHeight,
@@ -106,20 +93,7 @@ function createScene()
 		{
 		  color: 0x111111
 		});
-	// создаем материала столбов
-	let pillarMaterial =
-	  new THREE.MeshLambertMaterial(
-		{
-		  color: 0x534d0d
-		});
-	// create the ground's material
-	let groundMaterial =
-	  new THREE.MeshLambertMaterial(
-		{
-		  color: 0x888888
-		});
-		
-		
+
 	// create the playing surface plane
 	let plane = new THREE.Mesh(
 
@@ -147,7 +121,7 @@ function createScene()
 	  tableMaterial);
 	table.position.z = -51;	// we sink the table into the ground by 50 units. The extra 1 is so the plane can be seen
 	scene.add(table);
-	table.receiveShadow = true;	
+	table.receiveShadow = true;
 		
 	// устанавливаем переменные для 
 	// сферы: radius, segments, rings
@@ -186,7 +160,7 @@ function createScene()
 	
 	// // set up the paddle lets
 	paddleWidth = 10;
-	paddleHeight = 30;
+	paddleHeight = 60;
 	paddleDepth = 10;
 	paddleQuality = 1;
 		
@@ -231,72 +205,7 @@ function createScene()
 	// lift paddles over playing surface
 	paddle1.position.z = paddleDepth;
 	paddle2.position.z = paddleDepth;
-		
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the left
-	for (let i = 0; i < 5; i++)
-	{
-		let backdrop = new THREE.Mesh(
-		
-		  new THREE.BoxGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
 
-		  pillarMaterial);
-		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = 230;
-		backdrop.position.z = -30;		
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		  
-		scene.add(backdrop);	
-	}
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the right
-	for (let i = 0; i < 5; i++)
-	{
-		let backdrop = new THREE.Mesh(
-
-		  new THREE.BoxGeometry( 
-		  30, 
-		  30, 
-		  300, 
-		  1, 
-		  1,
-		  1 ),
-
-		  pillarMaterial);
-		  
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = -230;
-		backdrop.position.z = -30;
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;		
-		scene.add(backdrop);	
-	}
-	
-	// finally we finish by adding a ground plane
-	// to show off pretty shadows
-	let ground = new THREE.Mesh(
-
-	  new THREE.BoxGeometry( 
-	  1000, 
-	  1000, 
-	  3, 
-	  1, 
-	  1,
-	  1 ),
-
-	  groundMaterial);
-    // set ground to arbitrary z position to best show off shadowing
-	ground.position.z = -132;
-	ground.receiveShadow = true;	
-	scene.add(ground);		
-		
 	// создаем точечный свет
 	pointLight =
 	  new THREE.PointLight(0xF8D898);
@@ -309,16 +218,16 @@ function createScene()
 	pointLight.distance = 10000;
 	// добавляем на сцену
 	scene.add(pointLight);
-		
+
 	// добавляем прожектор для создания теней
     spotLight = new THREE.SpotLight(0xF8D898);
     spotLight.position.set(0, 0, 460);
     spotLight.intensity = 1.5;
     spotLight.castShadow = true;
     scene.add(spotLight);
-	
+
 	// Включаем рендеринг теней
-	renderer.shadowMap.enabled = true;		
+	renderer.shadowMap.enabled = true;
 }
 
 function draw()
@@ -339,7 +248,7 @@ function draw()
 	GLOBAL.mode === 'single' ?	opponentPaddleMovement() : player2PaddleMovement();
 	if (GLOBAL.mode === 'tournament') {
 		const names = document.getElementById('players-name');
-		names.textContent = `${GLOBAL.pong_players[0]} x ${GLOBAL.pong_players[1]}`;
+		names.textContent = `${GLOBAL.pong_players[0].name} x ${GLOBAL.pong_players[1].name}`;
 	}
 	ballPhysics();
 	paddlePhysics();
@@ -427,19 +336,14 @@ function opponentPaddleMovement()
 			paddle2.position.y -= paddleSpeed;
 		}
 	}
-	// Мы возвращаем значение функции Lerp обратно в 1
-	// это нужно, потому что мы растягиваем дощечку в нескольких случаях:
-	// когда дощечка прикасается к стенкам стола или ударяется о шарик.
-	// Так мы гарантируем, что она всегда вернется к своему исходному размеру
 	paddle2.scale.y += (1 - paddle2.scale.y) * 0.2;	
 }
 
 let KeyOP = {
 	_pressed: {},
 
-	LEFT: 37,
-	RIGHT: 39,
-	SPACE: 32,
+	DOWN: 38,
+	UP: 40,
 
 	isDown: function(keyCode) {
 		return this._pressed[keyCode];
@@ -456,7 +360,7 @@ let KeyOP = {
 
 function player2PaddleMovement() {
 		// движение влево
-		if (KeyOP.isDown(KeyOP.LEFT))		
+		if (KeyOP.isDown(KeyOP.DOWN))
 			{
 				// двигаем дощечку пока она не коснется стенки
 				if (paddle2.position.y < fieldHeight * 0.45)
@@ -468,11 +372,10 @@ function player2PaddleMovement() {
 				else
 				{
 					paddle2DirY = 0;
-					paddle2.scale.z += (10 - paddle2.scale.z) * 0.2;
 				}
 			}	
 			// движение вправо
-			else if (KeyOP.isDown(KeyOP.RIGHT))
+			else if (KeyOP.isDown(KeyOP.UP))
 			{
 				// двигаем дощечку пока она не коснется стенки
 				if (paddle2.position.y > -fieldHeight * 0.45)
@@ -484,7 +387,6 @@ function player2PaddleMovement() {
 				else
 				{
 					paddle2DirY = 0;
-					paddle2.scale.z += (10 - paddle2.scale.z) * 0.2;
 				}
 			}
 			// мы не можем дальше двигаться
@@ -499,22 +401,17 @@ function player2PaddleMovement() {
 			paddle2.position.y += paddle2DirY;
 }
 
+window.addEventListener('keyup', function(event) { Key.onKeyup(event); });
+window.addEventListener('keydown', function(event) { Key.onKeydown(event); });
 
-
-window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
-window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
-
-window.addEventListener('keyup', function(event) { KeyOP.onKeyup(event); }, false);
-window.addEventListener('keydown', function(event) { KeyOP.onKeydown(event); }, false);
+window.addEventListener('keyup', function(event) { KeyOP.onKeyup(event); });
+window.addEventListener('keydown', function(event) { KeyOP.onKeydown(event); });
 
 let Key = {
   _pressed: {},
 
-  A: 65,
   W: 87,
-  D: 68,
   S: 83,
-  SPACE: 32,
   
   isDown: function(keyCode) {
     return this._pressed[keyCode];
@@ -534,38 +431,30 @@ let Key = {
 function playerPaddleMovement()
 {
 	// движение влево
-	if (Key.isDown(Key.A))		
+	if (Key.isDown(Key.W))
 	{
-		// двигаем дощечку пока она не коснется стенки
 		if (paddle1.position.y < fieldHeight * 0.45)
 		{
 			paddle1DirY = paddleSpeed * 0.5;
 		}
-		// в противном случае мы прекращаем движение и растягиваем
-		// дощечку чтобы показать, что дальше двигаться нельзя
 		else
 		{
 			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
 		}
 	}	
 	// движение вправо
-	else if (Key.isDown(Key.D))
+	else if (Key.isDown(Key.S))
 	{
 		// двигаем дощечку пока она не коснется стенки
 		if (paddle1.position.y > -fieldHeight * 0.45)
 		{
 			paddle1DirY = -paddleSpeed * 0.5;
 		}
-		// в противном случае мы прекращаем движение и растягиваем
-		// дощечку чтобы показать, что дальше двигаться нельзя
 		else
 		{
 			paddle1DirY = 0;
-			paddle1.scale.z += (10 - paddle1.scale.z) * 0.2;
 		}
 	}
-	// мы не можем дальше двигаться
 	else
 	{
 		// прекращаем движение
@@ -585,14 +474,14 @@ function cameraPhysics()
 	spotLight.position.y = ball.position.y * 2;
 	
 	// move to behind the player's paddle
-	camera.position.x = paddle1.position.x - 100;
-	camera.position.y += (paddle1.position.y - camera.position.y) * 0.05;
-	camera.position.z = paddle1.position.z + 100 + 0.04 * (-ball.position.x + paddle1.position.x);
+	camera.position.x = 0;
+	camera.position.y = 0;
+	camera.position.z = 600;
 	
 	// rotate to face towards the opponent
-	camera.rotation.x = -0.01 * (ball.position.y) * Math.PI/180;
-	camera.rotation.y = -60 * Math.PI/180;
-	camera.rotation.z = -90 * Math.PI/180;
+	camera.rotation.x = 0;
+	camera.rotation.y = 0;
+	camera.rotation.z = 0;
 }
 
 // Отскакивания шара от дощечки
@@ -607,6 +496,12 @@ function paddlePhysics()
 	if (ball.position.x <= paddle1.position.x + paddleWidth
 	&&  ball.position.x >= paddle1.position.x)
 	{
+		if(ball.position.y <= -fieldHeight/2) {
+			ball.position.y += 50;
+		}
+		else if(ball.position.y >= fieldHeight/2) {
+			ball.position.y -= 50;
+		}
 		// если у шара одинаковые координаты с дощечкой № 1 на плоскости Y
 		if (ball.position.y <= paddle1.position.y + paddleHeight/2
 		&&  ball.position.y >= paddle1.position.y - paddleHeight/2)
@@ -614,12 +509,11 @@ function paddlePhysics()
 			// если шар движется к игроку (отрицательное направление)
 			if (ballDirX < 0)
 			{
-				// растягиваем дощечку, чтобы показать столкновение
-				paddle1.scale.y = 15;
 				// меняем направление движения чтобы создать эффект отскакивания шара
 				ballDirX = -ballDirX;
 				// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
 				ballDirY -= paddle1DirY * 0.7;
+				// ballDirY += (Math.random() * 10);
 			}
 		}
 	}
@@ -633,6 +527,14 @@ function paddlePhysics()
 	if (ball.position.x <= paddle2.position.x + paddleWidth
 	&&  ball.position.x >= paddle2.position.x)
 	{
+		if(ball.position.y <= -fieldHeight/2) {
+			ballDirX *= -1;
+			ball.position.y += 50;
+		}
+		else if(ball.position.y >= fieldHeight/2) {
+			ballDirX *= -1;
+			ball.position.y -= 50;
+		}
 		// и если шар направляется к игроку (отрицательное направление)
 		if (ball.position.y <= paddle2.position.y + paddleHeight/2
 		&&  ball.position.y >= paddle2.position.y - paddleHeight/2)
@@ -640,8 +542,6 @@ function paddlePhysics()
 			// и если шар направляется к сопернику (положительное направление)
 			if (ballDirX > 0)
 			{
-				// растягиваем дощечку, чтобы показать столкновение
-				paddle2.scale.y = 15;	
 				// меняем направление движения чтобы создать эффект отскакивания шара
 				ballDirX = -ballDirX;
 				// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
@@ -656,9 +556,9 @@ function resetBall(loser)
 	// размещаем шар в центре стола
 	ball.position.x = 0;
 	ball.position.y = 0;
-	
+	// ball.position.y = 245;
 	// если игрок проиграл, отправляем шар компьютеру
-	if (loser == 1)
+	if (loser === 1)
 	{
 		ballDirX = -1;
 	}
@@ -667,15 +567,14 @@ function resetBall(loser)
 	{
 		ballDirX = 1;
 	}
-	
-	// шар двигается в положительном направлении по оси Y (налево от камеры)
 	ballDirY = 1;
+	// ballDirY = 0;
 }
 
-let bounceTime = 0;
 // проверяем, закончился ли матч (набрано требуемое количество очков)
 function matchScoreCheck()
 {
+	GLOBAL.maxScore = 1000;
 	// если выиграл игрок
 	if (score1 >= GLOBAL.maxScore) {
 		GLOBAL.isAnimate = false;
@@ -692,7 +591,7 @@ function matchScoreCheck()
 	else if (score2 >= GLOBAL.maxScore)
 	{
 		GLOBAL.isAnimate = false;
-		resetScore();
+		// resetScore();
 
 		if (GLOBAL.mode === 'tournament') {
 			GLOBAL.pong_players = GLOBAL.pong_players.slice(1);
@@ -723,7 +622,6 @@ function openModal() {
 	});
 	myModal.show();
 	showWinner();
-
 }
 
 function showWinner() {
@@ -732,28 +630,27 @@ function showWinner() {
 	switch (GLOBAL.mode) {
 		case 'single':
 			if (score1 > score2) {
-				singlePlayerWon(language, header);
+				header.textContent = translations[language].player_won;
 			}
 			else {
-				singlePlayerLost(language, header);
+				header.textContent = translations[language].computer_won;
 			}
 			break;
 		case 'tournament':
-			header.textContent = `${GLOBAL.pong_players[GLOBAL.pong_players.length - 1]} ${language === 'en' ? 'won' : 'выиграл'}`;
+			header.textContent = `${GLOBAL.pong_players.at(-1).name} ${language === 'en' ? 'won' : 'выиграл'}`;
 			break;
 		case 'multi':
 			if (score1 > score2) {
-				player1Won(language, header);
+				header.textContent = translations[language].player_one_won;
 			}
 			else {
-				player2Won(language, header);
+				header.textContent = translations[language].player_two_won;
 			}
 			break;
 	}
 }
 
 export const gamePlay = renderer.domElement;
-export default setup;
 
 window.addEventListener('resize', () => {
 	if (window.innerWidth < 768) {

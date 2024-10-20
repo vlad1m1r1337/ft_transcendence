@@ -6,7 +6,7 @@ const menu_template = {
 		tag: 'div',
 		cls: ['btn-group-vertical'],
 		attrs: {
-			style: 'min-width: 250px; height: 100px; gap:10px',
+			style: 'min-width: 250px; height: 100%; gap:10px',
 			role: 'group',
 			'aria-label': 'Vertical button group'
 		},
