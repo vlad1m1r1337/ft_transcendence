@@ -140,7 +140,7 @@ export const GamePageElement = () => {
 
 export const appendGameSingle = () => {
     const game =  document.getElementById('game');
-    game.appendChild(gamePlay);
+    game.appendChild(gamePlay.renderer.domElement);
     GLOBAL.isAnimate = true;
     GLOBAL.mode = 'single';
     showNames();
@@ -148,7 +148,7 @@ export const appendGameSingle = () => {
 
 export const appendGameMulti = () => {
     const game =  document.getElementById('game');
-    game.appendChild(gamePlay);
+    game.appendChild(gamePlay.renderer.domElement);
     GLOBAL.isAnimate = true;
     GLOBAL.mode = 'multi';
     showNames();
