@@ -72,8 +72,9 @@ class Game {
 	}
 
 	resetBall(loser) {
+		const num = Math.random();
 		this.ball.resetPosition();
-		this.ball.setDirection(loser === 1 ? -1 : 1, 1);
+		this.ball.setDirection(loser === 1 ? 1 : -1, Math.random() * 2 - 1);
 	}
 
 	ballPhysics() {
@@ -84,7 +85,7 @@ class Game {
 			this.addScore(2);
 			// обновляем таблицу с результатами
 			// устанавливаем новый шар в центр стола
-			this.resetBall(2);
+			this.resetBall(0);
 			// проверяем, закончился ли матч (набрано требуемое количество очков)
 			this.matchScoreCheck();
 		}
@@ -215,11 +216,10 @@ class Game {
 
 	matchScoreCheck()
 	{
-		// GLOBAL.maxScore = 1000;
+		GLOBAL.maxScore = 1000;
 		// если выиграл игрок
 		if (this.score1 >= GLOBAL.maxScore) {
 			GLOBAL.isAnimate = false;
-			// resetScore();
 
 			if (GLOBAL.mode === 'tournament') {
 				const winner = GLOBAL.pong_players.shift();
@@ -232,7 +232,6 @@ class Game {
 		else if (this.score2 >= GLOBAL.maxScore)
 		{
 			GLOBAL.isAnimate = false;
-			// resetScore();
 
 			if (GLOBAL.mode === 'tournament') {
 				GLOBAL.pong_players = GLOBAL.pong_players.slice(1);
