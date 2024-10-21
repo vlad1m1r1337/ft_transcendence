@@ -31,13 +31,39 @@ services:
       - back-tier
       - front-tier
 
+  postgres:
+    image: bitnami/postgresql:latest
+    container_name: postgres
+    restart: always
+    environment:
+      - "POSTGRES_PASSWORD=admin123"
+      - "POSTGRES_USER=admin"
+      - "POSTGRES_DB=MatchHistory"
+    volumes:
+      - postgres-volume:/bitnami/postgresql
+    networks:
+      - back-tier
+    ports:
+      - "5432:5432"
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://localhost:12201
+        tag: "postgresql"
+    links:
+      - logstash:logstash
 
   # ELK stack
   elasticsearch:
     container_name: elastic
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.22
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     environment:
       - "discovery.type=single-node"
+      - "xpack.security.enabled: true"
+      - "xpack.security.authc.api_key.enabled: true"
+        #- "xpack.security.enabled=false"
+        #- "http.host=0.0.0.0"
+        #- "transport.host=127.0.0.1"
     ports:
       - "9200:9200"
     networks:
@@ -46,13 +72,21 @@ services:
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.17.10
+    environment:
+      - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
     volumes:
       - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
       - "5044:5044"
+      - "9600:9600"
+      - "6000:6000"
+      - "12201:12201/udp"
     networks:
       - back-tier
       - logging-tier
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic
+    depends_on:
+      - elasticsearch
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.10
@@ -66,7 +100,8 @@ services:
     networks:
       - front-tier
       - logging-tier
-
+    depends_on:
+      - elasticsearch
 
   # Monitoring
   prometheus:
@@ -80,6 +115,7 @@ services:
       - ${PWD}/data/prometheus:/prometheus
     command:
       - '--web.enable-lifecycle'
+      - '--storage.tsdb.retention.time=30d'
     networks:
       - back-tier
       - monitoring-tier
@@ -91,6 +127,9 @@ services:
     volumes:
       - grafana-volume:/var/lib/grafana
       - ./tools/grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      - "GF_SECURITY_ADMIN_USER=admin"
+      - "GF_SECURITY_ADMIN_PASSWORD=admin123"
     networks:
       - front-tier
       - monitoring-tier
@@ -146,6 +185,12 @@ volumes:
       o: bind
       type: none
       device: ${PWD}/data/grafana
+
+  postgres-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/data/postgres
 
 networks:
   front-tier:
