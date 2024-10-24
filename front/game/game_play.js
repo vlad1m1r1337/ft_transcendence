@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
 import {win, lose, champ} from "../utils.js";
 
-export let renderer = new THREE.WebGLRenderer();
-
 class Game {
 	constructor() {
 		this.renderer = new THREE.WebGLRenderer();
@@ -17,9 +15,8 @@ class Game {
 		this.ballSpeed = 4;
 		this.score1 = 0;
 		this.score2 = 0;
-		this.difficulty = 0.02;
-		this.paddle1 = new Paddle(-this.fieldWidth / 2 + 10, 60, 10, 1, 0x1B32C0);
-		this.paddle2 = new Paddle(this.fieldWidth / 2 - 10, 60, 10, 1, 0xFF4045);
+		this.paddle1 = new Paddle(-this.fieldWidth / 2 + 10, 60, 10, 1, 0x1B32C0, this);
+		this.paddle2 = new Paddle(this.fieldWidth / 2 - 10, 60, 10, 1, 0xFF4045, this);
 		this.ball = new Ball(5, 6, 6, 0xD43001);
 		this.keyHandler = new KeyHandler();
 		this.setup();
@@ -117,10 +114,10 @@ class Game {
 		this.ball.mesh.position.y += this.ball.direction.y * this.ballSpeed;
 
 		// ограничиваем скорость шарика чтобы он не летал как сумасшедший
-		if (this.ball.direction.y > this.ballSpeed * 2) {
-			this.ball.direction.y = this.ballSpeed * 2;
-		} else if (this.ball.direction.y < -this.ballSpeed * 2) {
-			this.ball.direction.y = -this.ballSpeed * 2;
+		if (this.ball.direction.y > this.ballSpeed * 0.8) {
+			this.ball.direction.y = this.ballSpeed * 0.8;
+		} else if (this.ball.direction.y < -this.ballSpeed * 0.8) {
+			this.ball.direction.y = -this.ballSpeed * 0.8;
 		}
 	}
 
@@ -189,25 +186,16 @@ class Game {
 	}
 
 	opponentPaddleMovement() {
-		// применяем функцию Lerp к шару на плоскости Y
-		let paddle2DirY = (this.ball.mesh.position.y - this.paddle2.mesh.position.y) * this.difficulty;
+		const predictedY = this.predictBallPosition();
+		let paddle2DirY = predictedY - this.paddle2.mesh.position.y;
 
-		// если функция Lerp вернет значение, которое больше скорости движения дощечки, мы ограничим его
-		if (Math.abs(paddle2DirY) <= this.paddleSpeed) {
-			this.paddle2.mesh.position.y += paddle2DirY;
+		if (paddle2DirY > this.paddleSpeed * 0.5) {
+			this.paddle2.mesh.position.y += this.paddleSpeed * 0.5;
+		} else if (paddle2DirY < -this.paddleSpeed * 0.5) {
+			this.paddle2.mesh.position.y -= this.paddleSpeed * 0.5;
 		}
-		// если значение функции Lerp слишком большое, мы ограничиваем скорость paddleSpeed
-		else {
-			// если дощечка движется в положительном направлении
-			if (paddle2DirY > this.paddleSpeed) {
-				this.paddle2.mesh.position.y += this.paddleSpeed;
-			}
-			// если дощечка движется в отрицательном направлении
-			else if (paddle2DirY < -this.paddleSpeed) {
-				this.paddle2.mesh.position.y -= this.paddleSpeed;
-			}
-		}
-		this.paddle2.mesh.scale.y += (1 - this.paddle2.mesh.scale.y) * 0.2;
+
+		this.paddle2.PaddleMapLimit();
 	}
 
 	player2PaddleMovement() {
@@ -236,6 +224,31 @@ class Game {
 		this.paddle2.mesh.scale.y += (1 - this.paddle2.mesh.scale.y) * 0.2;
 		this.paddle2.mesh.scale.z += (1 - this.paddle2.mesh.scale.z) * 0.2;
 		this.paddle2.mesh.position.y += this.paddle2.directionY;
+	}
+
+	playerPaddleMovement() {
+		// движение влево
+		if (this.keyHandler.isDown(PlayerOneKey.W)) {
+			if (this.paddle1.mesh.position.y < this.fieldHeight * 0.45) {
+				this.paddle1.directionY = this.paddleSpeed * 0.5;
+			} else {
+				this.paddle1.directionY = 0;
+			}
+		}
+		// движение вправо
+		else if (this.keyHandler.isDown(PlayerOneKey.S)) {
+			// двигаем дощечку пока она не коснется стенки
+			if (this.paddle1.mesh.position.y > -this.fieldHeight * 0.45) {
+				this.paddle1.directionY = -this.paddleSpeed * 0.5;
+			} else {
+				this.paddle1.directionY = 0;
+			}
+		} else {
+			// прекращаем движение
+			this.paddle1.directionY = 0;
+		}
+
+		this.paddle1.mesh.position.y += this.paddle1.directionY;
 	}
 
 	addScore(id) {
@@ -304,33 +317,6 @@ class Game {
 		}
 	}
 
-	playerPaddleMovement() {
-		// движение влево
-		if (this.keyHandler.isDown(PlayerOneKey.W)) {
-			if (this.paddle1.mesh.position.y < this.fieldHeight * 0.45) {
-				this.paddle1.directionY = this.paddleSpeed * 0.5;
-			} else {
-				this.paddle1.directionY = 0;
-			}
-		}
-		// движение вправо
-		else if (this.keyHandler.isDown(PlayerOneKey.S)) {
-			// двигаем дощечку пока она не коснется стенки
-			if (this.paddle1.mesh.position.y > -this.fieldHeight * 0.45) {
-				this.paddle1.directionY = -this.paddleSpeed * 0.5;
-			} else {
-				this.paddle1.directionY = 0;
-			}
-		} else {
-			// прекращаем движение
-			this.paddle1.directionY = 0;
-		}
-
-		this.paddle1.mesh.scale.y += (1 - this.paddle1.mesh.scale.y) * 0.2;
-		this.paddle1.mesh.scale.z += (1 - this.paddle1.mesh.scale.z) * 0.2;
-		this.paddle1.mesh.position.y += this.paddle1.directionY;
-	}
-
 	resultImage() {
 		switch(GLOBAL.mode){
 			case 'single':
@@ -354,10 +340,18 @@ class Game {
 				break;
 		}
 	}
+
+	predictBallPosition() {
+		const ball = this.ball.mesh.position;
+		const ballDirection = this.ball.direction;
+		const timeToReachPaddle = (this.fieldWidth / 2 - ball.x) / ballDirection.x;
+		const predictedY = ball.y + ballDirection.y * timeToReachPaddle;
+		return predictedY;
+	}
 }
 
 class Paddle {
-	constructor(x, height, depth, quality, color) {
+	constructor(x, height, depth, quality, color, gameInstance) {
 		this.width = 10;
 		this.height = height;
 		this.depth = depth;
@@ -372,10 +366,20 @@ class Paddle {
 		this.mesh.receiveShadow = true;
 		this.mesh.castShadow = true;
 		this.directionY = 0;
+		this.game = gameInstance;
 	}
 
 	resetPosition() {
 		this.mesh.position.y = 0;
+	}
+
+	PaddleMapLimit() {
+		if (this.mesh.position.y > this.game.fieldHeight * 0.45) {
+			this.mesh.position.y = this.game.fieldHeight * 0.45;
+		}
+		if (this.mesh.position.y < -this.game.fieldHeight * 0.45) {
+			this.mesh.position.y = -this.game.fieldHeight * 0.45;
+		}
 	}
 }
 
