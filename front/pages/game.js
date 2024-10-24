@@ -1,5 +1,5 @@
 import templateEngine from '../engine.js';
-import {gamePlay} from "../game_play.js";
+import {gamePlay} from "../game/game_play.js";
 import {showNames} from "../utils.js";
 const updateNextGameClass = () => {
     const nextGameButton = document.querySelector('.btn-tournament');
@@ -93,8 +93,39 @@ export const GamePageElement = () => {
                             },
                             {
                                 tag: 'div',
-                                cls: 'modal-body',
-                                content: '...'
+                                cls: ['modal-body', 'd-flex', 'justify-content-center'],
+                                content:[
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/happy_billy.webp',
+                                            id: 'game-win',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/sad_billy.webp',
+                                            id: 'game-lose',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/legend_billy.webp',
+                                            id: 'tournament-win',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                ]
                             },
                             {
                                 tag: 'div',

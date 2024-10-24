@@ -29,6 +29,7 @@ const translations = {
         player_won: 'Player won!',
         player_one_won: 'Player 1 won!',
         player_two_won: 'Player 2 won!',
+        won: 'won',
     },
     ru: {
         transendence: "трансуха",
@@ -58,6 +59,7 @@ const translations = {
         player_won: 'Игрок выиграл!',
         player_one_won: 'Игрок 1 выиграл!',
         player_two_won: 'Игрок 2 выиграл!',
+        won: 'выиграл',
     },
 };
 

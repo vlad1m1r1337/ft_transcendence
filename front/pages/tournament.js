@@ -1,7 +1,7 @@
 import templateEngine from '../engine.js'
 import {parsePlayers, refreshMain} from '../utils.js';
 import {GamePageElement} from "./game.js";
-import {gamePlay} from "../game_play.js";
+import {gamePlay} from "../game/game_play.js";
 import resetClicker, {ClickerSingle} from "./clicker-game.js";
 
 export function appendGame() {
@@ -11,7 +11,7 @@ export function appendGame() {
     }
     GamePageElement();
     const game =  document.getElementById('game');
-    game.appendChild(gamePlay);
+    game.appendChild(gamePlay.renderer.domElement);
     GLOBAL.isAnimate = true;
 }
 

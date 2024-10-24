@@ -1,13 +1,10 @@
 import templateEngine from "../engine.js";
-import menu_template from "../constants.js";
+import {menu_template} from "../constants.js";
 import {findKeyByValue} from "../utils.js";
 
 export const ClickerMain = () => {
-    const language = localStorage.getItem('language') ?? 'en';
-    console.log('translations', translations);
-    console.log('language', language);
+    const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
-    console.log("transObj", transObj);
     const elements = [
         { name: transObj.singleplayer, href: '/clicker/single' },
         { name: transObj.tournament, href: '/clicker/tournament' },

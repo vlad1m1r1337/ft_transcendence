@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
+import {win, lose, champ} from "../utils.js";
 
 export let renderer = new THREE.WebGLRenderer();
 
@@ -15,7 +17,7 @@ class Game {
 		this.ballSpeed = 4;
 		this.score1 = 0;
 		this.score2 = 0;
-		this.difficulty = 0.08;
+		this.difficulty = 0.02;
 		this.paddle1 = new Paddle(-this.fieldWidth / 2 + 10, 60, 10, 1, 0x1B32C0);
 		this.paddle2 = new Paddle(this.fieldWidth / 2 - 10, 60, 10, 1, 0xFF4045);
 		this.ball = new Ball(5, 6, 6, 0xD43001);
@@ -209,6 +211,34 @@ class Game {
 		this.paddle2.mesh.scale.y += (1 - this.paddle2.mesh.scale.y) * 0.2;
 	}
 
+	player2PaddleMovement() {
+		// движение влево
+		if (this.keyHandler.isDown(PlayerTwoKey.DOWN)) {
+			// двигаем дощечку пока она не коснется стенки
+			if (this.paddle2.mesh.position.y < this.fieldHeight * 0.45) {
+				this.paddle2.directionY = this.paddleSpeed * 0.5;
+			} else {
+				this.paddle2.directionY = 0;
+			}
+		}
+		// движение вправо
+		else if (this.keyHandler.isDown(PlayerTwoKey.UP)) {
+			// двигаем дощечку пока она не коснется стенки
+			if (this.paddle2.mesh.position.y > -this.fieldHeight * 0.45) {
+				this.paddle2.directionY = -this.paddleSpeed * 0.5;
+			} else {
+				this.paddle2.directionY = 0;
+			}
+		} else {
+			// прекращаем движение
+			this.paddle2.directionY = 0;
+		}
+
+		this.paddle2.mesh.scale.y += (1 - this.paddle2.mesh.scale.y) * 0.2;
+		this.paddle2.mesh.scale.z += (1 - this.paddle2.mesh.scale.z) * 0.2;
+		this.paddle2.mesh.position.y += this.paddle2.directionY;
+	}
+
 	addScore(id) {
 		const score = document.getElementById('score-' + id);
 		score.textContent = Number(score.textContent) + 1;
@@ -216,8 +246,7 @@ class Game {
 
 	matchScoreCheck()
 	{
-		GLOBAL.maxScore = 1000;
-		// если выиграл игрок
+		// GLOBAL.maxScore = 1000;
 		if (this.score1 >= GLOBAL.maxScore) {
 			GLOBAL.isAnimate = false;
 
@@ -228,7 +257,6 @@ class Game {
 			}
 			this.openModal();
 		}
-		// если выиграл компьютер
 		else if (this.score2 >= GLOBAL.maxScore)
 		{
 			GLOBAL.isAnimate = false;
@@ -253,6 +281,7 @@ class Game {
 	showWinner() {
 		const header = document.getElementById('staticBackdropLabel');
 		const language = localStorage.getItem('language') || 'en';
+		this.resultImage();
 		switch (GLOBAL.mode) {
 			case 'single':
 				if (this.score1 > this.score2) {
@@ -263,10 +292,10 @@ class Game {
 				}
 				break;
 			case 'tournament':
-				header.textContent = `${GLOBAL.pong_players.at(-1).name} ${language === 'en' ? 'won' : 'выиграл'}`;
+				header.textContent = `${GLOBAL.pong_players.at(-1).name} ${translations[language].won}`;
 				break;
 			case 'multi':
-				if (score1 > score2) {
+				if (this.score1 > this.score2) {
 					header.textContent = translations[language].player_one_won;
 				}
 				else {
@@ -278,7 +307,7 @@ class Game {
 
 	playerPaddleMovement() {
 		// движение влево
-		if (this.keyHandler.isDown(Key.W)) {
+		if (this.keyHandler.isDown(PlayerOneKey.W)) {
 			if (this.paddle1.mesh.position.y < this.fieldHeight * 0.45) {
 				this.paddle1.directionY = this.paddleSpeed * 0.5;
 			} else {
@@ -286,7 +315,7 @@ class Game {
 			}
 		}
 		// движение вправо
-		else if (this.keyHandler.isDown(Key.S)) {
+		else if (this.keyHandler.isDown(PlayerOneKey.S)) {
 			// двигаем дощечку пока она не коснется стенки
 			if (this.paddle1.mesh.position.y > -this.fieldHeight * 0.45) {
 				this.paddle1.directionY = -this.paddleSpeed * 0.5;
@@ -303,11 +332,28 @@ class Game {
 		this.paddle1.mesh.position.y += this.paddle1.directionY;
 	}
 
-	resetScore() {
-		const score1 = document.getElementById('score-1');
-		const score2 = document.getElementById('score-2');
-		score1.textContent = 0;
-		score2.textContent = 0;
+	resultImage() {
+		switch(GLOBAL.mode){
+			case 'single':
+				if (this.score1 > this.score2) {
+					win();
+				}
+				else {
+					lose();
+				}
+				break;
+			case 'multi':
+				win();
+				break;
+			case 'tournament':
+				if(GLOBAL.pong_players.length === 1) {
+					champ();
+				}
+				else {
+					win();
+				}
+				break;
+		}
 	}
 }
 
@@ -379,16 +425,6 @@ class KeyHandler {
 		delete this._pressed[event.keyCode];
 	}
 }
-
-//
-let Key = {
-	_pressed: {},
-
-	W: 87,
-	S: 83,
-
-};
-//
 
 const gamePlay = new Game();
 export { gamePlay };
