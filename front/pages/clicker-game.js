@@ -168,7 +168,7 @@ export const ClickerSingle = () => {
 										attrs: {
 											type: 'button',
 											'data-bs-dismiss': 'modal',
-											href: '/',
+											href: '/clicker',
 											onclick: 'route(event)',
 											'data-translate': 'back',
 										},

@@ -106,3 +106,8 @@ html, body {
 .click_icon:active {
 	background-color: rgb(243, 212, 255);
 }
+
+.modal-header,
+.modal-footer {
+	border: none;
+}

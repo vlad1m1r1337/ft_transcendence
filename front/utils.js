@@ -37,5 +37,23 @@ const refreshMain = () => {
 	}
 };
 
-export { cutPath, showNames, parsePlayers, findKeyByValue, refreshMain };
+const win = () => {
+	document.getElementById('game-win').style.display = 'block';
+	document.getElementById('game-lose').style.display = 'none';
+	document.getElementById('tournament-win').style.display = 'none';
+}
+
+const lose = () => {
+	document.getElementById('game-win').style.display = 'none';
+	document.getElementById('game-lose').style.display = 'block';
+	document.getElementById('tournament-win').style.display = 'none';
+}
+
+const champ = () => {
+	document.getElementById('game-win').style.display = 'none';
+	document.getElementById('game-lose').style.display = 'none';
+	document.getElementById('tournament-win').style.display = 'block';
+}
+
+export { cutPath, showNames, parsePlayers, findKeyByValue, refreshMain, win, lose, champ };
 

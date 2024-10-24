@@ -1,13 +1,12 @@
 import templateEngine from '../engine.js';
-import {gamePlay} from "../game_play.js";
-import {findKeyByValue, showNames} from "../utils.js";
+import {gamePlay} from "../game/game_play.js";
+import {showNames} from "../utils.js";
 const updateNextGameClass = () => {
     const nextGameButton = document.querySelector('.btn-tournament');
     if (nextGameButton) {
         nextGameButton.classList.toggle('disabled', !(GLOBAL.mode === 'tournament' && GLOBAL?.pong_players?.length > 1));
     }
 };
-
 
 window.addEventListener('load', () => {
     updateNextGameClass();
@@ -94,8 +93,39 @@ export const GamePageElement = () => {
                             },
                             {
                                 tag: 'div',
-                                cls: 'modal-body',
-                                content: '...'
+                                cls: ['modal-body', 'd-flex', 'justify-content-center'],
+                                content:[
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/happy_billy.webp',
+                                            id: 'game-win',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/sad_billy.webp',
+                                            id: 'game-lose',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                    {
+                                        tag: 'img',
+                                        attrs: {
+                                            src: '/assets/legend_billy.webp',
+                                            id: 'tournament-win',
+                                            alt: 'billy',
+                                            style: 'object-fit: cover; width: 250px; height: 250px; display: none;'
+                                        },
+
+                                    },
+                                ]
                             },
                             {
                                 tag: 'div',
@@ -107,7 +137,7 @@ export const GamePageElement = () => {
                                         attrs: {
                                             type: 'button',
                                             'data-bs-dismiss': 'modal',
-                                            href: '/',
+                                            href: '/ping-pong',
                                             onclick: 'route(event)',
                                             'data-translate': 'back',
                                         },
@@ -141,7 +171,7 @@ export const GamePageElement = () => {
 
 export const appendGameSingle = () => {
     const game =  document.getElementById('game');
-    game.appendChild(gamePlay);
+    game.appendChild(gamePlay.renderer.domElement);
     GLOBAL.isAnimate = true;
     GLOBAL.mode = 'single';
     showNames();
@@ -149,7 +179,7 @@ export const appendGameSingle = () => {
 
 export const appendGameMulti = () => {
     const game =  document.getElementById('game');
-    game.appendChild(gamePlay);
+    game.appendChild(gamePlay.renderer.domElement);
     GLOBAL.isAnimate = true;
     GLOBAL.mode = 'multi';
     showNames();
