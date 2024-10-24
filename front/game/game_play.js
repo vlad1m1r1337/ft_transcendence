@@ -186,19 +186,14 @@ class Game {
 	}
 
 	opponentPaddleMovement() {
-		let paddle2DirY = this.ball.mesh.position.y - this.paddle2.mesh.position.y;
-
-		// if (Math.abs(paddle2DirY) <= this.paddleSpeed) {
-		// 	this.paddle2.mesh.position.y += paddle2DirY;
-		// } else {
-
+		const predictedY = this.predictBallPosition();
+		let paddle2DirY = predictedY - this.paddle2.mesh.position.y;
 
 		if (paddle2DirY > this.paddleSpeed * 0.5) {
 			this.paddle2.mesh.position.y += this.paddleSpeed * 0.5;
 		} else if (paddle2DirY < -this.paddleSpeed * 0.5) {
 			this.paddle2.mesh.position.y -= this.paddleSpeed * 0.5;
 		}
-		// }
 
 		this.paddle2.PaddleMapLimit();
 	}
