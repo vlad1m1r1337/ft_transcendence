@@ -9,6 +9,7 @@ import { namePlayers } from "./pages/tournament.js";
 import resetClicker from "./pages/clicker-game.js"
 import {nameClickerPlayers} from "./pages/tournament.js";
 import {NotFound} from "./pages/404.js";
+import {LeaderBoardElement} from "./pages/leaderboard.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -49,6 +50,9 @@ const handleLocation = () => {
             tournamentElement();
             GLOBAL.mode = 'tournament';
             namePlayers();
+            break;
+        case "/ping-pong-leaderboard":
+            LeaderBoardElement();
             break;
         case "/clicker/tournament":
             tournamentElement();

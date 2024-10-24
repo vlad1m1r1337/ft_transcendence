@@ -30,6 +30,8 @@ const translations = {
         player_one_won: 'Player 1 won!',
         player_two_won: 'Player 2 won!',
         won: 'won',
+        leaderboard: 'Leaderboard',
+        no_information: 'No information',
     },
     ru: {
         transendence: "трансуха",
@@ -60,16 +62,14 @@ const translations = {
         player_one_won: 'Игрок 1 выиграл!',
         player_two_won: 'Игрок 2 выиграл!',
         won: 'выиграл',
+        leaderboard: 'Таблица лидеров',
+        no_information: 'Нет информации',
     },
 };
 
 function setLanguage(lang) {
     localStorage.setItem('language', lang);
     updateText();
-}
-
-function updateText() {
-    const lang = localStorage.getItem('language') || 'en';
 }
 
 window.setLanguage = setLanguage;
