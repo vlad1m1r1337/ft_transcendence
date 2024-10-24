@@ -137,7 +137,7 @@ export const GamePageElement = () => {
                                         attrs: {
                                             type: 'button',
                                             'data-bs-dismiss': 'modal',
-                                            href: '/',
+                                            href: '/ping-pong',
                                             onclick: 'route(event)',
                                             'data-translate': 'back',
                                         },

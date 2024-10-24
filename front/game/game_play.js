@@ -74,7 +74,6 @@ class Game {
 	}
 
 	resetBall(loser) {
-		const num = Math.random();
 		this.ball.resetPosition();
 		this.ball.setDirection(loser === 1 ? 1 : -1, Math.random() * 2 - 1);
 	}
