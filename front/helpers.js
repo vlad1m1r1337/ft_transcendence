@@ -40,3 +40,23 @@ export const winnerAndTurnButton = () => {
         lol.classList.remove('disabled');
     }
 }
+
+export const nextBattlePlayers = () => {
+    if (!GLOBAL.pong_players || GLOBAL.pong_players.length < 3 || GLOBAL.mode !== 'tournament') {
+        return [];
+    } else if (GLOBAL.pong_players.length === 3) {
+        return [GLOBAL.pong_players[2].name, 'X'];
+    } else {
+        return [GLOBAL.pong_players.at(2).name, GLOBAL.pong_players.at(3).name];
+    }
+}
+
+export const showNextBattle = () => {
+    if (!document.getElementById('next-game')) return;
+    if (GLOBAL.mode !== 'tournament' || GLOBAL.pong_players.length <= 2) {
+        document.getElementById('next-game').textContent = '';
+    } else {
+        const [player1, player2] = nextBattlePlayers();
+        document.getElementById('next-game').textContent = `${player1} x ${player2}`;
+    }
+}
