@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
 import {champ, lose, win} from "../utils.js";
 import showToast from "../toast.js";
+import {showNextBattle} from "../helpers.js";
 
 class Game {
 	constructor() {
@@ -298,6 +299,7 @@ class Game {
 		this.resultScore();
 		this.resetScore();
 		this.postChampion();
+		showNextBattle();
 		switch (GLOBAL.mode) {
 			case 'single':
 				if (this.score1 > this.score2) {
