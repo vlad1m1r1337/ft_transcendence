@@ -1,6 +1,7 @@
 import templateEngine from '../engine.js';
 import {gamePlay} from "../game/game_play.js";
 import {showNames} from "../utils.js";
+
 const updateNextGameClass = () => {
     const nextGameButton = document.querySelector('.btn-tournament');
     if (nextGameButton) {
@@ -85,10 +86,37 @@ export const GamePageElement = () => {
                                 tag: 'div',
                                 cls: 'modal-header',
                                 content: {
-                                    tag: 'h1',
-                                    cls: ['modal-title', 'fs-5'],
-                                    attrs: { id: 'staticBackdropLabel', style: 'margin: auto;' },
-                                    content: ':)',
+                                    tag: 'div',
+                                    cls: 'd-flex',
+                                    attrs: {style: 'margin: auto;'},
+                                    content: [
+                                        {
+                                            tag: 'h1',
+                                            cls: ['modal-title', 'fs-5'],
+                                            attrs: {id: 'staticBackdropLabel'},
+                                            content: '',
+                                        },
+                                        {
+                                            tag: 'p',
+                                            cls: ['modal-title', 'fs-5'],
+                                            attrs: {style: 'font-weight: bold; margin-left: 10px;'},
+                                            content: [
+                                                {
+                                                    tag: 'span',
+                                                    content: '',
+                                                    cls: 'text-primary',
+                                                    attrs: {id: 'modal-score-1'}
+                                                },
+                                                ' : ',
+                                                {
+                                                    tag: 'span',
+                                                    content: '',
+                                                    cls: 'text-danger',
+                                                    attrs: {id: 'modal-score-2'}
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             },
                             {
@@ -167,7 +195,6 @@ export const GamePageElement = () => {
     const mainPageElement = document.getElementById('main-page');
     mainPageElement.appendChild(page);
 }
-
 
 export const appendGameSingle = () => {
     const game =  document.getElementById('game');

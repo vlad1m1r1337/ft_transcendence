@@ -41,4 +41,3 @@ export const PlayerTwoKey = {
 	DOWN: 38,
 };
 
-
