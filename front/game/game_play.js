@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
-import {win, lose, champ} from "../utils.js";
+import {champ, lose, win} from "../utils.js";
 import showToast from "../toast.js";
+import {showNextBattle} from "../helpers.js";
 
 class Game {
 	constructor() {
@@ -298,6 +299,7 @@ class Game {
 		this.resultScore();
 		this.resetScore();
 		this.postChampion();
+		showNextBattle();
 		switch (GLOBAL.mode) {
 			case 'single':
 				if (this.score1 > this.score2) {
@@ -349,8 +351,7 @@ class Game {
 		const ball = this.ball.mesh.position;
 		const ballDirection = this.ball.direction;
 		const timeToReachPaddle = (this.fieldWidth / 2 - ball.x) / ballDirection.x;
-		const predictedY = ball.y + ballDirection.y * timeToReachPaddle;
-		return predictedY;
+		return ball.y + ballDirection.y * timeToReachPaddle;
 	}
 
 	resultScore() {
@@ -369,7 +370,7 @@ class Game {
 	}
 
 	async postChampion() {
-		if (GLOBAL.mode !== 'tournament' && GLOBAL.pong_players.length > 1) {
+		if ((GLOBAL.mode !== 'tournament' || GLOBAL.pong_players?.length > 1)) {
 			return;
 		}
 		const champion = GLOBAL.pong_players[0];

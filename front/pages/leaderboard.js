@@ -44,8 +44,18 @@ export const LeaderBoardElement = async () => {
                             {
                                 tag: 'tr',
                                 content: [
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Tournament Number'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Winner'},
+                                    {
+                                        tag: 'th', attrs: {
+                                            scope: 'col', 'data-translate': 'tournament_number'
+                                        },
+                                        content: transObj.tournament_number
+                                    },
+                                    {
+                                        tag: 'th', attrs: {
+                                            scope: 'col', 'data-translate': 'winner'
+                                        },
+                                        content: transObj.winner
+                                    },
                                 ]
                             }
                         ]

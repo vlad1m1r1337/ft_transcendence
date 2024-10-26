@@ -1,6 +1,7 @@
 import templateEngine from '../engine.js';
 import {gamePlay} from "../game/game_play.js";
 import {showNames} from "../utils.js";
+import {nextBattlePlayers} from "../helpers.js";
 
 const updateNextGameClass = () => {
     const nextGameButton = document.querySelector('.btn-tournament');
@@ -25,18 +26,30 @@ window.addEventListener('click', (e) => {
 export const GamePageElement = () => {
     const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
-
+    const [player1, player2] = nextBattlePlayers();
     let page = {
         tag: 'div',
         cls: ['d-flex', 'justify-content-center', 'align-items-center', 'flex-column'],
         attrs: { style: 'margin-top: 50px;' },
         content: [
             {
-                tag: 'h1',
-                content: 'Content',
-                attrs: {
-                    id: 'players-name',
-                }
+                tag: 'div',
+                cls: ['d-flex', 'justify-content-center', 'align-items-end'],
+                content: [
+                    {
+                        tag: 'h1',
+                        content: 'Content',
+                        attrs: {
+                            id: 'players-name',
+                        }
+                    },
+                    {
+                        tag: 'p',
+                        content: `next game - ${player1} X ${player2}`,
+                        cls: ['text-body-tertiary'],
+                        attrs: {style: 'margin-left: 10px;', id: 'next-game'}
+                    },
+                ],
             },
             {
                 tag: 'h2',
