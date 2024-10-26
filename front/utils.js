@@ -17,7 +17,6 @@ function parsePlayers(players) {
 	const obj = names.map((player) => {
 		return { name: player, score: -1 };
 	})
-	console.log(obj);
 	return obj;
 }
 

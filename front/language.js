@@ -32,6 +32,8 @@ const translations = {
         won: 'won',
         leaderboard: 'Leaderboard',
         no_information: 'No information',
+        tournament_number: 'Tournament Number',
+        winner: 'Winner',
     },
     ru: {
         transendence: "трансуха",
@@ -64,6 +66,8 @@ const translations = {
         won: 'выиграл',
         leaderboard: 'Таблица лидеров',
         no_information: 'Нет информации',
+        tournament_number: 'Номер турнира',
+        winner: 'Победитель',
     },
 };
 
