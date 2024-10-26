@@ -294,6 +294,8 @@ class Game {
 		const header = document.getElementById('staticBackdropLabel');
 		const language = localStorage.getItem('language') || 'en';
 		this.resultImage();
+		this.resultScore();
+		this.resetScore();
 		switch (GLOBAL.mode) {
 			case 'single':
 				if (this.score1 > this.score2) {
@@ -347,6 +349,21 @@ class Game {
 		const timeToReachPaddle = (this.fieldWidth / 2 - ball.x) / ballDirection.x;
 		const predictedY = ball.y + ballDirection.y * timeToReachPaddle;
 		return predictedY;
+	}
+
+	resultScore() {
+		const score1 = document.getElementById('modal-score-1');
+		const score2 = document.getElementById('modal-score-2');
+
+		score1.textContent = this.score1;
+		score2.textContent = this.score2;
+	}
+
+	resetScore() {
+		this.score1 = 0;
+		this.score2 = 0;
+		document.getElementById('score-1').textContent = 0;
+		document.getElementById('score-2').textContent = 0;
 	}
 }
 
