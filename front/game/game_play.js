@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
 import {win, lose, champ} from "../utils.js";
+import showToast from "../toast.js";
 
 class Game {
 	constructor() {
@@ -296,6 +297,7 @@ class Game {
 		this.resultImage();
 		this.resultScore();
 		this.resetScore();
+		this.postChampion();
 		switch (GLOBAL.mode) {
 			case 'single':
 				if (this.score1 > this.score2) {
@@ -364,6 +366,29 @@ class Game {
 		this.score2 = 0;
 		document.getElementById('score-1').textContent = 0;
 		document.getElementById('score-2').textContent = 0;
+	}
+
+	async postChampion() {
+		if (GLOBAL.mode !== 'tournament' && GLOBAL.pong_players.length > 1) {
+			return;
+		}
+		const champion = GLOBAL.pong_players[0];
+		const data = {
+			name: champion.name,
+		};
+
+		try {
+			await fetch('/api/v1/pong/champion', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data)
+			});
+		} catch (err) {
+			showToast();
+			console.log(err);
+		}
 	}
 }
 

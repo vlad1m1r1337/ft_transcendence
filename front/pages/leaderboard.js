@@ -1,35 +1,31 @@
 import templateEngine from "../engine.js";
+import showToast from "../toast.js";
 
-export const LeaderBoardElement = () => {
+const fetchLeaderBoard = async () => {
+    try {
+        const response = await fetch('../mock/leaderboard.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        showToast();
+        console.error('There was a problem with the fetch operation:', error);
+        return [];
+    }
+}
+
+export const LeaderBoardElement = async () => {
     const language = localStorage.getItem('language') || 'en';
     const transObj = translations[language];
 
-    // let page = {
-    //     tag: 'div',
-    //     cls: ['d-flex',  'align-items-center', 'flex-column'],
-    //     attrs: { style: 'margin-top: 50px; height: 100svh' },
-    //     content: [
-    //         {
-    //             tag: 'h1',
-    //             content: transObj.leaderboard,
-    //             attrs: {
-    //                 'data-translate': "leaderboard",
-    //             }
-    //         },
-    //         {
-    //             tag: 'p',
-    //             content: transObj.no_information,
-    //             attrs: {
-    //                 'data-translate': "no_information",
-    //             }
-    //         },
-    //     ]
-    // };
-
+    const leaders = await fetchLeaderBoard();
     let page = {
         tag: 'div',
         cls: ['d-flex', 'align-items-center', 'flex-column'],
-        attrs: {style: 'margin-top: 50px; height: calc(100svh - 56px); margin: 0 30px;'},
+        attrs: {style: 'margin-top: 50px; height: calc(100svh - 56px); margin: 10px 30px;'},
         content: [
             {
                 tag: 'h1',
@@ -38,7 +34,7 @@ export const LeaderBoardElement = () => {
                     'data-translate': "leaderboard",
                 }
             },
-            {
+            leaders.length > 0 ? {
                 tag: 'table',
                 cls: ['table'],
                 content: [
@@ -56,31 +52,24 @@ export const LeaderBoardElement = () => {
                     },
                     {
                         tag: 'tbody',
-                        content: [
-                            {
+                        content: leaders.map((item, index) => {
+                            return {
                                 tag: 'tr',
                                 content: [
-                                    {tag: 'th', attrs: {scope: 'row'}, content: '1'},
-                                    {tag: 'td', content: 'Mark'},
-                                ]
-                            },
-                            {
-                                tag: 'tr',
-                                content: [
-                                    {tag: 'th', attrs: {scope: 'row'}, content: '2'},
-                                    {tag: 'td', content: 'Jacob'},
-                                ]
-                            },
-                            {
-                                tag: 'tr',
-                                content: [
-                                    {tag: 'th', attrs: {scope: 'row'}, content: '3'},
-                                    {tag: 'td', content: 'Larry the Bird'},
+                                    {tag: 'td', content: index + 1},
+                                    {tag: 'td', content: item}
                                 ]
                             }
-                        ]
+                        })
                     }
                 ]
+                } :
+                {
+                    tag: 'p',
+                    content: transObj.no_information,
+                    attrs: {
+                        'data-translate': "no_information",
+                    }
             }
         ]
     };
