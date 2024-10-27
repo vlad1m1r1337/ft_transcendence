@@ -1,6 +1,6 @@
-const timeThree = document.querySelector("#time-3");
-const timeFive = document.querySelector("#time-5");
-const timeTen = document.querySelector("#time-10");
+const timeThree = document.querySelector("#time3");
+const timeFive = document.querySelector("#time5");
+const timeTen = document.querySelector("#time10");
 
 timeThree.addEventListener("click", () => {
     GLOBAL.maxTime = 3

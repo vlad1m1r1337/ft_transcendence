@@ -60,3 +60,13 @@ export const showNextBattle = () => {
         document.getElementById('next-game').textContent = `${player1} x ${player2}`;
     }
 }
+
+export const toggleTimeScore = (state) => {
+    document.getElementById('score1').disabled = state;
+    document.getElementById('score3').disabled = state;
+    document.getElementById('score5').disabled = state;
+
+    document.getElementById('time3').disabled = state;
+    document.getElementById('time5').disabled = state;
+    document.getElementById('time10').disabled = state;
+}
