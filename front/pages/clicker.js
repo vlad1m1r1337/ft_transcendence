@@ -8,7 +8,7 @@ export const ClickerMain = () => {
     const elements = [
         { name: transObj.singleplayer, href: '/clicker/single' },
         { name: transObj.tournament, href: '/clicker/tournament' },
-        { name: transObj.settings, href: '/clicker-settings' },
+        {name: transObj.history, href: '/clicker/history'},
     ];
 
     const links = elements.map((el) => {

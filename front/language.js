@@ -34,6 +34,9 @@ const translations = {
         no_information: 'No information',
         tournament_number: 'Tournament Number',
         winner: 'Winner',
+        history: 'History',
+        name: 'Name',
+        clicks: 'Clicks',
     },
     ru: {
         transendence: "трансуха",
@@ -68,6 +71,9 @@ const translations = {
         no_information: 'Нет информации',
         tournament_number: 'Номер турнира',
         winner: 'Победитель',
+        history: 'История',
+        name: 'Имя',
+        clicks: 'Клики',
     },
 };
 

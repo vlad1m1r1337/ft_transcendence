@@ -10,6 +10,8 @@ import resetClicker from "./pages/clicker-game.js"
 import {nameClickerPlayers} from "./pages/tournament.js";
 import {NotFound} from "./pages/404.js";
 import {LeaderBoardElement} from "./pages/leaderboard.js";
+import {toggleTimeScore} from "./helpers.js";
+import {HistoryElement} from "./pages/history.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -24,6 +26,7 @@ const handleLocation = () => {
     const path = window.location.pathname;
     GLOBAL.isAnimate = false;
     GLOBAL.newGame = true;
+    toggleTimeScore(false);
     const mainPage = document.getElementById('main-page');
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
@@ -47,6 +50,7 @@ const handleLocation = () => {
             appendGameMulti();
             break;
         case "/ping-pong/multi/tournament":
+            toggleTimeScore(true);
             tournamentElement();
             GLOBAL.mode = 'tournament';
             namePlayers();
@@ -55,6 +59,7 @@ const handleLocation = () => {
             LeaderBoardElement();
             break;
         case "/clicker/tournament":
+            toggleTimeScore(true);
             tournamentElement();
             GLOBAL.mode = 'tournament';
             GLOBAL.clicker_players = {};
@@ -67,6 +72,9 @@ const handleLocation = () => {
             ClickerSingle();
             GLOBAL.mode = 'single';
             resetClicker();
+            break;
+        case "/clicker/history":
+            HistoryElement();
             break;
         default:
             NotFound();

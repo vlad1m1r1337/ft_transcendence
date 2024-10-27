@@ -8,7 +8,6 @@ function createDomEl() {
 
     const elements = [
         { name: transObj.tournament, href: '/ping-pong/multi/tournament' },
-        { name: transObj.online, href: '/ping-pong/multi/online' },
         { name: transObj.on_one_keyboard, href: '/ping-pong-multi-one-board' },
         {name: transObj.leaderboard, href: '/ping-pong-leaderboard'},
     ];
