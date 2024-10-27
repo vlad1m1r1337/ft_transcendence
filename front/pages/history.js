@@ -35,59 +35,54 @@ export const HistoryElement = async () => {
                     'data-translate': "history",
                 }
             },
-            history.length > 0 ? {
-                    tag: 'table',
-                    cls: ['table'],
-                    content: [
-                        {
-                            tag: 'thead',
-                            content: [
-                                {
-                                    tag: 'tr',
-                                    content: [
-                                        // {
-                                        //     tag: 'th', attrs: {
-                                        //         scope: 'col', 'data-translate': 'tournament_number'
-                                        //     },
-                                        //     content: transObj.tournament_number
-                                        // },
-                                        {
-                                            tag: 'th', attrs: {
-                                                scope: 'col', 'data-translate': 'name'
-                                            },
-                                            content: transObj.name
-                                        },
-                                        {
-                                            tag: 'th', attrs: {
-                                                scope: 'col', 'data-translate': 'clicks'
-                                            },
-                                            content: transObj.clicks
-                                        },
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            tag: 'tbody',
-                            content: history[0].players_info.map((item, index) => {
-                                return {
-                                    tag: 'tr',
-                                    content: [
-                                        {tag: 'td', content: item.name},
-                                        {tag: 'td', content: item.clicks},
-                                    ]
-                                }
-                            })
-                        }
-                    ]
-                } :
-                {
-                    tag: 'p',
-                    content: transObj.no_information,
-                    attrs: {
-                        'data-translate': "no_information",
-                    }
+            {
+                tag: 'table',
+                cls: ['table'],
+                content: [
+                    {
+                        tag: 'thead',
+                        content: [
+                            {
+                                tag: 'tr',
+                                content: [
+                                    {tag: 'th', attrs: {scope: 'col'}, content: '#'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Name'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Clicks'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Time'}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'tbody',
+                        content: [
+                            {
+                                tag: 'tr',
+                                content: [
+                                    {tag: 'th', attrs: {rowspan: 3}, content: '1'},
+                                    {tag: 'td', content: 'Mark'},
+                                    {tag: 'td', content: 'Otto'},
+                                    {tag: 'td', attrs: {rowspan: 3}, content: '10'}
+                                ]
+                            },
+                            {
+                                tag: 'tr',
+                                content: [
+                                    {tag: 'td', content: 'Jacob'},
+                                    {tag: 'td', content: 'Thornton'},
+                                ]
+                            },
+                            {
+                                tag: 'tr',
+                                content: [
+                                    {tag: 'td', content: 'Larry'},
+                                    {tag: 'td', content: 'Bird'},
+                                ]
+                            }
+                        ]
                 }
+                ]
+            }
         ]
     };
 
