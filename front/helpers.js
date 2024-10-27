@@ -22,6 +22,7 @@ export const findMostClicks = () => {
             winner = player;
         }
     });
+    postClickerTournament();
     document.getElementById('staticBackdropClickerBodyLabel').textContent = winner.score;
     header.textContent = `${winner.name} 🎉🎉🎉`;
 }
@@ -59,6 +60,27 @@ export const showNextBattle = () => {
         const [player1, player2] = nextBattlePlayers();
         document.getElementById('next-game').textContent = `${player1} x ${player2}`;
     }
+}
+
+function postClickerTournament() {
+    console.log('post')
+    console.log(GLOBAL.clicker_players);
+    const res = GLOBAL.clicker_players.map((player) => {
+        return {name: player.name, clicks: player.score};
+    });
+
+    const ret = {
+        players_info: res,
+        time: GLOBAL.maxTime,
+    };
+
+    fetch('/XXX', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ret),
+    });
 }
 
 export const toggleTimeScore = (state) => {

@@ -8,8 +8,7 @@ const fetchHistroy = async () => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data[0]);
-        return data[0];
+        return data;
     } catch (error) {
         showToast();
         console.error('There was a problem with the fetch operation:', error);
@@ -22,7 +21,7 @@ export const HistoryElement = async () => {
     const transObj = translations[language];
 
     const history = await fetchHistroy();
-    console.log(history)
+    console.log('history', history[0].players_info)
     let page = {
         tag: 'div',
         cls: ['d-flex', 'align-items-center', 'flex-column'],
@@ -55,18 +54,20 @@ export const HistoryElement = async () => {
                     },
                     {
                         tag: 'tbody',
-                        content: history.players_info.map((item, index, array) => {
-                            return {
-                                tag: 'tr',
-                                content: [
-                                    !index && {tag: 'td', attrs: {rowspan: array.length}, content: index + 1},
-                                    {tag: 'td', content: item.name},
-                                    {tag: 'td', content: item.clicks},
-                                    !index && {tag: 'td', attrs: {rowspan: array.length}, content: history.time}
-                                ]
-                            }
+                        content: history.flatMap((el, i) => {
+                            return el.players_info.map((item, index, array) => {
+                                return {
+                                    tag: 'tr',
+                                    content: [
+                                        !index && {tag: 'td', attrs: {rowspan: array.length}, content: i + 1},
+                                        {tag: 'td', content: item.name},
+                                        {tag: 'td', content: item.clicks},
+                                        !index && {tag: 'td', attrs: {rowspan: array.length}, content: el.time}
+                                    ].filter(Boolean)
+                                };
+                            });
                         })
-                }
+                    }
                 ]
             }
         ]
