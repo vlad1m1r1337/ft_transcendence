@@ -8,8 +8,8 @@ const fetchHistroy = async () => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
-        return data;
+        console.log(data[0]);
+        return data[0];
     } catch (error) {
         showToast();
         console.error('There was a problem with the fetch operation:', error);
@@ -35,59 +35,40 @@ export const HistoryElement = async () => {
                     'data-translate': "history",
                 }
             },
-            history.length > 0 ? {
-                    tag: 'table',
-                    cls: ['table'],
-                    content: [
-                        {
-                            tag: 'thead',
-                            content: [
-                                {
-                                    tag: 'tr',
-                                    content: [
-                                        // {
-                                        //     tag: 'th', attrs: {
-                                        //         scope: 'col', 'data-translate': 'tournament_number'
-                                        //     },
-                                        //     content: transObj.tournament_number
-                                        // },
-                                        {
-                                            tag: 'th', attrs: {
-                                                scope: 'col', 'data-translate': 'name'
-                                            },
-                                            content: transObj.name
-                                        },
-                                        {
-                                            tag: 'th', attrs: {
-                                                scope: 'col', 'data-translate': 'clicks'
-                                            },
-                                            content: transObj.clicks
-                                        },
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            tag: 'tbody',
-                            content: history[0].players_info.map((item, index) => {
-                                return {
-                                    tag: 'tr',
-                                    content: [
-                                        {tag: 'td', content: item.name},
-                                        {tag: 'td', content: item.clicks},
-                                    ]
-                                }
-                            })
-                        }
-                    ]
-                } :
-                {
-                    tag: 'p',
-                    content: transObj.no_information,
-                    attrs: {
-                        'data-translate': "no_information",
-                    }
+            {
+                tag: 'table',
+                cls: ['table'],
+                content: [
+                    {
+                        tag: 'thead',
+                        content: [
+                            {
+                                tag: 'tr',
+                                content: [
+                                    {tag: 'th', attrs: {scope: 'col'}, content: '#'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Name'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Clicks'},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Time'}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'tbody',
+                        content: history.players_info.map((item, index, array) => {
+                            return {
+                                tag: 'tr',
+                                content: [
+                                    !index && {tag: 'td', attrs: {rowspan: array.length}, content: index + 1},
+                                    {tag: 'td', content: item.name},
+                                    {tag: 'td', content: item.clicks},
+                                    !index && {tag: 'td', attrs: {rowspan: array.length}, content: history.time}
+                                ]
+                            }
+                        })
                 }
+                ]
+            }
         ]
     };
 
