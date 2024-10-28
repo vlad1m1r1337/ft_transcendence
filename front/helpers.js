@@ -92,3 +92,10 @@ export const toggleTimeScore = (state) => {
     document.getElementById('time5').disabled = state;
     document.getElementById('time10').disabled = state;
 }
+
+export const cutNick = (nick) => {
+    if (nick.length > 10) {
+        return nick.slice(0, 10) + '...';
+    }
+    return nick;
+}

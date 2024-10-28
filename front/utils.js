@@ -7,8 +7,12 @@ function showNames() {
 	if (!names) { return; }
 	const language = localStorage.getItem('language') || 'en';
 	GLOBAL.mode === 'single' ?
-		names.textContent = (language === 'en' ? 'Player vs Computer' : 'Игрок против Компа') :
-		names.textContent = (language === 'en' ? 'Player 1 vs Player 2' : 'Игрок 1 против Игрока 2');
+		names.textContent = (language === 'en' ? `${showUser()} vs Computer` : `${showUser()} против Компа`) :
+		names.textContent = (language === 'en' ? `${showUser()} vs Player 2` : `${showUser()} против Игрока 2`);
+}
+
+function showUser() {
+	return localStorage.getItem('intraUser') ? localStorage.getItem('intraUser') : 'Player';
 }
 
 

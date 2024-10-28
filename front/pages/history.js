@@ -10,7 +10,7 @@ const fetchHistroy = async () => {
         const data = await response.json();
         return data;
     } catch (error) {
-        showToast();
+        showToast('Error fetching history');
         console.error('There was a problem with the fetch operation:', error);
         return [];
     }
