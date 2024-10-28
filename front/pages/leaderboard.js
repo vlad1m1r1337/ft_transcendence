@@ -11,7 +11,7 @@ const fetchLeaderBoard = async () => {
         console.log(data);
         return data;
     } catch (error) {
-        showToast();
+        showToast('Error fetching leaderboard');
         console.error('There was a problem with the fetch operation:', error);
         return [];
     }

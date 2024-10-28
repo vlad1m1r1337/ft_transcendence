@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
 import {champ, lose, win} from "../utils.js";
 import showToast from "../toast.js";
-import {showNextBattle} from "../helpers.js";
+import {showNextBattle, cutNick} from "../helpers.js";
 
 class Game {
 	constructor() {
@@ -64,7 +64,7 @@ class Game {
 		GLOBAL.mode === 'single' ? this.opponentPaddleMovement() : this.player2PaddleMovement();
 		if (GLOBAL.mode === 'tournament') {
 			const names = document.getElementById('players-name');
-			names.textContent = `${GLOBAL.pong_players[0].name} x ${GLOBAL.pong_players[1].name}`;
+			names.textContent = `${cutNick(GLOBAL.pong_players[0].name)} x ${cutNick(GLOBAL.pong_players[1].name)}`;
 		}
 		this.ballPhysics();
 		this.paddlePhysics();
@@ -387,7 +387,7 @@ class Game {
 				body: JSON.stringify(data)
 			});
 		} catch (err) {
-			showToast();
+			showToast('Error posting champion');
 			console.log(err);
 		}
 	}
