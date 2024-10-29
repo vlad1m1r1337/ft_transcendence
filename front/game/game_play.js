@@ -24,6 +24,22 @@ class Game {
 		this.setup();
 		this.score1;
 		this.score2;
+
+		this.touchStartY = 0;
+		this.touchCurrentY = 0;
+		this.isTouching = false;
+
+		this.touchStartY2 = 0;
+		this.touchCurrentY2 = 0;
+		this.isTouching2 = false;
+
+		window.addEventListener('touchstart', this.handleTouchStart.bind(this));
+		window.addEventListener('touchmove', this.handleTouchMove.bind(this));
+		window.addEventListener('touchend', this.handleTouchEnd.bind(this));
+
+		window.addEventListener('touchstart', this.handleTouchStart2.bind(this));
+		window.addEventListener('touchmove', this.handleTouchMove2.bind(this));
+		window.addEventListener('touchend', this.handleTouchEnd2.bind(this));
 	}
 
 	setup() {
@@ -78,44 +94,30 @@ class Game {
 	}
 
 	ballPhysics() {
-		// если шар двигается слева (со стороны игрока)
 		if (this.ball.mesh.position.x <= -this.fieldWidth / 2) {
-			// компьютер получает очко
 			this.score2++;
 			this.addScore(2);
-			// обновляем таблицу с результатами
-			// устанавливаем новый шар в центр стола
 			this.resetBall(0);
-			// проверяем, закончился ли матч (набрано требуемое количество очков)
 			this.matchScoreCheck();
 		}
 
-		// если шар двигается справа (со стороны компьютера)
 		if (this.ball.mesh.position.x >= this.fieldWidth / 2) {
-			// игрок получает очко
 			this.score1++;
 			this.addScore(1);
-			// обновляем таблицу с результатами
-			// устанавливаем новый шар в центр стола
 			this.resetBall(1);
-			// проверяем, закончился ли матч (набрано требуемое количество очков)
 			this.matchScoreCheck();
 		}
 
-		// Если шар двигается сверху
 		if (this.ball.mesh.position.y <= -this.fieldHeight / 2) {
 			this.ball.direction.y = -this.ball.direction.y;
 		}
-		// Если шар двигается снизу
 		if (this.ball.mesh.position.y >= this.fieldHeight / 2) {
 			this.ball.direction.y = -this.ball.direction.y;
 		}
 
-		// обновляем положение шара во время игры
 		this.ball.mesh.position.x += this.ball.direction.x * this.ballSpeed;
 		this.ball.mesh.position.y += this.ball.direction.y * this.ballSpeed;
 
-		// ограничиваем скорость шарика чтобы он не летал как сумасшедший
 		if (this.ball.direction.y > this.ballSpeed * 0.8) {
 			this.ball.direction.y = this.ballSpeed * 0.8;
 		} else if (this.ball.direction.y < -this.ballSpeed * 0.8) {
@@ -124,12 +126,6 @@ class Game {
 	}
 
 	paddlePhysics() {
-		// ЛОГИКА ДОЩЕЧКИ ИГРОКА
-
-		// если шар имеет одинаковые координаты с дощечкой № 1
-		// на плоскости Х запоминаем позицию ЦЕНТРА объекта
-		// мы делаем проверку только между передней и средней
-		// частями дощечки (столкновение одностороннее)
 		if (this.ball.mesh.position.x <= this.paddle1.mesh.position.x + this.paddle1.width
 			&& this.ball.mesh.position.x >= this.paddle1.mesh.position.x) {
 			if (this.ball.mesh.position.y <= -this.fieldHeight / 2) {
@@ -137,26 +133,16 @@ class Game {
 			} else if (this.ball.mesh.position.y >= this.fieldHeight / 2) {
 				this.ball.mesh.position.y -= 50;
 			}
-			// если у шара одинаковые координаты с дощечкой № 1 на плоскости Y
 			if (this.ball.mesh.position.y <= this.paddle1.mesh.position.y + this.paddle1.height / 2
 				&& this.ball.mesh.position.y >= this.paddle1.mesh.position.y - this.paddle1.height / 2) {
-				// если шар движется к игроку (отрицательное направление)
 				if (this.ball.direction.x < 0) {
-					// меняем направление движения чтобы создать эффект отскакивания шара
 					this.ball.direction.x = -this.ball.direction.x;
-					// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
 					this.ball.direction.y -= this.paddle1.directionY * 0.7;
-					// this.ball.direction.y += (Math.random() * 10);
 				}
 			}
 		}
 
-		// ЛОГИКА ДОЩЕЧКИ СОПЕРНИКА
 
-		// если шар имеет одинаковые координаты с дощечкой № 2
-		// на плоскости Х запоминаем позицию ЦЕНТРА объекта
-		// мы делаем проверку только между передней и средней
-		// частями дощечки (столкновение одностороннее)
 		if (this.ball.mesh.position.x <= this.paddle2.mesh.position.x + this.paddle2.width
 			&& this.ball.mesh.position.x >= this.paddle2.mesh.position.x) {
 			if (this.ball.mesh.position.y <= -this.fieldHeight / 2) {
@@ -166,14 +152,10 @@ class Game {
 				this.ball.direction.x *= -1;
 				this.ball.mesh.position.y -= 50;
 			}
-			// и если шар направляется к игроку (отрицательное направление)
 			if (this.ball.mesh.position.y <= this.paddle2.mesh.position.y + this.paddle2.height / 2
 				&& this.ball.mesh.position.y >= this.paddle2.mesh.position.y - this.paddle2.height / 2) {
-				// и если шар направляется к сопернику (положительное направление)
 				if (this.ball.direction.x > 0) {
-					// меняем направление движения чтобы создать эффект отскакивания шара
 					this.ball.direction.x = -this.ball.direction.x;
-					// Меняем угол шара при ударе. Немного усложним игру, позволив скользить шарику
 					this.ball.direction.y -= this.paddle2.directionY * 0.7;
 				}
 			}
@@ -201,52 +183,94 @@ class Game {
 	}
 
 	player2PaddleMovement() {
-		// движение влево
 		if (this.keyHandler.isDown(PlayerTwoKey.DOWN)) {
-			// двигаем дощечку пока она не коснется стенки
 			if (this.paddle2.mesh.position.y < this.fieldHeight * 0.45) {
 				this.paddle2.directionY = this.paddleSpeed * 0.5;
 			} else {
 				this.paddle2.directionY = 0;
 			}
-		}
-		// движение вправо
-		else if (this.keyHandler.isDown(PlayerTwoKey.UP)) {
-			// двигаем дощечку пока она не коснется стенки
+		} else if (this.keyHandler.isDown(PlayerTwoKey.UP)) {
 			if (this.paddle2.mesh.position.y > -this.fieldHeight * 0.45) {
 				this.paddle2.directionY = -this.paddleSpeed * 0.5;
 			} else {
 				this.paddle2.directionY = 0;
 			}
+		} else if (this.isTouching2) {
+			const touchDeltaY = this.touchCurrentY2 - this.touchStartY2;
+			if (touchDeltaY < 0 && this.paddle2.mesh.position.y < this.fieldHeight * 0.45) {
+				this.paddle2.directionY = this.paddleSpeed * 0.5;
+			} else if (touchDeltaY > 0 && this.paddle2.mesh.position.y > -this.fieldHeight * 0.45) {
+				this.paddle2.directionY = -this.paddleSpeed * 0.5;
+			} else {
+				this.paddle2.directionY = 0;
+			}
 		} else {
-			// прекращаем движение
 			this.paddle2.directionY = 0;
 		}
-
-		this.paddle2.mesh.scale.y += (1 - this.paddle2.mesh.scale.y) * 0.2;
-		this.paddle2.mesh.scale.z += (1 - this.paddle2.mesh.scale.z) * 0.2;
 		this.paddle2.mesh.position.y += this.paddle2.directionY;
 	}
 
+	handleTouchStart(event) {
+		if (event.touches[0].clientX < window.innerWidth / 2) {
+			this.isTouching = true;
+			this.touchStartY = event.touches[0].clientY;
+		}
+	}
+
+	handleTouchStart2(event) {
+		if (event.touches[0].clientX > window.innerWidth / 2) {
+			this.isTouching2 = true;
+			this.touchStartY2 = event.touches[0].clientY;
+		}
+	}
+
+	handleTouchMove(event) {
+		if (this.isTouching) {
+			this.touchCurrentY = event.touches[0].clientY;
+		}
+	}
+
+	handleTouchEnd() {
+		this.isTouching = false;
+		this.touchStartY = 0;
+		this.touchCurrentY = 0;
+	}
+
+	handleTouchMove2(event) {
+		if (this.isTouching2) {
+			this.touchCurrentY2 = event.touches[0].clientY;
+		}
+	}
+
+	handleTouchEnd2() {
+		this.isTouching2 = false;
+		this.touchStartY2 = 0;
+		this.touchCurrentY2 = 0;
+	}
+
 	playerPaddleMovement() {
-		// движение влево
 		if (this.keyHandler.isDown(PlayerOneKey.W)) {
 			if (this.paddle1.mesh.position.y < this.fieldHeight * 0.45) {
 				this.paddle1.directionY = this.paddleSpeed * 0.5;
 			} else {
 				this.paddle1.directionY = 0;
 			}
-		}
-		// движение вправо
-		else if (this.keyHandler.isDown(PlayerOneKey.S)) {
-			// двигаем дощечку пока она не коснется стенки
+		} else if (this.keyHandler.isDown(PlayerOneKey.S)) {
 			if (this.paddle1.mesh.position.y > -this.fieldHeight * 0.45) {
 				this.paddle1.directionY = -this.paddleSpeed * 0.5;
 			} else {
 				this.paddle1.directionY = 0;
 			}
+		} else if (this.isTouching) {
+			const touchDeltaY = this.touchCurrentY - this.touchStartY;
+			if (touchDeltaY < 0 && this.paddle1.mesh.position.y < this.fieldHeight * 0.45) {
+				this.paddle1.directionY = this.paddleSpeed * 0.5;
+			} else if (touchDeltaY > 0 && this.paddle1.mesh.position.y > -this.fieldHeight * 0.45) {
+				this.paddle1.directionY = -this.paddleSpeed * 0.5;
+			} else {
+				this.paddle1.directionY = 0;
+			}
 		} else {
-			// прекращаем движение
 			this.paddle1.directionY = 0;
 		}
 
@@ -472,5 +496,19 @@ class KeyHandler {
 	}
 }
 
+window.addEventListener('resize', () => {
+	if (window.innerWidth < 768) {
+		gamePlay.renderer.setSize(window.innerWidth * 0.9, 360);
+		gamePlay.camera.updateProjectionMatrix();
+	}
+});
+
+
 const gamePlay = new Game();
+
+if (window.innerWidth < 768) {
+	gamePlay.renderer.setSize(window.innerWidth * 0.9, 360);
+	gamePlay.camera.updateProjectionMatrix();
+}
+
 export { gamePlay };
