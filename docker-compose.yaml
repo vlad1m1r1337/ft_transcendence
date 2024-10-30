@@ -1,3 +1,5 @@
+name: ft_transcendence
+
 services:
   # webserver
   nginx:
@@ -5,12 +7,12 @@ services:
     build:
       context: ./nginx
     ports:
-      - "443:443"
-      - "80:80"
+      - "8081:443"
+      - "8080:80"
     volumes:
       - ./nginx/tools:/etc/nginx/ssl/
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - nginx-volume:/var/log/nginx/
+        #- nginx-volume:/var/log/nginx/
     depends_on:
       - front
     networks:
@@ -49,9 +51,10 @@ services:
       driver: gelf
       options:
         gelf-address: udp://localhost:12201
-        tag: "postgresql"
     links:
       - logstash:logstash
+
+
 
   # ELK stack
   elasticsearch:
@@ -69,6 +72,7 @@ services:
     networks:
       - back-tier
       - logging-tier
+
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.17.10
@@ -87,6 +91,7 @@ services:
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic
     depends_on:
       - elasticsearch
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.10
@@ -102,6 +107,8 @@ services:
       - logging-tier
     depends_on:
       - elasticsearch
+
+
 
   # Monitoring
   prometheus:
@@ -119,6 +126,7 @@ services:
     networks:
       - back-tier
       - monitoring-tier
+
   grafana:
     container_name: grafana
     image: grafana/grafana:9.3.6
@@ -133,6 +141,15 @@ services:
     networks:
       - front-tier
       - monitoring-tier
+      - logging-tier
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://localhost:12201
+        tag: "grafana"
+    links:
+      - logstash:logstash
+
   nginx-exporter:
     container_name: nginx-exporter
     image: nginx/nginx-prometheus-exporter
@@ -142,15 +159,21 @@ services:
     networks:
       - back-tier
       - monitoring-tier
+
   node-exporter:
     container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - "9100:9100"
     command:
       - '--path.rootfs=/host'
-    network_mode: host
-    pid: host
     volumes:
       - '/:/host:ro,rslave' 
+      - '/sys:/host/sys:ro'
+      - '/proc:/host/proc:ro'
+    networks:
+      - monitoring-tier
+
   alertmanager:
     container_name: alerting
     image: prom/alertmanager:v0.27.0
@@ -190,7 +213,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/data/postgres
+      device: ${PWD}/data/postgresql
 
 networks:
   front-tier:
