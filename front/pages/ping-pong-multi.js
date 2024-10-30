@@ -1,5 +1,5 @@
 import templateEngine from "../engine.js";
-import menu_template from "../constants.js";
+import {menu_template} from "../constants.js";
 import {findKeyByValue} from "../utils.js";
 
 function createDomEl() {
@@ -8,8 +8,8 @@ function createDomEl() {
 
     const elements = [
         { name: transObj.tournament, href: '/ping-pong/multi/tournament' },
-        { name: transObj.online, href: '/ping-pong/multi/online' },
         { name: transObj.on_one_keyboard, href: '/ping-pong-multi-one-board' },
+        {name: transObj.leaderboard, href: '/ping-pong-leaderboard'},
     ];
 
     const links = elements.map((el) => {

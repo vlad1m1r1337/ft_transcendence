@@ -1,0 +1,32 @@
+[
+  {
+    "players_info": [
+      {
+        "name": "JD",
+        "clicks": 1
+      },
+      {
+        "name": "JZ",
+        "clicks": 5
+      },
+      {
+        "name": "Vova",
+        "clicks": 20
+      }
+    ],
+    "time": 6
+  },
+  {
+    "players_info": [
+      {
+        "name": "lol",
+        "clicks": 10
+      },
+      {
+        "name": "sigma",
+        "clicks": 20
+      }
+    ],
+    "time": 10
+  }
+]

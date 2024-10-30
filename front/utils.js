@@ -7,8 +7,12 @@ function showNames() {
 	if (!names) { return; }
 	const language = localStorage.getItem('language') || 'en';
 	GLOBAL.mode === 'single' ?
-		names.textContent = (language === 'en' ? 'Player vs Computer' : 'Игрок против Компа') :
-		names.textContent = (language === 'en' ? 'Player 1 vs Player 2' : 'Игрок 1 против Игрока 2');
+		names.textContent = (language === 'en' ? `${showUser()} vs Computer` : `${showUser()} против Компа`) :
+		names.textContent = (language === 'en' ? `${showUser()} vs Player 2` : `${showUser()} против Игрока 2`);
+}
+
+function showUser() {
+	return localStorage.getItem('intraUser') ? localStorage.getItem('intraUser') : 'Player';
 }
 
 
@@ -17,7 +21,6 @@ function parsePlayers(players) {
 	const obj = names.map((player) => {
 		return { name: player, score: -1 };
 	})
-	console.log(obj);
 	return obj;
 }
 
@@ -37,5 +40,23 @@ const refreshMain = () => {
 	}
 };
 
-export { cutPath, showNames, parsePlayers, findKeyByValue, refreshMain };
+const win = () => {
+	document.getElementById('game-win').style.display = 'block';
+	document.getElementById('game-lose').style.display = 'none';
+	document.getElementById('tournament-win').style.display = 'none';
+}
+
+const lose = () => {
+	document.getElementById('game-win').style.display = 'none';
+	document.getElementById('game-lose').style.display = 'block';
+	document.getElementById('tournament-win').style.display = 'none';
+}
+
+const champ = () => {
+	document.getElementById('game-win').style.display = 'none';
+	document.getElementById('game-lose').style.display = 'none';
+	document.getElementById('tournament-win').style.display = 'block';
+}
+
+export { cutPath, showNames, parsePlayers, findKeyByValue, refreshMain, win, lose, champ };
 
