@@ -176,11 +176,21 @@ services:
 
   alertmanager:
     container_name: alerting
-    image: prom/alertmanager:v0.27.0
+      #image: prom/alertmanager:v0.27.0
+    build:
+      context: ./monitoring/alertmanager
+      dockerfile: Dockerfile
+      args:
+        SMTP_SERVER: ${SMTP_SERVER}
+        EMAIL_USER: ${EMAIL_USER}
+        SMTP_SERVER_PASSWORD: ${SMTP_SERVER_PASSWORD}
+        RECIPIENT: ${RECIPIENT}
     ports:
       - "9093:9093"
-    volumes:
-      - ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+        #volumes:
+        #- ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    env_file:
+      - .env
     networks:
       - monitoring-tier
 
