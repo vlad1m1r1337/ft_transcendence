@@ -4,3 +4,8 @@
 .idea
 .vscode
 monitoring/alertmanager/config/alertmanager.yml
+.env
+back/back/__pycache__
+back/back/migrations
+back/pong/__pycache__
+back/pong/migrations

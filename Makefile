@@ -12,7 +12,7 @@ BLUE = \033[0;34m
 
 # rules
 
-build:
+build: gen
 	@echo "${PURPLE}*Building ${PROJECT} environment...*${RESET}"
 	@bash tools/make_dirs.sh
 	@${COMPOSE} up -d --build
@@ -53,5 +53,16 @@ fclean:
 	@sudo rm -rf ./data/nginx
 	@sudo rm -rf ./data/prometheus
 	@sudo rm -rf ./data/postgresql
+	@sudo rm -rf ./monitoring/alertmanager/config/alertmanager.yml
 
-.PHONY: build up down re clean fclean
+gen:
+	@if [ -f .env ]; then \
+		rm -rf ./monitoring/alertmanager/config/alertmanager.yml; \
+		chmod +x ./tools/gen_alertmanager_config.sh; \
+		bash ./tools/gen_alertmanager_config.sh; \
+	else \
+		echo ".env file not found! Please load or create it before running make"; \
+		exit 1; \
+	fi
+
+.PHONY: build up down re clean fclean gen
