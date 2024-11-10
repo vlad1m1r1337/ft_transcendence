@@ -37,14 +37,15 @@ services:
 
 #---------------------------------- Database ----------------------------------#
   postgres:
-    image: 'bitnami/postgresql:latest'
+    image: postgres:16
+      #image: 'bitnami/postgresql:latest'
     container_name: postgres
     environment:
       - 'POSTGRES_PASSWORD=admin123'
       - 'POSTGRES_USER=admin'
-      - 'POSTGRES_DB=MatchHistory'
-    volumes:
-      - ./data/postgresql:/bitnami/postgresql
+      - 'POSTGRES_DB=test_db'
+        #volumes:
+        #- ./data/postgresql:/bitnami/postgresql
     networks:
       - back-tier
     ports:
@@ -55,6 +56,11 @@ services:
         gelf-address: 'udp://localhost:12201'
     links:
       - logstash:logstash
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d test_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     restart: always
 
 #---------------------------------- Backend ----------------------------------#
@@ -69,7 +75,8 @@ services:
     networks:
       - back-tier
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
 
 
