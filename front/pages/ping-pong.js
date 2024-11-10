@@ -1,5 +1,5 @@
 import templateEngine from "../engine.js";
-import menu_template from "../constants.js";
+import {menu_template} from "../constants.js";
 import { findKeyByValue } from "../utils.js";
 
 export const PingPongMain = () => {

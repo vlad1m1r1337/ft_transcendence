@@ -1,196 +1,202 @@
+name: ft_transcendence
+
 services:
-  # webserver
+#---------------------------------- Webserver ----------------------------------#
   nginx:
     container_name: nginx
     build:
       context: ./nginx
     ports:
-      - "443:443"
-      - "80:80"
+      - '8081:443'
+      - '8080:80'
     volumes:
-      - ./nginx/tools:/etc/nginx/ssl/
-      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - nginx-volume:/var/log/nginx/
+      - './nginx/tools:/etc/nginx/ssl/'
+      - './nginx/conf/nginx.conf:/etc/nginx/nginx.conf'
     depends_on:
       - front
+      - back
     networks:
       - back-tier
       - front-tier
     restart: on-failure:3
 
-    # frontend
+#---------------------------------- Frontend ----------------------------------#
   front:
     container_name: front
     build:
       context: ./front
     ports:
-      - "5000:5000"
+      - '5000:5000'
     volumes:
-      - ./front:/app
+      - './front:/app'
     networks:
       - back-tier
       - front-tier
+    depends_on:
+      - postgres
 
+#---------------------------------- Database ----------------------------------#
   postgres:
-    image: bitnami/postgresql:latest
+    image: 'bitnami/postgresql:latest'
     container_name: postgres
-    restart: always
     environment:
-      - "POSTGRES_PASSWORD=admin123"
-      - "POSTGRES_USER=admin"
-      - "POSTGRES_DB=MatchHistory"
+      - 'POSTGRES_PASSWORD=admin123'
+      - 'POSTGRES_USER=admin'
+      - 'POSTGRES_DB=MatchHistory'
     volumes:
-      - postgres-volume:/bitnami/postgresql
+      - ./data/postgresql:/bitnami/postgresql
     networks:
       - back-tier
     ports:
-      - "5432:5432"
+      - '5432:5432'
     logging:
       driver: gelf
       options:
-        gelf-address: udp://localhost:12201
-        tag: "postgresql"
+        gelf-address: 'udp://localhost:12201'
     links:
       - logstash:logstash
+    restart: always
 
-  # ELK stack
+#---------------------------------- Backend ----------------------------------#
+  back:
+    container_name: back
+    build:
+      context: ./back
+    ports:
+      - '5001:5001'
+    volumes:
+      - './back:/usr/src/app/'
+    networks:
+      - back-tier
+    depends_on:
+      - postgres
+
+
+
+#---------------------------------- ELK stack ----------------------------------#
   elasticsearch:
     container_name: elastic
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     environment:
-      - "discovery.type=single-node"
-      - "xpack.security.enabled: true"
-      - "xpack.security.authc.api_key.enabled: true"
-        #- "xpack.security.enabled=false"
-        #- "http.host=0.0.0.0"
-        #- "transport.host=127.0.0.1"
+      - 'discovery.type=single-node'
+      - 'xpack.security.enabled: true'
+      - 'xpack.security.authc.api_key.enabled: true'
     ports:
-      - "9200:9200"
+      - '9200:9200'
     networks:
       - back-tier
       - logging-tier
+
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.17.10
+    command: 'logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic'
     environment:
-      - "xpack.monitoring.elasticsearch.url=http://elasticsearch:9200"
-    volumes:
-      - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - 'xpack.monitoring.elasticsearch.url=http://elasticsearch:9200'
     ports:
-      - "5044:5044"
-      - "9600:9600"
-      - "6000:6000"
-      - "12201:12201/udp"
+      - '5044:5044'
+      - '9600:9600'
+      - '6000:6000'
+      - '12201:12201/udp'
+    volumes:
+      - "./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf"
     networks:
       - back-tier
       - logging-tier
-    command: logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic
     depends_on:
       - elasticsearch
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.10
     ports:
-      - "5601:5601"
+      - '5601:5601'
     environment:
-      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
-      - "SERVER_BASE_PATH=/kibana"
+      - 'ELASTICSEARCH_HOSTS=http://elasticsearch:9200'
+      - 'SERVER_BASE_PATH=/kibana'
     volumes:
-      - ./tools/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - './tools/kibana.yml:/usr/share/kibana/config/kibana.yml'
     networks:
       - front-tier
       - logging-tier
     depends_on:
       - elasticsearch
 
-  # Monitoring
+
+
+#---------------------------------- Monitoring ----------------------------------#
   prometheus:
     container_name: prom
     build:
-      context: ./monitoring/prometheus
+      context: './monitoring/prometheus'
       dockerfile: Dockerfile
     ports:
-      - "9090:9090"
+      - '9090:9090'
     volumes:
-      - ${PWD}/data/prometheus:/prometheus
+      - './data/prometheus:/prometheus'
     command:
       - '--web.enable-lifecycle'
       - '--storage.tsdb.retention.time=30d'
     networks:
       - back-tier
       - monitoring-tier
+
   grafana:
     container_name: grafana
-    image: grafana/grafana:9.3.6
+    build:
+      context: './monitoring/grafana'
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - grafana-volume:/var/lib/grafana
-      - ./tools/grafana.ini:/etc/grafana/grafana.ini
+      - '3000:3000'
     environment:
-      - "GF_SECURITY_ADMIN_USER=admin"
-      - "GF_SECURITY_ADMIN_PASSWORD=admin123"
+      - 'GF_SECURITY_ADMIN_USER=admin'
+      - 'GF_SECURITY_ADMIN_PASSWORD=admin123'
     networks:
       - front-tier
       - monitoring-tier
+      - logging-tier
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://localhost:12201
+        tag: 'grafana'
+    links:
+      - logstash:logstash
+
   nginx-exporter:
     container_name: nginx-exporter
     image: nginx/nginx-prometheus-exporter
-    command: --nginx.scrape-uri=http://localhost:8080/nginx_status
+    command: 
+      - '--nginx.scrape-uri=http://localhost:8080/nginx_status'
     ports:
-      - "9113:9113"
+      - '9113:9113'
     networks:
       - back-tier
       - monitoring-tier
+
   node-exporter:
     container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - '9100:9100'
     command:
       - '--path.rootfs=/host'
-    network_mode: host
-    pid: host
     volumes:
       - '/:/host:ro,rslave' 
-  alertmanager:
-    container_name: alerting
-    image: prom/alertmanager:v0.27.0
-    ports:
-      - "9093:9093"
-    volumes:
-      - ./monitoring/alertmanager/config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - '/sys:/host/sys:ro'
+      - '/proc:/host/proc:ro'
     networks:
       - monitoring-tier
 
-volumes:
-  db-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${PWD}/data/postgresql
-
-  nginx-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${PWD}/data/nginx
-
-  prometheus-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${PWD}/data/prometheus
-
-  grafana-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${PWD}/data/grafana
-
-  postgres-volume:
-    driver_opts:
-      o: bind
-      type: none
-      device: ${PWD}/data/postgres
+  alertmanager:
+    container_name: alerting
+    build:
+      context: './monitoring/alertmanager'
+      dockerfile: Dockerfile
+    ports:
+      - '9093:9093'
+    networks:
+      - monitoring-tier
 
 networks:
   front-tier:

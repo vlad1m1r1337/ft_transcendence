@@ -1,8 +1,8 @@
 import templateEngine from "../engine.js";
 
-export const MainPageElement = async () => {
+export const MainPageElement = () => {
     const language = localStorage.getItem('language') || 'en';
-    const transObj = await translations[language];
+    const transObj = translations[language];
 
     let page = {
         tag: 'div',

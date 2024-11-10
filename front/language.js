@@ -25,10 +25,19 @@ const translations = {
         amount_cliks: "Cliks - ",
         max_score: 'Max score',
         max_time: 'Max time',
-        computer_won: 'Computer won!',
+        computer_won: 'Computer won',
         player_won: 'Player won!',
         player_one_won: 'Player 1 won!',
         player_two_won: 'Player 2 won!',
+        won: 'won',
+        leaderboard: 'Leaderboard',
+        no_information: 'No information',
+        tournament_number: 'Tournament Number',
+        winner: 'Winner',
+        history: 'History',
+        name: 'Name',
+        clicks: 'Clicks',
+        signin_signout: 'Sign in / Sign out',
     },
     ru: {
         transendence: "трансуха",
@@ -54,25 +63,28 @@ const translations = {
         amount_cliks: "Кликов - ",
         max_score: 'Максимальный счет',
         max_time: 'Максимальное время',
-        computer_won: 'Компьютер выиграл!',
+        computer_won: 'Компьютер выиграл',
         player_won: 'Игрок выиграл!',
         player_one_won: 'Игрок 1 выиграл!',
         player_two_won: 'Игрок 2 выиграл!',
+        won: 'выиграл',
+        leaderboard: 'Таблица лидеров',
+        no_information: 'Нет информации',
+        tournament_number: 'Номер турнира',
+        winner: 'Победитель',
+        history: 'История',
+        name: 'Имя',
+        clicks: 'Клики',
+        signin_signout: 'Войти / Выйти',
     },
 };
 
 function setLanguage(lang) {
     localStorage.setItem('language', lang);
-    updateText();
-}
-
-function updateText() {
-    const lang = localStorage.getItem('language') || 'en';
 }
 
 window.setLanguage = setLanguage;
 window.translations = translations;
-document.addEventListener('DOMContentLoaded', updateText);
 
 
 function changeLanguage(language) {

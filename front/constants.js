@@ -1,4 +1,4 @@
-const menu_template = {
+export const menu_template = {
 	tag: 'div',
 	cls: ['d-flex', 'justify-content-center'],
 	attrs: { style: 'margin-top: 200px;' },
@@ -29,4 +29,15 @@ const menu_template = {
 	}
 };
 
-export default menu_template;
+export const PlayerOneKey = {
+	_pressed: {},
+	W: 87,
+	S: 83,
+};
+
+export const PlayerTwoKey = {
+	_pressed: {},
+	UP: 40,
+	DOWN: 38,
+};
+
