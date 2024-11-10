@@ -78,9 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'test_db',
-        'USER': 'adavitavdb',
-        'PASSWORD': '1',
-        'HOST': 'localhost',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
@@ -123,6 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
