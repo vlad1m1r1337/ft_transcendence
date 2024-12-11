@@ -7,6 +7,6 @@ class ClickerPlayer (models.Model):
     average_click_speed = models.FloatField()
 
 class Match (models.Model):
-    players = models.ManyToManyField(Player)
+    players = models.ManyToManyField(ClickerPlayer)
     clicks = ArrayField(models.IntegerField())
     time = models.IntegerField()

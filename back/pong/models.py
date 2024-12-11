@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 
 class PongPlayer(models.Model):
     user = models.ForeignKey(User, related_name='players', on_delete=models.CASCADE)
