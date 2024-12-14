@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import PongPlayer, Game
+from .models import PongPlayer, PongGame
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Game
+        model = PongGame
         fields = '__all__'
 
 class PongPlayerSerializer(serializers.ModelSerializer):

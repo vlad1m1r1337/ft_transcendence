@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class PongPlayer(models.Model):
-    user = models.ForeignKey(User, related_name='players', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='pong_players', on_delete=models.CASCADE)
     nickname = models.CharField(max_length=100)
     rating = models.IntegerField(default=0)
     total_games = models.IntegerField(default=0)
@@ -16,7 +16,7 @@ class PongPlayer(models.Model):
     def __str__(self):
         return self.username
 
-class Game(models.Model):
+class PongGame(models.Model):
     player1 = models.ForeignKey(PongPlayer, related_name='games_as_player1', on_delete=models.CASCADE)
     player2 = models.ForeignKey(PongPlayer, related_name='games_as_player2', on_delete=models.CASCADE)
     score1 = models.IntegerField(default=0)

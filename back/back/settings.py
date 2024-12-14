@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fz220zc=1-bh16w5rt6+k)$!ihp(2w9z-7-fo=0qw3m0rtiue#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'postgres', 'localhost', '127.0.0.1' ]
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 #    'django_extensions',
     'pong',
     'clicker',
-   # 'rest_framework',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'test_db',
         'USER': 'admin',
         'PASSWORD': 'admin123',
-        'HOST': 'postgres',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
