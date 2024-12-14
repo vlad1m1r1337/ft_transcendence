@@ -14,8 +14,8 @@ class ClickerGameSerializer(serializers.ModelSerializer):
 class ClickerPlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClickerPlayer
-        fields = ['__all__']
+        fields = '__all__'
 
-    def create(self, validated_data):
+    def create_user(self, validated_data):
         user = ClickerPlayer.objects.create_user(**validated_data)
         return user

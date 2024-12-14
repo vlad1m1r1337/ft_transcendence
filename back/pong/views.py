@@ -1,11 +1,11 @@
 from rest_framework import viewsets
 from .models import PongGame, PongPlayer
-from .serializers import GameSerializer, PongPlayerSerializer
+from .serializers import PongGameSerializer, PongPlayerSerializer
 
 
-class GameViewSet(viewsets.ModelViewSet):
+class PongGameViewSet(viewsets.ModelViewSet):
     queryset = PongGame.objects.all()
-    serializer_class = GameSerializer
+    serializer_class = PongGameSerializer
 
 class PongPlayerViewSet(viewsets.ModelViewSet):
     queryset = PongPlayer.objects.all()
