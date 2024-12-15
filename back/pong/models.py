@@ -14,7 +14,7 @@ class PongPlayer(models.Model):
             return (self.wins / self.total_games) * 100
         return 0
     def __str__(self):
-        return self.username
+        return self.nickname
 
 class PongGame(models.Model):
     player1 = models.ForeignKey(PongPlayer, related_name='games_as_player1', on_delete=models.CASCADE)
@@ -22,10 +22,9 @@ class PongGame(models.Model):
     score1 = models.IntegerField(default=0)
     score2 = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    test_value = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.player1.username} vs {self.player2.username}"
+        return f"{self.player1.nickname} vs {self.player2.nickname}"
 
 
 class TopPlayer(models.Model):
