@@ -14,3 +14,16 @@ class ClickerGame (models.Model):
     players = models.ManyToManyField(ClickerPlayer, related_name='clicker_games')
     clicks = ArrayField(models.IntegerField())
     time = models.IntegerField()
+
+class ClickerMatch(models.Model):
+    time = models.IntegerField()
+
+class ClickerPlayerInfo (models.Model):
+    match = models.ForeignKey(ClickerMatch,
+                              related_name='clicker_player_info',
+                              on_delete=models.CASCADE)
+    name = models.CharField(max_length = 100)
+    clicks = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name} - Clicks: {self.clicks} (Match {self.match.id})"

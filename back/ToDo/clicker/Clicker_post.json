@@ -3,13 +3,13 @@
 {
   "players_info": [
     {
-      "name": "string",
-      "clicks": "number"
+      "name": "testsubject1",
+      "clicks": "32"
     },
     {
-      "name": "string",
-      "clicks": "number"
+      "name": "testsubject2",
+      "clicks": "21"
     }
   ],
-  "time": "number"
+  "time": "6"
 }
