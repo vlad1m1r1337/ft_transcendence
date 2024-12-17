@@ -44,8 +44,8 @@ services:
       - 'POSTGRES_PASSWORD=admin123'
       - 'POSTGRES_USER=admin'
       - 'POSTGRES_DB=test_db'
-        #volumes:
-        #- ./data/postgresql:/bitnami/postgresql
+#    volumes:
+#      - ./data/postgresql:/bitnami/postgresql
     networks:
       - back-tier
     ports:
@@ -189,7 +189,7 @@ services:
     command:
       - '--path.rootfs=/host'
     volumes:
-      - '/:/host:ro,rslave' 
+#      - '/:/host:ro,rslave'
       - '/sys:/host/sys:ro'
       - '/proc:/host/proc:ro'
     networks:

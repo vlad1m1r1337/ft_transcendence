@@ -1,0 +1,15 @@
+//Post
+
+{
+  "players_info": [
+    {
+      "name": "string",
+      "clicks": "number"
+    },
+    {
+      "name": "string",
+      "clicks": "number"
+    }
+  ],
+  "time": "number"
+}

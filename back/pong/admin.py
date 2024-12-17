@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Player, Game, HighScore, Setting
+from .models import PongPlayer, PongGame
 
-admin.site.register(Player)
-admin.site.register(Game)
-admin.site.register(HighScore)
-admin.site.register(Setting)
+admin.site.register(PongPlayer)
+admin.site.register(PongGame)

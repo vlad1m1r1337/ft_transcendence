@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fz220zc=1-bh16w5rt6+k)$!ihp(2w9z-7-fo=0qw3m0rtiue#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'postgres', 'localhost', '127.0.0.1' ]
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pong',
+    'clicker',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost:8081',  # Add this URL
 ]
 
 ROOT_URLCONF = 'back.urls'

@@ -1,0 +1,33 @@
+//Get
+[
+  {
+    "players_info": [
+      {
+        "name": "string",
+        "clicks": "number"
+      },
+      {
+        "name": "string",
+        "clicks": "number"
+      },
+      {
+        "name": "string",
+        "clicks": "number"
+      }
+    ],
+    "time": 6
+  },
+  {
+    "players_info": [
+      {
+        "name": "string",
+        "clicks": "number"
+      },
+      {
+        "name": "string",
+        "clicks": "number"
+      }
+    ],
+    "time": "number"
+  }
+]
