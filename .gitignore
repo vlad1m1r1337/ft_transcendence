@@ -5,6 +5,7 @@
 .vscode
 monitoring/alertmanager/config/alertmanager.yml
 .env
+.venv
 back/back/__pycache__
 back/back/migrations
 back/pong/__pycache__
