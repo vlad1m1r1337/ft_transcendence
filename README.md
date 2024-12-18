@@ -6,9 +6,9 @@
 Чтобы попасть на веб-морду сервисов, нужно ввести ```http://localhost:<port>```. Номера портов сервисов, доступных для просмотра(убедитесь, что есть необходимые настройки UFW(любых других Firewall'ов):
 + ```port:3000``` - Grafana
 + ```port:9090``` - Prometheus
-+ ```port:5601``` - ElasticSearch
-+ ```port:9200``` - Kibana
-+ ```port:5044``` - Logstash
++ ```port:5601``` - ElasticSearch - on maintenance
++ ```port:9200``` - Kibana - on maintenance
++ ```port:5044``` - Logstash - on maintenance
 + ```port:9113``` - Nginx-exporter
 + ```port:9100``` - Node-exporter
 + ```port:9093``` - Alertmanager
