@@ -401,7 +401,6 @@ class Game {
 		const data = {
 			name: champion.name,
 		};
-
 		try {
 			await fetch('/api/v1/pong/champion', {
 				method: 'POST',
