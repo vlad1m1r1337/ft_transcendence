@@ -69,17 +69,16 @@ function postClickerTournament() {
         return {name: player.name, clicks: player.score};
     });
 
-    const ret = {
+    const re = {
         players_info: res,
         time: GLOBAL.maxTime,
     };
-
-    fetch('/XXX', {
+    fetch('http://127.0.0.1:8000/api/clicker-matches/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(ret),
+        body: JSON.stringify(re),
     });
 }
 

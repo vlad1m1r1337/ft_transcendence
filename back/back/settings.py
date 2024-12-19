@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'pong',
     'clicker',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,8 +54,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://localhost:8081',  # Add this URL
+    'https://localhost:8081',
+    'http://localhost:8081',
 ]
 
 ROOT_URLCONF = 'back.urls'
@@ -86,7 +93,7 @@ DATABASES = {
         'NAME': 'test_db',
         'USER': 'admin',
         'PASSWORD': 'admin123',
-        'HOST': 'postgres',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
