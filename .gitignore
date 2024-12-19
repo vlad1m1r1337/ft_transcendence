@@ -6,8 +6,8 @@
 monitoring/alertmanager/config/alertmanager.yml
 .env
 back/back/__pycache__
-back/back/migrations
+back/back/migrations/0*.py
 back/pong/__pycache__
-back/pong/migrations
+back/pong/migrations/0*.py
 back/clicker/__pycache__
-back/clicker/migrations
+back/clicker/migrations/0*.py
