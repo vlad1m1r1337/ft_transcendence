@@ -1,7 +1,7 @@
 name: ft_transcendence
 
 services:
-#---------------------------------- Webserver ----------------------------------#
+  #---------------------------------- Webserver ----------------------------------#
   nginx:
     container_name: nginx
     build:
@@ -18,7 +18,7 @@ services:
       - front-tier
     restart: always
 
-#---------------------------------- Frontend ----------------------------------#
+  #---------------------------------- Frontend ----------------------------------#
   front:
     container_name: front
     build:
@@ -27,23 +27,23 @@ services:
     ports:
       - '5000:5000'
         #volumes:
-        #- './front:/app'
+      #- './front:/app'
     networks:
       - back-tier
       - front-tier
     depends_on:
       - postgres
 
-#---------------------------------- Database ----------------------------------#
+  #---------------------------------- Database ----------------------------------#
   postgres:
     container_name: postgres
     build:
       context: ./postgresql
       dockerfile: Dockerfile
     environment:
-      - 'POSTGRES_PASSWORD=admin123'
-      - 'POSTGRES_USER=admin'
-      - 'POSTGRES_DB=test_db'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+      - 'POSTGRES_USER=${POSTGRES_USER}'
+      - 'POSTGRES_DB=${POSTGRES_DB}'
     networks:
       - back-tier
     ports:
@@ -55,7 +55,7 @@ services:
       retries: 3
     restart: always
 
-#---------------------------------- Backend ----------------------------------#
+  #---------------------------------- Backend ----------------------------------#
   back:
     container_name: back
     build:
@@ -73,7 +73,7 @@ services:
 
 
 
-#---------------------------------- Monitoring ----------------------------------#
+  #---------------------------------- Monitoring ----------------------------------#
   prometheus:
     container_name: prom
     build:
@@ -98,8 +98,8 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - 'GF_SECURITY_ADMIN_USER=admin'
-      - 'GF_SECURITY_ADMIN_PASSWORD=admin123'
+      - 'GF_SECURITY_ADMIN_USER=${GF_USER}'
+      - 'GF_SECURITY_ADMIN_PASSWORD=${GF_PASSWORD}'
     networks:
       - front-tier
       - monitoring-tier
@@ -107,7 +107,7 @@ services:
   nginx-exporter:
     container_name: nginx-exporter
     image: nginx/nginx-prometheus-exporter
-    command: 
+    command:
       - '--nginx.scrape-uri=http://localhost:8080/nginx_status'
     ports:
       - '9113:9113'
@@ -123,7 +123,6 @@ services:
     command:
       - '--path.rootfs=/host'
     volumes:
-#      - '/:/host:ro,rslave'
       - '/sys:/host/sys:ro'
       - '/proc:/host/proc:ro'
     networks:
@@ -139,6 +138,63 @@ services:
     networks:
       - monitoring-tier
 
+
+
+#---------------------------------- ELK stack ----------------------------------#
+#  elasticsearch:
+#    container_name: elastic
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+#    environment:
+#      - 'discovery.type=single-node'
+#      - 'xpack.security.enabled=true'
+#      - 'xpack.security.authc.api_key.enabled=true'
+#      - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
+#    ports:
+#      - '9200:9200'
+#    networks:
+#      - back-tier
+#      - logging-tier
+#    env_file: .env
+#
+#  logstash:
+#    container_name: logstash
+#    image: docker.elastic.co/logstash/logstash:7.17.10
+#    command: 'logstash -f /usr/share/logstash/pipeline/logstash.conf --config.reload.automatic'
+#    environment:
+#      - 'xpack.monitoring.elasticsearch.url=http://elasticsearch:9200'
+#    ports:
+#      - '5044:5044'
+#      - '9600:9600'
+#      - '6000:6000'
+#      - '12201:12201/udp'
+#    volumes:
+#      - "./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf"
+#    networks:
+#      - back-tier
+#      - logging-tier
+#    depends_on:
+#      - elasticsearch
+#
+#  kibana:
+#    container_name: kibana
+#    image: docker.elastic.co/kibana/kibana:7.17.10
+#    ports:
+#      - '5601:5601'
+#    environment:
+#      - 'ELASTICSEARCH_HOSTS=http://elasticsearch:9200'
+#      - 'SERVER_BASE_PATH=/kibana'
+#      - 'ELASTICSEARCH_USERNAME=$ELASTIC_USER'
+#      - 'ELASTICSEARCH_PASSWORD=$ELASTIC_PASSWORD'
+#    volumes:
+#      - './tools/kibana.yml:/usr/share/kibana/config/kibana.yml'
+#    networks:
+#      - front-tier
+#      - logging-tier
+#    depends_on:
+#      - elasticsearch
+#    env_file: .env
+
+
 networks:
   front-tier:
     driver: bridge
@@ -146,3 +202,5 @@ networks:
     driver: bridge
   monitoring-tier:
     driver: bridge
+#  logging-tier:
+#    driver: bridge
