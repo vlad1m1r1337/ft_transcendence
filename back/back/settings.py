@@ -55,12 +55,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "https://localhost:8081",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost:8081',
-    'http://localhost:8081',
 ]
 
 ROOT_URLCONF = 'back.urls'
@@ -93,7 +92,7 @@ DATABASES = {
         'NAME': 'test_db',
         'USER': 'admin',
         'PASSWORD': 'admin123',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
