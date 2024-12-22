@@ -38,6 +38,7 @@ const translations = {
         name: 'Name',
         clicks: 'Clicks',
         signin_signout: 'Sign in / Sign out',
+        draw: 'Draw',
     },
     ru: {
         transendence: "трансуха",
@@ -76,6 +77,7 @@ const translations = {
         name: 'Имя',
         clicks: 'Клики',
         signin_signout: 'Войти / Выйти',
+        draw: 'Ничья',
     },
 };
 
