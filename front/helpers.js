@@ -73,7 +73,7 @@ function postClickerTournament() {
         players_info: res,
         time: GLOBAL.maxTime,
     };
-    fetch('http://127.0.0.1:8000/api/clicker-matches/', {
+    fetch('https://localhost:8081/api/clicker-matches/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
