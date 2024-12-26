@@ -9,7 +9,15 @@ class IntraUser(models.Model):
     wallet = models.IntegerField(default=0)
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
+
+    def has_perm(self, perm, obj=None):
+        return True
+    def has_module_perms(self, request):
+        return True
     def is_authenticated(self):
         return True
+    def get_username(self):
+        return self.intra_login
     def __str__(self):
         return self.intra_login
