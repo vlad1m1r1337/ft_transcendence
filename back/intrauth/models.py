@@ -8,6 +8,7 @@ class IntraUser(models.Model):
     avatar = models.CharField(max_length=100)
     wallet = models.IntegerField(default=0)
     last_login = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     def is_authenticated(self):
         return True
     def __str__(self):
