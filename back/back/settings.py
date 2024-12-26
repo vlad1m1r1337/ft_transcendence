@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ 'postgres', 'localhost', '127.0.0.1' ]
 
+AUTHENTICATION_BACKENDS = [
+    'intrauth.auth.IntraAuthenticationBackend'
+]
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pong',
     'clicker',
+    'intrauth',
     'rest_framework',
     'corsheaders',
 ]
@@ -82,6 +86,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'back.wsgi.application'
 
+# OAuth Settings
+CLIENT_ID = 'u-s4t2ud-8161ed3031861bdaa58e03f4222bba43a07c00dae2ab2753ee7f5fd96421f692'
+CLIENT_SECRET = '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'
+REDIRECT_URI = 'http://localhost:8081/oauth/callback/'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

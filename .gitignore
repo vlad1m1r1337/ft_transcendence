@@ -13,3 +13,7 @@ back/pong/migrations/__pychache__
 back/clicker/__pycache__
 back/clicker/migrations/0*.py
 back/clicker/migrations/__pychache__
+back/intrauth/__pycache__
+back/intrauth/migrations/0*.py
+back/intrauth/migrations/__pychache__
+
