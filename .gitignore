@@ -16,4 +16,6 @@ back/clicker/migrations/__pychache__
 back/intrauth/__pycache__
 back/intrauth/migrations/0*.py
 back/intrauth/migrations/__pychache__
+certs/
+
 *.pyc

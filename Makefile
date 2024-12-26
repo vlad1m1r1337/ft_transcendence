@@ -14,8 +14,7 @@ BLUE = \033[0;34m
 
 build: gen
 	@echo "${PURPLE}*Building ${PROJECT} environment...*${RESET}"
-	@bash tools/make_dirs.sh
-	@${COMPOSE} up -d --build
+	@${COMPOSE} -f docker-compose-main.yaml up -d --build
 
 up:
 	@echo "${CYAN}*Initializing ${PROJECT} setup...* ${RESET}"
@@ -25,10 +24,8 @@ down:
 	@echo "${YELLOW}*Shutting down ${PROJECT}...* ${RESET}"
 	@${COMPOSE} down
 
-re: down
+re: down up
 	@echo "${BLUE}* Rebuilding ${PROJECT}...* ${RESET}"
-	@bash tools/make_dirs.sh
-	@${COMPOSE} up -d --build
 
 clean: down
 	@echo "${RED}* Removing ${PROJECT} data...* ${RESET}"
@@ -50,16 +47,21 @@ fclean:
 	@if [ "$$(docker volume ls -q)" != "" ]; then \
 		docker volume rm $$(docker volume ls -q); \
 	fi
-	@sudo rm -rf ./data/nginx
-	@sudo rm -rf ./data/prometheus
-	@sudo rm -rf ./data/postgresql
+	@sudo rm -rf ./certs
 	@sudo rm -rf ./monitoring/alertmanager/config/alertmanager.yml
 
 gen:
 	@if [ -f .env ]; then \
-		rm -rf ./monitoring/alertmanager/config/alertmanager.yml; \
-		chmod +x ./tools/gen_alertmanager_config.sh; \
-		bash ./tools/gen_alertmanager_config.sh; \
+		echo "${PURPLE}*Preparing important files to build ${PROJECT}...*${RESET}"; \
+		if [ ! -f ./monitoring/alertmanager/config/alertmanager.yml ]; then \
+			chmod +x ./tools/gen_alertmanager_config.sh; \
+			bash ./tools/gen_alertmanager_config.sh; \
+		fi; \
+		if [ ! -d ./certs ]; then \
+			${COMPOSE} -f docker-compose-certs.yaml up -d && \
+			sleep 15 && \
+			docker cp create_certs:/usr/share/elasticsearch/certs ./certs; \
+		fi; \
 	else \
 		echo ".env file not found! Please load or create it before running make"; \
 		exit 1; \

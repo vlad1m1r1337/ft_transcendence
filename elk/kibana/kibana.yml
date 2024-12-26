@@ -1,0 +1,22 @@
+server.ssl.enabled: true
+server.ssl.certificate: /usr/share/kibana/config/ssl/kibana-selfsigned.crt
+server.ssl.key: /usr/share/kibana/config/ssl/kibana-selfsigned.key
+server.port: 5601
+server.host: 0.0.0.0
+
+# This section was automatically generated during setup.
+elasticsearch.hosts: ['http://elasticsearch:9200']
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "transcendence"
+#elasticsearch.password: ${KIBANA_PASSWORD}
+
+xpack.security.encryptionKey: "nmNksPvm<PypvpgKVwWYM5ScNVCnpMPG"
+#xpack.security.encryptionKey: ${KIBANA_ENCRYPTION_KEY}
+
+
+#server.host: "0.0.0.0"
+#server.shutdownTimeout: "5s"
+#elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+##monitoring.ui.container.elasticsearch.enabled: true
+#server.rewriteBasePath: false
+#server.basePath: "/kibana"
