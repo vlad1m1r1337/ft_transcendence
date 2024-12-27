@@ -18,6 +18,8 @@ build: gen
 	@sleep 40
 	@bash ./elk/elk_setup/ikibana.sh
 	@${COMPOSE} -f docker-compose-main.yaml up -d --build kib01
+	@${COMPOSE} -f docker-compose-main.yaml up -d --build log01
+	@${COMPOSE} -f docker-compose-main.yaml up -d --build
 
 up:
 	@echo "${CYAN}*Initializing ${PROJECT} setup...* ${RESET}"
@@ -52,6 +54,9 @@ fclean:
 	fi
 	@sudo rm -rf ./certs
 	@sudo rm -rf ./monitoring/alertmanager/config/alertmanager.yml
+	@sudo rm -rf ./elk/elasticsearch/certs
+	@sudo rm -rf ./elk/logstash/certs
+	@sudo rm -rf ./elk/kibana/certs
 
 gen:
 	@if [ -f .env ]; then \

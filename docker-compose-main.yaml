@@ -2,75 +2,75 @@ name: ft_transcendence
 
 services:
   #---------------------------------- Webserver ----------------------------------#
-#  nginx:
-#    container_name: nginx
-#    build:
-#      context: './nginx'
-#      dockerfile: Dockerfile
-#    ports:
-#      - '8081:443'
-#      - '8080:80'
-#    networks:
-#      - back-tier
-#      - front-tier
-#    restart: always
-#    depends_on:
-#      - front
-#      - back
-#
-#  #---------------------------------- Frontend ----------------------------------#
-#  front:
-#    container_name: front
-#    build:
-#      context: './front'
-#      dockerfile: Dockerfile
-#        #volumes:
-#      #- './front:/app'
-#    ports:
-#      - '5000:5000'
-#    networks:
-#      - back-tier
-#      - front-tier
-#    depends_on:
-#      - postgres
-#
-#  #---------------------------------- Database ----------------------------------#
-#  postgres:
-#    container_name: postgres
-#    build:
-#      context: './postgresql'
-#      dockerfile: Dockerfile
-#    environment:
-#      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
-#      - 'POSTGRES_USER=${POSTGRES_USER}'
-#      - 'POSTGRES_DB=${POSTGRES_DB}'
-#    ports:
-#      - '5432:5432'
-#    networks:
-#      - back-tier
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready -U admin -d test_db"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 3
-#    restart: always
-#
-#  #---------------------------------- Backend ----------------------------------#
-#  back:
-#    container_name: back
-#    build:
-#      context: './back'
-#      dockerfile: Dockerfile
-#    ports:
-#      - '5001:5001'
-#    networks:
-#      - back-tier
-#    volumes:   # need to be removed after finish backend part
-#      - './back:/usr/src/app/'
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
-#
+  nginx:
+    container_name: nginx
+    build:
+      context: './nginx'
+      dockerfile: Dockerfile
+    ports:
+      - '8081:443'
+      - '8080:80'
+    networks:
+      - back-tier
+      - front-tier
+    restart: always
+    depends_on:
+      - front
+      - back
+
+  #---------------------------------- Frontend ----------------------------------#
+  front:
+    container_name: front
+    build:
+      context: './front'
+      dockerfile: Dockerfile
+        #volumes:
+      #- './front:/app'
+    ports:
+      - '5000:5000'
+    networks:
+      - back-tier
+      - front-tier
+    depends_on:
+      - postgres
+
+  #---------------------------------- Database ----------------------------------#
+  postgres:
+    container_name: postgres
+    build:
+      context: './postgresql'
+      dockerfile: Dockerfile
+    environment:
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+      - 'POSTGRES_USER=${POSTGRES_USER}'
+      - 'POSTGRES_DB=${POSTGRES_DB}'
+    ports:
+      - '5432:5432'
+    networks:
+      - back-tier
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d test_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: always
+
+  #---------------------------------- Backend ----------------------------------#
+  back:
+    container_name: back
+    build:
+      context: './back'
+      dockerfile: Dockerfile
+    ports:
+      - '5001:5001'
+    networks:
+      - back-tier
+    volumes:   # need to be removed after finish backend part
+      - './back:/usr/src/app/'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 #
 #
 #  #---------------------------------- Monitoring ----------------------------------#
@@ -191,6 +191,25 @@ services:
       SERVER_SSL_CERTIFICATE: /usr/share/elasticsearch/config/certificates/kib01/kib01.crt
     ports:
       - '5601:5601'
+    networks:
+      - elastic-tier
+
+  log01:
+    container_name: log01
+    build:
+      context: ./elk/logstash
+      dockerfile: Dockerfile
+#    volumes:
+#      - certs:/usr/share/logstash/certs
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    depends_on:
+      es01:
+        condition: service_healthy
+    ports:
+      - '5044:5044'
+      - '6000:6000'
+      - '12201:12201'
     networks:
       - elastic-tier
 
