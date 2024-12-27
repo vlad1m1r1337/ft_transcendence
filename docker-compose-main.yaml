@@ -53,6 +53,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    logging:
+      driver: gelf
+      options:
+        gelf-address: 'udp://localhost:12201'
+    links:
+      - log01:log01
     restart: always
 
   #---------------------------------- Backend ----------------------------------#
@@ -199,8 +205,6 @@ services:
     build:
       context: ./elk/logstash
       dockerfile: Dockerfile
-#    volumes:
-#      - certs:/usr/share/logstash/certs
     environment:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
@@ -212,6 +216,7 @@ services:
       - '12201:12201'
     networks:
       - elastic-tier
+      - back-tier
 
 networks:
   front-tier:
