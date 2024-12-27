@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path, include
 from intrauth.views import home, intra_login, intra_login_redirect, get_authenticated_user
+from .api_root import CustomAPIRootView
 
 router = DefaultRouter()
 router.register(r'clicker-players', ClickerPlayerViewSet, basename='clicker-players')
@@ -14,6 +15,7 @@ router.register(r'pong-games', PongGameViewSet, basename='pong-games')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', CustomAPIRootView.as_view(), name='api-root'),
     path('api/', include(router.urls)),
     path('auth/user/', get_authenticated_user, name='get_authenticated_user'),
     path('oauth/', home, name='oauth'),
