@@ -20,15 +20,15 @@ class IntraUser(models.Model):
         return True
     def has_module_perms(self, request):
         return True
-    # def is_authenticated(self):
-    #     return True
     def get_username(self):
         return self.intra_login
     def __str__(self):
         return self.intra_login
 
     def create_associated_players(self, request):
+        print("Creating associated players", flush=True)
         PongPlayer = apps.get_model('pong', 'PongPlayer')
         ClickerPlayer = apps.get_model('clicker', 'ClickerPlayer')
-        PongPlayer.objects.create(user=self)
-        ClickerPlayer.objects.create(user=self)
+        PongPlayer.create(self)
+        print("Creating associated players after...", flush=True)
+        ClickerPlayer.create(self)

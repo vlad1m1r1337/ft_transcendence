@@ -5,10 +5,15 @@ from intrauth.models import IntraUser
 class ClickerPlayer (models.Model):
     user = models.ForeignKey(IntraUser, related_name='clicker_players', on_delete=models.CASCADE)
     nickname = models.CharField(max_length = 100)
-    number_of_matches = models.IntegerField()
-    average_click_speed = models.FloatField()
+    number_of_matches = models.IntegerField(default=0)
+    average_click_speed = models.FloatField(default=0)
 
     def __str__(self): return self.nickname
+
+    @classmethod
+    def create(cls, intra_user):
+       print(f"Creating ClickerPlayer for user {intra_user}", flush=True)
+       return cls.objects.create(user=intra_user, nickname=intra_user.intra_login + "_clicker")
 
 class ClickerGame (models.Model):
     players = models.ManyToManyField(ClickerPlayer, related_name='clicker_games')

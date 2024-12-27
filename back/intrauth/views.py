@@ -3,6 +3,9 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 import requests
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 # Create your views here.
 
 auth_url_intra = ("https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-8161ed3031861bdaa58e03f4222bba43a07c00dae2ab2753ee7f5fd96421f692&redirect_uri=https%3A%2F%2Flocalhost%3A8081%2Foauth%2Flogin%2Fredirect%2F&response_type=code")
@@ -20,13 +23,18 @@ def get_authenticated_user(request : HttpRequest) :
 def intra_login(request : HttpRequest):
     return redirect(auth_url_intra)
 
+@api_view(['GET'])
 def intra_login_redirect(request : HttpRequest):
     code = request.GET["code"]
     user = exchange_code(code)
     intra_user = authenticate(request, user=user)
-    intra_user = list(intra_user).pop()
-    login(request, intra_user)
-    return redirect("/auth/user/")
+    # intra_user = list(intra_user).pop()
+    if intra_user is not None:
+        login(request, intra_user)
+
+        return redirect('https://localhost:8081/')
+    else:
+        return Response({"error": "Authentication failed"}, status=400)
 
 def exchange_code(code: str):
     data = {

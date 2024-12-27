@@ -10,6 +10,11 @@ class PongPlayer(models.Model):
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
 
+    @classmethod
+    def create(cls, intra_user):
+        print("Creating PongPlayer for user", flush=True)
+        return cls.objects.create(user=intra_user, nickname=intra_user.intra_login + "_pong")
+
     def win_rate(self):
         if self.total_games > 0:
             return (self.wins / self.total_games) * 100
