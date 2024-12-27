@@ -14,7 +14,10 @@ BLUE = \033[0;34m
 
 build: gen
 	@echo "${PURPLE}*Building ${PROJECT} environment...*${RESET}"
-	@${COMPOSE} -f docker-compose-main.yaml up -d --build
+	@${COMPOSE} -f docker-compose-main.yaml up -d --build es01
+	@sleep 40
+	@bash ./elk/elk_setup/ikibana.sh
+	@${COMPOSE} -f docker-compose-main.yaml up -d --build kib01
 
 up:
 	@echo "${CYAN}*Initializing ${PROJECT} setup...* ${RESET}"

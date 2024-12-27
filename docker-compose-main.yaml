@@ -160,6 +160,7 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=/usr/share/elasticsearch/config/certificates/ca/ca.crt
       - xpack.security.transport.ssl.certificate=/usr/share/elasticsearch/config/certificates/es01/es01.crt
       - xpack.security.transport.ssl.key=/usr/share/elasticsearch/config/certificates/es01/es01.key
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     volumes:
       - ./certs:/usr/share/elasticsearch/config/certificates
     ports:
@@ -180,8 +181,8 @@ services:
       SERVERNAME: localhost
       ELASTICSEARCH_URL: https://es01:9200
       ELASTICSEARCH_HOSTS: https://es01:9200
-      ELASTICSEARCH_USERNAME: kibana
-      ELASTICSEARCH_PASSWORD: N8HfGbMyCbfoMoChZmhe
+      ELASTICSEARCH_USERNAME: ${KIBANA_USER}
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
       ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: /usr/share/elasticsearch/config/certificates/ca/ca.crt
       SERVER_SSL_ENABLED: "true"
       SERVER_SSL_KEY: /usr/share/elasticsearch/config/certificates/kib01/kib01.key
