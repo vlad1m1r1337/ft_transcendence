@@ -65,6 +65,7 @@ gen:
 			sleep 15 && \
 			docker cp create_certs:/usr/share/elasticsearch/certs ./certs && \
 			cp -r ./certs ./elk/elasticsearch && \
+			cp -r ./certs ./elk/logstash && \
 			cp -r ./certs ./elk/kibana; \
 		fi; \
 	else \

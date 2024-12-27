@@ -10,3 +10,8 @@ instances:
     dns:
       - kib01
       - localhost
+
+  - name: 'log01'
+    dns:
+      - log01
+      - localhost
