@@ -140,8 +140,10 @@ services:
 
   #---------------------------------- ELK stack ----------------------------------#
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     container_name: es01
+    build:
+      context: elk/elasticsearch
+      dockerfile: Dockerfile
     privileged: true
     environment:
       - node.name=es01
@@ -161,8 +163,6 @@ services:
       - xpack.security.transport.ssl.certificate=/usr/share/elasticsearch/config/certificates/es01/es01.crt
       - xpack.security.transport.ssl.key=/usr/share/elasticsearch/config/certificates/es01/es01.key
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-    volumes:
-      - ./certs:/usr/share/elasticsearch/config/certificates
     ports:
       - '9200:9200'
     networks:
@@ -174,8 +174,10 @@ services:
       retries: 120
 
   kib01:
-    image: docker.elastic.co/kibana/kibana:7.17.10
     container_name: kib01
+    build:
+      context: elk/kibana
+      dockerfile: Dockerfile
     depends_on: {"es01": {"condition": "service_healthy"}}
     environment:
       SERVERNAME: localhost
@@ -187,8 +189,6 @@ services:
       SERVER_SSL_ENABLED: "true"
       SERVER_SSL_KEY: /usr/share/elasticsearch/config/certificates/kib01/kib01.key
       SERVER_SSL_CERTIFICATE: /usr/share/elasticsearch/config/certificates/kib01/kib01.crt
-    volumes:
-      - ./certs:/usr/share/elasticsearch/config/certificates
     ports:
       - '5601:5601'
     networks:

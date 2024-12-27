@@ -63,7 +63,9 @@ gen:
 		if [ ! -d ./certs ]; then \
 			${COMPOSE} -f docker-compose-certs.yaml up -d && \
 			sleep 15 && \
-			docker cp create_certs:/usr/share/elasticsearch/certs ./certs; \
+			docker cp create_certs:/usr/share/elasticsearch/certs ./certs && \
+			cp -r ./certs ./elk/elasticsearch && \
+			cp -r ./certs ./elk/kibana; \
 		fi; \
 	else \
 		echo ".env file not found! Please load or create it before running make"; \
