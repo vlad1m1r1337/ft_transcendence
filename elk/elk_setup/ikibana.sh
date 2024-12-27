@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Загрузка переменных из .env файла
 set -a
 source .env
 set +a

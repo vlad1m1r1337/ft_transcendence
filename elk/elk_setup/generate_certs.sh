@@ -1,27 +1,22 @@
 #!/bin/bash
-#
-##cat config/certificates/instances.yml
-#if [[ ! -f /certs/bundle.zip ]]; then
-#  bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip
-#  unzip /certs/bundle.zip -d /certs
-#fi
-#
-#chown -R 1000:0 /certs
 
-# Создаем папку /certs, если она не существует
-mkdir -p /certs
+#mkdir -p /certs
 
-# Генерируем сертификаты, если они еще не созданы
-if [[ ! -f /certs/bundle.zip ]]; then
-  bin/elasticsearch-certutil cert \
+bin/elasticsearch-certutil ca \
     --silent \
     --pem \
+    -out config/certificates/ca.zip;
+unzip config/certificates/ca.zip -d config/certs;
+
+bin/elasticsearch-certutil cert \
+    --silent \
+    --pem \
+    -out config/certs/certs.zip \
     --in config/certificates/instances.yml \
-    -out /certs/bundle.zip
-fi
+    --ca-cert config/certs/ca/ca.crt \
+    --ca-key config/certs/ca/ca.key;
+unzip config/certs/certs.zip -d config/certs;
+rm -rf config/certs/certs.zip;
 
-# Распаковываем созданные сертификаты
-unzip -o /certs/bundle.zip -d /usr/share/elasticsearch/certs
-
-# Меняем владельца для папки с сертификатами
-chown -R 1000:0 /certs
+## Меняем владельца для папки с сертификатами
+chown -R 1000:0 config/certs
