@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from django.contrib.auth.models import User
+from intrauth.models import IntraUser
 
 class ClickerPlayer (models.Model):
-    user = models.ForeignKey(User, related_name='clicker_players', on_delete=models.CASCADE)
+    user = models.ForeignKey(IntraUser, related_name='clicker_players', on_delete=models.CASCADE)
     nickname = models.CharField(max_length = 100)
     number_of_matches = models.IntegerField()
     average_click_speed = models.FloatField()

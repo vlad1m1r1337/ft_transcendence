@@ -7,4 +7,5 @@ class IntraUserManager(models.UserManager):
             intra_login=user['login'],
             wallet=user['wallet'],
         )
+        new_user.create_associated_players(self)
         return new_user

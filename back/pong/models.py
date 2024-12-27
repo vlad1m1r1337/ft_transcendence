@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from intrauth.models import IntraUser
+
 
 class PongPlayer(models.Model):
-    user = models.ForeignKey(User, related_name='pong_players', on_delete=models.CASCADE)
+    user = models.ForeignKey(IntraUser, related_name='pong_players', on_delete=models.CASCADE)
     nickname = models.CharField(max_length=100)
     rating = models.IntegerField(default=0)
     total_games = models.IntegerField(default=0)
@@ -25,7 +26,3 @@ class PongGame(models.Model):
 
     def __str__(self):
         return f"{self.player1.nickname} vs {self.player2.nickname}"
-
-
-class TopPlayer(models.Model):
-    user = models.ForeignKey(User, related_name='top_players', on_delete=models.CASCADE)

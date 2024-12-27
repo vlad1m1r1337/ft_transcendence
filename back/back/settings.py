@@ -27,8 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ 'postgres', 'localhost', '127.0.0.1' ]
 
+AUTH_USER_MODEL = 'intrauth.IntraUser'
+
 AUTHENTICATION_BACKENDS = [
-    'intrauth.auth.IntraAuthenticationBackend'
+    'intrauth.auth.IntraAuthenticationBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Application definition
