@@ -1,14 +1,14 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-import requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import requests
+import os
 
 # Create your views here.
 
-auth_url_intra = ("https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-8161ed3031861bdaa58e03f4222bba43a07c00dae2ab2753ee7f5fd96421f692&redirect_uri=https%3A%2F%2Flocalhost%3A8081%2Foauth%2Flogin%2Fredirect%2F&response_type=code")
 #put in an .env, maybe
 
 
@@ -21,7 +21,11 @@ def get_authenticated_user(request : HttpRequest) :
     return JsonResponse({"msg": "Authenticated"})
 
 def intra_login(request : HttpRequest):
-    return redirect(auth_url_intra)
+    return redirect(os.getenv("AUTH_URL_INTRA"))
+
+def intra_logout(request):
+    logout(request)
+    return redirect('https://localhost:8081/')
 
 @api_view(['GET'])
 def intra_login_redirect(request : HttpRequest):
@@ -38,11 +42,11 @@ def intra_login_redirect(request : HttpRequest):
 
 def exchange_code(code: str):
     data = {
-        "client_id": "u-s4t2ud-8161ed3031861bdaa58e03f4222bba43a07c00dae2ab2753ee7f5fd96421f692", #put in an .env
-        "client_secret": "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", #put in an .env
+        "client_id": os.getenv("CLIENT_ID"),
+        "client_secret": os.getenv("CLIENT_SECRET"),
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "https://localhost:8081/oauth/login/redirect/",
+        "redirect_uri": os.getenv("REDIRECT_URI"),
         "scope": "identify"
     }
     headers = {

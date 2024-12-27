@@ -3,7 +3,7 @@ from pong.views import PongPlayerViewSet, PongGameViewSet
 from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path, include
-from intrauth.views import home, intra_login, intra_login_redirect, get_authenticated_user
+from intrauth.views import home, intra_login, intra_logout, intra_login_redirect, get_authenticated_user
 from .api_root import CustomAPIRootView
 
 router = DefaultRouter()
@@ -20,5 +20,6 @@ urlpatterns = [
     path('auth/user/', get_authenticated_user, name='get_authenticated_user'),
     path('oauth/', home, name='oauth'),
     path('oauth/login/', intra_login, name='oauth_login'),
+    path('oauth/logout/', intra_logout, name='oauth_logout'),
     path('oauth/login/redirect/', intra_login_redirect, name='oauth_login_redirect'),
 ]
