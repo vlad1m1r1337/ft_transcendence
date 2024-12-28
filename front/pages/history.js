@@ -1,5 +1,5 @@
 import templateEngine from "../engine.js";
-import showToast from "../toast.js";
+import {showToast} from "../toast.js";
 
 const fetchHistroy = async () => {
     try {
@@ -21,7 +21,6 @@ export const HistoryElement = async () => {
     const transObj = translations[language];
 
     const history = await fetchHistroy();
-    console.log('history', history[0].players_info)
     let page = {
         tag: 'div',
         cls: ['d-flex', 'align-items-center', 'flex-column'],
@@ -34,6 +33,13 @@ export const HistoryElement = async () => {
                     'data-translate': "history",
                 }
             },
+            history.length === 0 ? {
+                tag: 'h3',
+                content: transObj.no_tournament,
+                attrs: {
+                    'data-translate': "no_tournament",
+                }
+            } :
             {
                 tag: 'table',
                 cls: ['table'],
@@ -45,9 +51,9 @@ export const HistoryElement = async () => {
                                 tag: 'tr',
                                 content: [
                                     {tag: 'th', attrs: {scope: 'col'}, content: '#'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Name'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Clicks'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Time'}
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'player'}, content: transObj.player}},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'clicks'}, content: transObj.clicks}},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'time2'}, content: transObj.time2}},
                                 ]
                             }
                         ]
