@@ -1,6 +1,7 @@
 import templateEngine from "../engine.js";
 import {menu_template} from "../constants.js";
 import { findKeyByValue } from "../utils.js";
+import {showToast} from "../toast.js";
 
 export const PingPongMain = () => {
     const language = localStorage.getItem('language') || 'en';
@@ -23,12 +24,11 @@ export const PingPongMain = () => {
             content: el.name,
         };
     });
-
     const page = menu_template;
 
     page.content.content = links;
     const finPage = templateEngine(page);
     const mainPage = document.getElementById('main-page');
     mainPage.appendChild(finPage);
-
+    showToast('')
 };

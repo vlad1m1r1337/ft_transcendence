@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {PlayerOneKey, PlayerTwoKey} from "../constants.js";
 import {champ, lose, win} from "../utils.js";
-import showToast from "../toast.js";
+import {showToast} from "../toast.js";
 import {showNextBattle, cutNick} from "../helpers.js";
 
 class Game {

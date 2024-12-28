@@ -39,6 +39,10 @@ const translations = {
         clicks: 'Clicks',
         signin_signout: 'Sign in / Sign out',
         draw: 'Draw',
+        no_tournament: 'Tournaments not found',
+        control: 'Control',
+        controls_blue: 'Player on the left controls the paddle with W and S buttons.',
+        controls_red: 'Player on the right controls the paddle with up and down arrows.',
     },
     ru: {
         transendence: "трансуха",
@@ -78,6 +82,10 @@ const translations = {
         clicks: 'Клики',
         signin_signout: 'Войти / Выйти',
         draw: 'Ничья',
+        no_tournament: 'Турниры не найдены',
+        control: 'Управление',
+        controls_blue: 'Игрок слева управляет доской кнопками W и S.',
+        controls_red: 'Игрок справа управляет доской стрелками вверх и вниз.',
     },
 };
 
