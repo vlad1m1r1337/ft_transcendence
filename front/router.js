@@ -12,6 +12,7 @@ import {NotFound} from "./pages/404.js";
 import {LeaderBoardElement} from "./pages/leaderboard.js";
 import {toggleTimeScore} from "./helpers.js";
 import {HistoryElement} from "./pages/history.js";
+import {hideToast} from "./toast.js";
 
 const route = (event) => {
     event.preventDefault();
@@ -27,6 +28,7 @@ const handleLocation = () => {
     GLOBAL.isAnimate = false;
     GLOBAL.newGame = true;
     toggleTimeScore(false);
+    hideToast();
     const mainPage = document.getElementById('main-page');
     while (mainPage.firstChild) {
         mainPage.removeChild(mainPage.firstChild);
@@ -55,9 +57,9 @@ const handleLocation = () => {
             GLOBAL.mode = 'tournament';
             namePlayers();
             break;
-        case "/ping-pong-leaderboard":
-            LeaderBoardElement();
-            break;
+        // case "/ping-pong-leaderboard":
+        //     LeaderBoardElement();
+        //     break;
         case "/clicker/tournament":
             toggleTimeScore(true);
             tournamentElement();
