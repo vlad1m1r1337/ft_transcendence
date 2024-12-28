@@ -91,6 +91,7 @@ class Game {
 	resetBall(loser) {
 		this.ball.resetPosition();
 		this.ball.setDirection(loser === 1 ? 1 : -1, Math.random() * 2 - 1);
+		// this.ball.setDirection(1, 0);
 	}
 
 	ballPhysics() {
@@ -129,9 +130,9 @@ class Game {
 		if (this.ball.mesh.position.x <= this.paddle1.mesh.position.x + this.paddle1.width
 			&& this.ball.mesh.position.x >= this.paddle1.mesh.position.x) {
 			if (this.ball.mesh.position.y <= -this.fieldHeight / 2) {
-				this.ball.mesh.position.y += 50;
+				this.ball.mesh.position.y += 10;
 			} else if (this.ball.mesh.position.y >= this.fieldHeight / 2) {
-				this.ball.mesh.position.y -= 50;
+				this.ball.mesh.position.y -= 10;
 			}
 			if (this.ball.mesh.position.y <= this.paddle1.mesh.position.y + this.paddle1.height / 2
 				&& this.ball.mesh.position.y >= this.paddle1.mesh.position.y - this.paddle1.height / 2) {
@@ -147,10 +148,10 @@ class Game {
 			&& this.ball.mesh.position.x >= this.paddle2.mesh.position.x) {
 			if (this.ball.mesh.position.y <= -this.fieldHeight / 2) {
 				this.ball.direction.x *= -1;
-				this.ball.mesh.position.y += 50;
+				this.ball.mesh.position.y += 10;
 			} else if (this.ball.mesh.position.y >= this.fieldHeight / 2) {
 				this.ball.direction.x *= -1;
-				this.ball.mesh.position.y -= 50;
+				this.ball.mesh.position.y -= 10;
 			}
 			if (this.ball.mesh.position.y <= this.paddle2.mesh.position.y + this.paddle2.height / 2
 				&& this.ball.mesh.position.y >= this.paddle2.mesh.position.y - this.paddle2.height / 2) {
@@ -179,7 +180,7 @@ class Game {
 			this.paddle2.mesh.position.y -= this.paddleSpeed * 0.5;
 		}
 
-		// this.paddle2.PaddleMapLimit();
+		this.paddle2.PaddleMapLimit();
 	}
 
 	player2PaddleMovement() {
