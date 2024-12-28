@@ -5,12 +5,10 @@ class IntraAuthenticationBackend(BaseBackend):
     def authenticate(self, request, user) -> IntraUser:
         user_found = IntraUser.objects.filter(id=user['id'])
         if len(user_found) == 0:
-            print("User was not found.", flush=True)
+            print("Creating new IntraUser", flush=True)
             new_user = IntraUser.objects.create_new_intra_user(user)
-            print(new_user, flush=True)
             return new_user
-        print(user_found, flush=True)
-        return user_found
+        return list(user_found).pop()
 
     def get_user(self, user_id):
         try:

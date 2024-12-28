@@ -1,5 +1,5 @@
 import templateEngine from "../engine.js";
-import showToast from "../toast.js";
+import {showToast} from "../toast.js";
 
 const fetchHistroy = async () => {
     try {
@@ -21,7 +21,6 @@ export const HistoryElement = async () => {
     const transObj = translations[language];
 
     const history = await fetchHistroy();
-    console.log('history', history[0].players_info)
     let page = {
         tag: 'div',
         cls: ['d-flex', 'align-items-center', 'flex-column'],
@@ -34,6 +33,13 @@ export const HistoryElement = async () => {
                     'data-translate': "history",
                 }
             },
+            history.length === 0 ? {
+                tag: 'h3',
+                content: transObj.no_tournament,
+                attrs: {
+                    'data-translate': "no_tournament",
+                }
+            } :
             {
                 tag: 'table',
                 cls: ['table'],

@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +31,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ 'postgres', 'localhost', '127.0.0.1' ]
 
+AUTH_USER_MODEL = 'intrauth.IntraUser'
+
 AUTHENTICATION_BACKENDS = [
-    'intrauth.auth.IntraAuthenticationBackend'
+    'intrauth.auth.IntraAuthenticationBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Application definition
@@ -86,10 +93,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'back.wsgi.application'
 
-# OAuth Settings
-CLIENT_ID = 'u-s4t2ud-8161ed3031861bdaa58e03f4222bba43a07c00dae2ab2753ee7f5fd96421f692'
-CLIENT_SECRET = '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'
-REDIRECT_URI = 'http://localhost:8081/oauth/callback/'
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'CUSTOM_HOST': 'https://localhost:8081',
+}
+
+# CURRENT_SITE = "https://localhost:8081/"
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
