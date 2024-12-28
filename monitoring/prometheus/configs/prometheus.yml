@@ -15,10 +15,6 @@ scrape_configs:
     static_configs:
       - targets: ['node-exporter:9100']
 
-        # - job_name: 'nodejs-app'
-        # static_configs:
-        # - targets: ['localhost:5000']
-
 rule_files:
   - 'prometheus_rules.yml'
 

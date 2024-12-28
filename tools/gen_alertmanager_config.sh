@@ -15,7 +15,7 @@ envsubst < "$TEMPLATE_FILE" > "$OUTPUT_FILE"
 
 if [ -f "${OUTPUT_FILE}" ]
 then
-	echo "Generated alertmanager.yml from alertmanager.yml.tpl"
+	echo "Generating alertmanager.yml from alertmanager.yml.tpl"
 else
 	echo "Something went wrong"
 fi
