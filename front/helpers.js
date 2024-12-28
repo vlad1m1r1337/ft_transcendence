@@ -10,18 +10,27 @@ export const saveClick = () => {
     });
 }
 
+function findMaxScorePlayer(players) {
+    const maxScorePlayer = players.reduce((maxPlayer, player) => {
+        return player.score > maxPlayer.score ? player : maxPlayer;
+    }, players[0]);
+
+    const maxScorePlayers = players.filter(player => player.score === maxScorePlayer.score);
+
+    if (maxScorePlayers.length > 1) {
+        const language = localStorage.getItem('language') || 'en';
+        const transObj = translations[language];
+        return { name:transObj.draw, score: maxScorePlayers[0].score };
+    }
+
+    return maxScorePlayer;
+}
+
 export const findMostClicks = () => {
     const header  = document.getElementById('staticBackdropClickerLabel');
     if (GLOBAL.mode === 'single') { return; }
 
-    let max = -1;
-    let winner = null;
-    GLOBAL.clicker_players.forEach((player) => {
-        if (player.score > max) {
-            max = player.score;
-            winner = player;
-        }
-    });
+    const winner = findMaxScorePlayer(GLOBAL.clicker_players);
     postClickerTournament();
     document.getElementById('staticBackdropClickerBodyLabel').textContent = winner.score;
     header.textContent = `${winner.name} 🎉🎉🎉`;
@@ -30,15 +39,14 @@ export const findMostClicks = () => {
 export const winnerAndTurnButton = () => {
     if (GLOBAL.mode === 'single') { return; }
     const allClicks = GLOBAL.clicker_players.find((player) => player.score === -1);
-    console.log(allClicks);
     if (!allClicks) {
         findMostClicks();
-        const lol = document.getElementById('continue-tournament-clicker');
-        lol.classList.add('disabled');
+        const button = document.getElementById('continue-tournament-clicker');
+        button.classList.add('disabled');
     }
     else {
-        const lol = document.getElementById('continue-tournament-clicker');
-        lol.classList.remove('disabled');
+        const button = document.getElementById('continue-tournament-clicker');
+        button.classList.remove('disabled');
     }
 }
 
@@ -63,8 +71,6 @@ export const showNextBattle = () => {
 }
 
 function postClickerTournament() {
-    console.log('post')
-    console.log(GLOBAL.clicker_players);
     const res = GLOBAL.clicker_players.map((player) => {
         return {name: player.name, clicks: player.score};
     });

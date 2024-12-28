@@ -47,7 +47,7 @@ const translations = {
         pingpong: "Пинг Понг",
         clicker: "Кликер",
         singleplayer: "Один игрок",
-        multiplayer: "Два игрока",
+        multiplayer: "Мультиплеер",
         tournament: "Турнир",
         online: "Онлайн",
         on_one_keyboard: "На одной клавиатуре",

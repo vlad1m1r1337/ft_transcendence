@@ -1,5 +1,5 @@
 import templateEngine from "../engine.js";
-import showToast from "../toast.js";
+import {showToast} from "../toast.js";
 
 const fetchLeaderBoard = async () => {
     try {
