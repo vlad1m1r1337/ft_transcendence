@@ -1,8 +1,6 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:8.17.0
-#FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.10
 
 USER root
-#RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 RUN date -u && apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 
 

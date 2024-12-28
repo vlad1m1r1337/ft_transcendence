@@ -1,6 +1,10 @@
+name: ft_transcendence
+
 services:
   create_certs:
     container_name: create_certs
     build:
       context: ./elk/elk_setup
       dockerfile: Dockerfile
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}

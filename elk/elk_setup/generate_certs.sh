@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#mkdir -p /certs
-
 bin/elasticsearch-certutil ca \
     --silent \
     --pem \
@@ -18,5 +16,4 @@ bin/elasticsearch-certutil cert \
 unzip config/certs/certs.zip -d config/certs;
 rm -rf config/certs/certs.zip;
 
-## Меняем владельца для папки с сертификатами
 chown -R 1000:0 config/certs
