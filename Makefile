@@ -22,7 +22,10 @@ build: gen
 	@${COMPOSE} -f docker-compose-main.yaml up -d --build kib01
 	@${COMPOSE} -f docker-compose-main.yaml up -d --build log01
 	@${COMPOSE} -f docker-compose-main.yaml up -d --build
+	@echo "${YELLOW}*Info about docker system:*${RESET}"
+	@echo "${BLUE}*Memory usage of each container:*${RESET}"
 	@docker stats --no-stream --format "{{.Name}}: {{.MemUsage}}"
+	@echo "${BLUE}*Amount of disk space each container uses:*${RESET}"
 	@docker system df
 	@echo "${CYAN}*${PROJECT} was successfully built!*${RESET}"
 
@@ -58,7 +61,7 @@ fclean:
 		docker volume rm $$(docker volume ls -q); \
 	fi
 	@sudo rm -rf ./monitoring/alertmanager/config/alertmanager.yml
-	@{MAKE} clean_certs
+	@${MAKE} clean_certs
 
 gen:
 	@if [ -f .env ]; then \
