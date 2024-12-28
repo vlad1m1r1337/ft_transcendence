@@ -93,10 +93,14 @@
                 </ul>
               </li>
               <li class="nav-item dropdown" style="width: 200px">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false" data-bs-auto-close="outside">
-                  Sign in/out
-                </button>
+                <a href="https://localhost:8081/oauth/login/" target="_blank" type="button" class="btn btn-primary" data-bs-toggle="dropdown"
+                   aria-expanded="false" data-bs-auto-close="outside" data-translate="signin">
+                  Sign in
+                </a>
+                <a href="https://localhost:8081/oauth/logout/" target="_blank" type="button" class="btn btn-primary" data-bs-toggle="dropdown"
+                   aria-expanded="false" data-bs-auto-close="outside" data-translate="signout">
+                  Sign Out
+                </a>
                 <div class="dropdown">
                   <form id="signin-signout-form" class="dropdown-menu p-4 needs-validation" novalidate>
                     <div class="mb-3">
