@@ -51,9 +51,9 @@ export const HistoryElement = async () => {
                                 tag: 'tr',
                                 content: [
                                     {tag: 'th', attrs: {scope: 'col'}, content: '#'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Name'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Clicks'},
-                                    {tag: 'th', attrs: {scope: 'col'}, content: 'Time'}
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'player'}, content: transObj.player}},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'clicks'}, content: transObj.clicks}},
+                                    {tag: 'th', attrs: {scope: 'col'}, content: {tag: 'span', attrs: {'data-translate': 'time2'}, content: transObj.time2}},
                                 ]
                             }
                         ]

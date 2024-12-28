@@ -44,6 +44,9 @@ const translations = {
         controls_blue: 'Player on the left controls the paddle with W and S buttons.',
         controls_red: 'Player on the right controls the paddle with up and down arrows.',
         player1: 'Player 1',
+        player: 'Player',
+        clicks: 'Clicks',
+        time2: 'Time',
     },
     ru: {
         transendence: "трансуха",
@@ -88,6 +91,8 @@ const translations = {
         controls_blue: 'Игрок слева управляет доской кнопками W и S.',
         controls_red: 'Игрок справа управляет доской стрелками вверх и вниз.',
         player1: 'Игрок 1',
+        player: 'Игрок',
+        time2: 'Время',
     },
 };
 
