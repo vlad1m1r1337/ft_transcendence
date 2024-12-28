@@ -93,55 +93,18 @@
                 </ul>
               </li>
               <li class="nav-item dropdown" style="width: 200px">
-                <a href="https://localhost:8081/oauth/login/" target="_blank" type="button" class="btn btn-primary" data-bs-toggle="dropdown"
-                   aria-expanded="false" data-bs-auto-close="outside" data-translate="signin">
+                <a href="https://localhost:8081/oauth/login/" target="_blank" type="button" class="btn btn-primary" data-translate="signin">
                   Sign in
                 </a>
-                <a href="https://localhost:8081/oauth/logout/" target="_blank" type="button" class="btn btn-primary" data-bs-toggle="dropdown"
-                   aria-expanded="false" data-bs-auto-close="outside" data-translate="signout">
+                <a href="https://localhost:8081/oauth/logout/" target="_blank" type="button" class="btn btn-danger" data-translate="signout">
                   Sign Out
                 </a>
-                <div class="dropdown">
-                  <form id="signin-signout-form" class="dropdown-menu p-4 needs-validation" novalidate>
-                    <div class="mb-3">
-                      <input type="text" class="form-control" id="DropdownFormLogin" placeholder="Login">
-                    </div>
-                    <div class="mb-3">
-                      <input type="password" class="form-control" id="DropdownFormPassword" placeholder="Password">
-                    </div>
-                    <div class="invalid-feedback">
-                      Please choose a username.
-                    </div>
-                    <button onclick="login()" class="btn btn-primary">войти</button>
-                    <button onclick="logout()" class="btn btn-primary">выйти</button>
-                  </form>
-                </div>
             </ul>
             </li>
             </ul>
           </div>
         </div>
       </nav>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="maxTimeOptions" id="time10" value="option3">
-                    <label class="form-check-label" for="time10">10</label>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown" style="width: 200px">
-            <a type="button" class="btn btn-primary" data-bs-toggle="dropdown"
-                    aria-expanded="false" data-bs-auto-close="outside" data-translate="signin_signout">
-              Sign in/out
-            </a>
-          </ul>
-        </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
   <div class="toast-container position-fixed bottom-0 end-0 p-3" style="width: 20rem">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
