@@ -179,7 +179,7 @@ class Game {
 			this.paddle2.mesh.position.y -= this.paddleSpeed * 0.5;
 		}
 
-		this.paddle2.PaddleMapLimit();
+		// this.paddle2.PaddleMapLimit();
 	}
 
 	player2PaddleMovement() {
@@ -321,8 +321,7 @@ class Game {
 		const language = localStorage.getItem('language') || 'en';
 		this.resultImage();
 		this.resultScore();
-		this.resetScore();
-		this.postChampion();
+		// this.postChampion();
 		showNextBattle();
 		switch (GLOBAL.mode) {
 			case 'single':
@@ -337,6 +336,7 @@ class Game {
 				header.textContent = `${GLOBAL.pong_players.at(-1).name} ${translations[language].won}`;
 				break;
 			case 'multi':
+				console.log(this.score1, this.score2)
 				if (this.score1 > this.score2) {
 					header.textContent = translations[language].player_one_won;
 				}
@@ -345,6 +345,7 @@ class Game {
 				}
 				break;
 		}
+		this.resetScore();
 	}
 
 	resultImage() {

@@ -12,7 +12,9 @@ function showNames() {
 }
 
 function showUser() {
-	return localStorage.getItem('intraUser') ? localStorage.getItem('intraUser') : 'Player';
+	const language = localStorage.getItem('language') || 'en';
+	const transObj = translations[language];
+	return localStorage.getItem('intraUser') ? localStorage.getItem('intraUser') : transObj.player1;
 }
 
 
