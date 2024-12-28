@@ -180,7 +180,7 @@ class Game {
 			this.paddle2.mesh.position.y -= this.paddleSpeed * 0.5;
 		}
 
-		// this.paddle2.PaddleMapLimit();
+		this.paddle2.PaddleMapLimit();
 	}
 
 	player2PaddleMovement() {
