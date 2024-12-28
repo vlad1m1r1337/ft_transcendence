@@ -25,6 +25,7 @@ build: gen
 	@echo "${YELLOW}*Info about docker system:*${RESET}"
 	@echo "${BLUE}*Memory usage of each container:*${RESET}"
 	@docker stats --no-stream --format "{{.Name}}: {{.MemUsage}}"
+	@sleep 3
 	@echo "${BLUE}*Amount of disk space each container uses:*${RESET}"
 	@docker system df
 	@echo "${CYAN}*${PROJECT} was successfully built!*${RESET}"

@@ -45,6 +45,8 @@ services:
       - back-tier
     restart: always
     depends_on: {"postgres": {"condition": "service_healthy"}}
+    env_file:
+      - .env
 
   #---------------------------------- Database ----------------------------------#
   postgres:
