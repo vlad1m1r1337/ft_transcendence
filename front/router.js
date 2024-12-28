@@ -57,9 +57,9 @@ const handleLocation = () => {
             GLOBAL.mode = 'tournament';
             namePlayers();
             break;
-        case "/ping-pong-leaderboard":
-            LeaderBoardElement();
-            break;
+        // case "/ping-pong-leaderboard":
+        //     LeaderBoardElement();
+        //     break;
         case "/clicker/tournament":
             toggleTimeScore(true);
             tournamentElement();

@@ -43,6 +43,7 @@ const translations = {
         control: 'Control',
         controls_blue: 'Player on the left controls the paddle with W and S buttons.',
         controls_red: 'Player on the right controls the paddle with up and down arrows.',
+        player1: 'Player 1',
     },
     ru: {
         transendence: "трансуха",
@@ -51,7 +52,7 @@ const translations = {
         pingpong: "Пинг Понг",
         clicker: "Кликер",
         singleplayer: "Один игрок",
-        multiplayer: "Два игрока",
+        multiplayer: "Мультиплеер",
         tournament: "Турнир",
         online: "Онлайн",
         on_one_keyboard: "На одной клавиатуре",
@@ -86,6 +87,7 @@ const translations = {
         control: 'Управление',
         controls_blue: 'Игрок слева управляет доской кнопками W и S.',
         controls_red: 'Игрок справа управляет доской стрелками вверх и вниз.',
+        player1: 'Игрок 1',
     },
 };
 
