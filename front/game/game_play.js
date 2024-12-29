@@ -77,7 +77,7 @@ class Game {
 			this.score1 = 0;
 			this.score2 = 0;
 		}
-		GLOBAL.mode === 'single' ? this.opponentPaddleMovement() : this.player2PaddleMovement();
+		GLOBAL.mode === 'single' ? this.aIPaddleMovement() : this.player2PaddleMovement();
 		if (GLOBAL.mode === 'tournament') {
 			const names = document.getElementById('players-name');
 			names.textContent = `${cutNick(GLOBAL.pong_players[0].name)} x ${cutNick(GLOBAL.pong_players[1].name)}`;
@@ -170,10 +170,13 @@ class Game {
 		this.camera.rotation.set(0, 0, 0);
 	}
 
-	opponentPaddleMovement() {
+	aIPaddleMovement() {
 		const predictedY = this.predictBallPosition();
 		let paddle2DirY = predictedY - this.paddle2.mesh.position.y;
-
+		// console.log(this.ball.mesh.position);
+		const stopper = Math.random();
+		if(stopper < 0.5 && this.ball.mesh.position.x < 0) return;
+		if(stopper < 0.05 && this.ball.mesh.position.x > 0) return;
 		if (paddle2DirY > this.paddleSpeed * 0.5) {
 			this.paddle2.mesh.position.y += this.paddleSpeed * 0.5;
 		} else if (paddle2DirY < -this.paddleSpeed * 0.5) {

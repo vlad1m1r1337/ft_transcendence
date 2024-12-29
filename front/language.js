@@ -46,7 +46,7 @@ const translations = {
         player1: 'Player 1',
         player: 'Player',
         time2: 'Time',
-        signin: 'Sign In',
+        signin: 'Log In',
         signout: 'Sign Out',
     },
     ru: {
