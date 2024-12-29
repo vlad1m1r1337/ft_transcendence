@@ -13,8 +13,8 @@ class Game {
 		this.spotLight = new THREE.SpotLight(0xF8D898);
 		this.fieldWidth = 650;
 		this.fieldHeight = 480;
-		this.paddleSpeed = 15;
-		this.ballSpeed = 4;
+		this.paddleSpeed = 15 * 0.6;
+		this.ballSpeed = 4 * 0.6;
 		this.score1 = 0;
 		this.score2 = 0;
 		this.paddle1 = new Paddle(-this.fieldWidth / 2 + 10, 60, 10, 1, 0x1B32C0, this);
