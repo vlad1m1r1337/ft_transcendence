@@ -29,13 +29,13 @@ def intra_logout(request):
 
 @api_view(['GET'])
 def intra_login_redirect(request : HttpRequest):
+    if "code" not in request.GET:
+        return redirect("https://localhost:8081/")
     code = request.GET["code"]
     user = exchange_code(code)
     intra_user = authenticate(request, user=user)
-    # intra_user = list(intra_user).pop()
     if intra_user is not None:
         login(request, intra_user)
-
         return redirect('https://localhost:8081/')
     else:
         return Response({"error": "Authentication failed"}, status=400)
@@ -60,3 +60,9 @@ def exchange_code(code: str):
     })
     user = response.json()
     return user
+
+def is_logged_in(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"is_logged_in": True})
+    else:
+        return JsonResponse({"is_logged_in": False})
