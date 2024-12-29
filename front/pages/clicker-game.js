@@ -75,7 +75,7 @@ export const ClickerSingle = () => {
 	const page = {
 		tag: 'div',
 		attrs: {
-			style: 'margin-top: 200px;',
+			style: 'margin-top: 150px;',
 			class: 'd-flex flex-column justify-content-center align-items-center'
 		},
 		content: [
