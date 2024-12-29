@@ -48,6 +48,8 @@ const translations = {
         time2: 'Time',
         signin: 'Log In',
         signout: 'Sign Out',
+        user_is_unuauthorized: 'User is unauthorized',
+        user_is_authorized: 'User is authorized',
     },
     ru: {
         transendence: "трансуха",
@@ -96,6 +98,8 @@ const translations = {
         player1: 'Игрок 1',
         player: 'Игрок',
         time2: 'Время',
+        user_is_unuauthorized: 'Пользователь не авторизован',
+        user_is_authorized: 'Пользователь авторизован',
     },
 };
 

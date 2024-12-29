@@ -93,11 +93,11 @@
                 </ul>
               </li>
               <li class="nav-item dropdown" style="width: 200px">
-                <a href="https://localhost:8081/oauth/login/" type="button" class="btn btn-primary" data-translate="signin">
-                  Sign in
+                <a id="login" onclick="loginTry()" href="https://localhost:8081/oauth/login/" type="button" class="btn btn-primary" data-translate="signin">
+                  Log in
                 </a>
-                <a href="https://localhost:8081/oauth/logout/" type="button" class="btn btn-danger" data-translate="signout">
-                  Sign Out
+                <a id="logout" onclick="setTimeout(() => logout(), 1000)" href="https://localhost:8081/oauth/logout/" type="button" class="btn btn-danger" data-translate="signout">
+                  Sig Out
                 </a>
             </ul>
             </li>
@@ -125,10 +125,9 @@
 <audio id="background-music" src="assets/Emancipator_-_Greenland_48216428.mp3" loop>
 </audio>
 </body>
-<!--<script type="module" src="/auth/login.js"></script>-->
-<script type="module" src="/auth/logout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script type="module" src="/language.js"></script>
+<script type="module" src="/auth/auth.js"></script>
 <script type="module" src="/global.js"></script>
 <script type="module" src="/engine.js"></script>
 <script type="module" src="/constants.js"></script>
